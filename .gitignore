@@ -1,0 +1,27 @@
+# Environment files — the most important lines in this file
+.env
+.env.local
+.env.docker
+.env.*.local
+
+# Backend
+backend/.gradle/
+backend/build/
+backend/.kotlin/
+*.jar
+
+# Frontend
+frontend-public/node_modules/
+frontend-public/.astro/
+frontend-public/dist/
+frontend-dashboard/node_modules/
+frontend-dashboard/.next/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json

@@ -1,3 +1,38 @@
 spring:
   application:
-    name: backend
+    name: devlog-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev} # dev por defecto si no hay variable de entorno
+
+  # JPA base config
+  jpa:
+    open-in-view: false # Importante: evita lazy loading antipattern en controllers
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# Actuator — health check endpoint
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# API versioning base path
+server:
+  servlet:
+    context-path: /api/v1
+
+# JWT config
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}

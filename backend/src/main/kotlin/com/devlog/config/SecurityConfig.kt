@@ -1,5 +1,6 @@
-package com.devlog.infrastructure.security
+package com.devlog.config
 
+import com.devlog.infrastructure.security.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -48,7 +49,6 @@ class SecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration()
 
-        // qué frontends pueden hacer peticiones a la API
         config.allowedOrigins = listOf(
             "http://localhost:3000",  // Next.js
             "http://localhost:4321",  // Astro

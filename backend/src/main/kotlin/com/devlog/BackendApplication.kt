@@ -1,4 +1,4 @@
-package com.devlog.backend
+package com.devlog
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

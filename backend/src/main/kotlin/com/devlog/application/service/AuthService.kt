@@ -1,3 +1,5 @@
+package com.devlog.application.service
+
 import com.devlog.api.dto.AuthResponse
 import com.devlog.api.dto.LoginRequest
 import com.devlog.api.dto.RegisterRequest

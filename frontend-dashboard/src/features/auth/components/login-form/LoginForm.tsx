@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/shared/components/ui/Button";
 import { useLoginForm } from "./useLoginForm";
 import { TextField } from "@/shared/components/ui/TextField";
 
@@ -40,40 +41,15 @@ export const LoginForm = () => {
         </div>
       )}
 
-      {/* Botón de Submit con estado de carga */}
-      <button
+      {/* Botón de Submit con estado de carga nativo */}
+      <Button
         type="submit"
-        disabled={isLoading}
-        className="btn btn-gradient mt-2 w-full py-3.5 text-base font-semibold flex justify-center items-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        variant="gradient"
+        isLoading={isLoading}
+        className="mt-2 w-full py-3.5 text-base font-semibold"
       >
-        {isLoading ? (
-          <>
-            <svg
-              className="animate-spin -ml-1 mr-2 h-5 w-5 text-current"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            Iniciando...
-          </>
-        ) : (
-          "Sign In"
-        )}
-      </button>
+        Sign In
+      </Button>
     </form>
   );
 };

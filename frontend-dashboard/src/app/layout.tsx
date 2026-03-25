@@ -15,8 +15,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="es" className="dark">
-      <body className="antialiased min-h-screen bg-background text-foreground">
+    <html lang="es">
+      <body>
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
         </QueryProvider>

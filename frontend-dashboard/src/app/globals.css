@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Base colors */
+  --background: #f8fafc;
+  --foreground: #020617;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand colors */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+
+  /* Cards & UI elements */
+  --card: #ffffff;
+  --card-foreground: #020617;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* Borders & Inputs */
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --input-bg: rgba(255, 255, 255, 0.7);
+  --ring: #2563eb;
+
+  /* Radius */
+  --radius: 0.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f8fafc;
+
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --primary-foreground: #ffffff;
+
+    --card: #121212;
+    --card-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+
+    --border: #27272a;
+    --input: #27272a;
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --ring: #3b82f6;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  /* Forms & Inputs */
+  .form-label {
+    @apply text-sm font-semibold tracking-wide text-foreground/90 ml-1 block mb-1.5;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 rounded-lg border border-input;
+    background-color: var(--input-bg);
+    @apply backdrop-blur-sm text-foreground transition-all duration-300;
+    @apply placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold tracking-wide transition-all duration-300;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+    @apply h-11 px-6 active:scale-[0.98] hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover shadow-md shadow-primary/20 hover:shadow-primary/40;
+  }
+
+  .btn-gradient {
+    @apply bg-linear-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40;
+  }
+
+  .btn-outline {
+    @apply border-2 border-input bg-transparent hover:bg-muted hover:text-foreground;
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-2xl border border-border bg-card text-card-foreground shadow-sm p-6;
+  }
+
+  .card-glass {
+    @apply rounded-4xl border border-black/5 dark:border-white/10 shadow-2xl dark:shadow-black/50 p-8 sm:p-10;
+    backdrop-filter: blur(24px);
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .card-glass {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  /* Decorative Backgrounds */
+  .bg-gradient-glow {
+    @apply absolute rounded-full blur-[120px] pointer-events-none;
+  }
 }

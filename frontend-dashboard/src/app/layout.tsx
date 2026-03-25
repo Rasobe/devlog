@@ -1,5 +1,5 @@
-import { QueryProvider } from "@/providers/QueryProvider";
-import { AuthProvider } from "@/context/AuthContext";
+import { QueryProvider } from "@/store/QueryProvider";
+import { AuthProvider } from "@/store/AuthContext";
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
@@ -15,8 +15,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="es" className="dark">
+      <body className="antialiased min-h-screen bg-background text-foreground">
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
         </QueryProvider>

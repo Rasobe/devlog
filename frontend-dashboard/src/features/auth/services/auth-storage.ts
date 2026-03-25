@@ -1,4 +1,6 @@
-const TOKEN_KEY = "devlog_token";
+import Cookies from "js-cookie";
+
+const TOKEN_KEY = "auth_token";
 const USER_KEY = "devlog_user";
 
 export interface StoredUser {
@@ -8,14 +10,19 @@ export interface StoredUser {
 
 export const authStorage = {
   getToken: (): string | null => {
-    if (globalThis.window === undefined) return null; // guard SSR
-    return localStorage.getItem(TOKEN_KEY);
+    return Cookies.get(TOKEN_KEY) ?? null;
   },
   setToken: (token: string): void => {
-    localStorage.setItem(TOKEN_KEY, token);
+    // 'strict' previene ataques CSRF. 
+    // Usamos NODE_ENV === "production" para que 'secure' sea true solo en PROD (evita fallos HTTPS en localhost)
+    Cookies.set(TOKEN_KEY, token, {
+      expires: 7,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
   },
   removeToken: (): void => {
-    localStorage.removeItem(TOKEN_KEY);
+    Cookies.remove(TOKEN_KEY);
   },
   getUser: (): StoredUser | null => {
     if (globalThis.window === undefined) return null; // guard SSR
@@ -29,8 +36,9 @@ export const authStorage = {
     localStorage.removeItem(USER_KEY);
   },
   clear: (): void => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    Cookies.remove(TOKEN_KEY);
+    // Limpiamos el guardado en localStorage también
+    localStorage.clear();
   },
   isAuthenticated: (): boolean => {
     return !!authStorage.getToken();

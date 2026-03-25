@@ -1,23 +1,26 @@
-import { loginMutation } from "@/client/@tanstack/react-query.gen";
-import { useMutation } from "@tanstack/react-query";
-import { apiClient, setAuthToken } from "@/lib/api-client";
-import { authStorage, StoredUser } from "@/lib/auth";
+import { loginMutation } from "@/services/api/@tanstack/react-query.gen";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/services/api-client";
+import { authStorage, StoredUser } from "@/features/auth/services/auth-storage";
 import { useEffect, useState, useCallback } from "react";
 
 export function useAuth() {
-  const [user, setUser] = useState<StoredUser | null>(null);
+  const queryClient = useQueryClient();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
   // Initialize auth state from local storage on mount
   useEffect(() => {
-    const storedUser = authStorage.getUser();
-    const token = authStorage.getToken();
+    const timeout = setTimeout(() => {
+      const token = authStorage.getToken();
 
-    if (storedUser && token) {
-      setUser(storedUser);
-      setAuthToken(token);
-    }
-    setIsInitializing(false);
+      if (token) {
+        setIsAuthenticated(true);
+      }
+      setIsInitializing(false);
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const loginMut = useMutation({
@@ -30,13 +33,11 @@ export function useAuth() {
         email: data.email,
         displayName: data.displayName,
       };
+      // User is kept in storage as fallback/cache if needed by other providers
       authStorage.setUser(loggedUser);
 
-      // 2. Set token in API Client interceptor
-      setAuthToken(data.token);
-
       // 3. Update React state
-      setUser(loggedUser);
+      setIsAuthenticated(true);
     },
     onError: (err) => {
       console.error("Login failed:", err);
@@ -45,9 +46,8 @@ export function useAuth() {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      // We pass the client instance to the mutation so it knows where to route
+      // The open-api generated client is safe since login doesn't require a Bearer token
       return loginMut.mutateAsync({
-        client: apiClient,
         body: { email, password },
       });
     },
@@ -56,16 +56,16 @@ export function useAuth() {
 
   const logout = useCallback(() => {
     authStorage.clear();
-    setUser(null);
+    setIsAuthenticated(false);
     apiClient.interceptors.request.clear();
-  }, []);
+    queryClient.clear();
+  }, [queryClient]);
 
   return {
-    user,
     isInitializing,
     isLoading: loginMut.isPending,
-    error: loginMut.error ? loginMut.error || "Invalid credentials" : null,
-    isAuthenticated: !!user,
+    error: loginMut.error ? loginMut.error : null,
+    isAuthenticated,
     login,
     logout,
   };

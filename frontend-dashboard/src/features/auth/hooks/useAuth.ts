@@ -1,8 +1,8 @@
-import { loginMutation } from "@/services/api/@tanstack/react-query.gen";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/services/api-client";
-import { authStorage, StoredUser } from "@/features/auth/services/auth-storage";
+import { authStorage } from "@/features/auth/services/auth-storage";
 import { useEffect, useState, useCallback } from "react";
+import { loginUseCase } from "../infrastructure/dependencies";
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -24,19 +24,13 @@ export function useAuth() {
   }, []);
 
   const loginMut = useMutation({
-    ...loginMutation(),
-    onSuccess: (data) => {
-      // 1. Save token and user in local storage
-      authStorage.setToken(data.token);
-
-      const loggedUser: StoredUser = {
-        email: data.email,
-        displayName: data.displayName,
-      };
-      // User is kept in storage as fallback/cache if needed by other providers
-      authStorage.setUser(loggedUser);
-
-      // 3. Update React state
+    mutationFn: async ({ email, password }: { email: string; password: string }) => {
+      // Usar la capa de aplicación (Caso de Uso) en lugar de llamar a la API directamente
+      return await loginUseCase.execute(email, password);
+    },
+    onSuccess: () => {
+      // El UseCase ya guardó el token y el user en el storage
+      // Solamente actualizamos el estado de React
       setIsAuthenticated(true);
     },
     onError: (err) => {
@@ -46,10 +40,7 @@ export function useAuth() {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      // The open-api generated client is safe since login doesn't require a Bearer token
-      return loginMut.mutateAsync({
-        body: { email, password },
-      });
+      return loginMut.mutateAsync({ email, password });
     },
     [loginMut],
   );

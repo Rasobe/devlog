@@ -10,7 +10,7 @@ interface AuthContextType {
   isInitializing: boolean;
   isLoading: boolean;
   isAuthenticated: boolean;
-  error: LoginError | string | null;
+  error: LoginError | Error | string | null;
   login: (email: string, password: string) => Promise<LoginResponse>;
   logout: () => void;
 }

@@ -36,7 +36,7 @@ class AuthService(
 
         val savedUser = userRepository.save(user)
 
-        val token = jwtService.generateToken(savedUser.email, savedUser.id, savedUser.displayName)
+        val token = jwtService.generateToken(savedUser.email, savedUser.id, savedUser.role)
 
         return AuthResponse(
             token = token,
@@ -54,7 +54,7 @@ class AuthService(
             throw UnauthorizedException("Invalid credentials")
         }
 
-        val token = jwtService.generateToken(user.email, user.id, user.displayName)
+        val token = jwtService.generateToken(user.email, user.id, user.role)
         return AuthResponse(
             token = token,
             email = user.email,

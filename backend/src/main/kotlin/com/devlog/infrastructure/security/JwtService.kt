@@ -1,5 +1,6 @@
 package com.devlog.infrastructure.security
 
+import com.devlog.domain.model.UserRole
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
@@ -17,7 +18,7 @@ class JwtService(
         Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun generateToken(email: String, userId: Long?, role: String): String {
+    fun generateToken(email: String, userId: Long?, role: UserRole): String {
         return Jwts.builder()
             .subject(email)
             .claim("userId", userId)

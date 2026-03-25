@@ -44,6 +44,8 @@ class JwtAuthFilter(
         val email = jwtService.extractEmail(token)   // el subject que pusimos en generateToken
         val role = jwtService.extractRole(token)     // el claim "role" que pusimos en generateToken
 
+        println("DEBUG - email: $email, role: $role, authority: ROLE_$role")
+
         // 6. Creamos el objeto de autenticación que Spring Security entiende
         //    - email    → quién es el usuario (el "principal")
         //    - null     → no necesitamos las credenciales, el token ya las validó

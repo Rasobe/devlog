@@ -1,6 +1,7 @@
 "use client";
 
 import { useLoginForm } from "./useLoginForm";
+import { TextField } from "@/shared/components/ui/TextField";
 
 export const LoginForm = () => {
   // Extraemos también el estado del formulario para los errores y el loading
@@ -13,52 +14,24 @@ export const LoginForm = () => {
   return (
     <form onSubmit={onSubmit} className="w-full flex flex-col gap-6">
       {/* Grupo Email */}
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="email" className="form-label font-medium text-sm">
-          Email
-        </label>
-        <input
-          id="email" // Vital para accesibilidad
-          type="email"
-          placeholder="admin@devlog.local"
-          // Combinamos tus clases base con un borde rojo condicional si hay error
-          className={`form-input rounded-md border px-3 py-2 ${
-            errors.email
-              ? "border-red-500 focus:ring-red-500"
-              : "border-gray-300"
-          }`}
-          {...register("email")}
-        />
-        {/* Renderizado condicional del mensaje de error de Zod */}
-        {errors.email && (
-          <span className="text-xs font-medium text-red-500 animate-in fade-in">
-            {errors.email.message as string}
-          </span>
-        )}
-      </div>
+      <TextField
+        id="email"
+        label="Email"
+        type="email"
+        placeholder="admin@devlog.local"
+        error={errors.email?.message}
+        {...register("email")}
+      />
 
-      {/* Grupo Password */}
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="password" className="form-label font-medium text-sm">
-          Password
-        </label>
-        <input
-          id="password" // Vital para accesibilidad
-          type="password"
-          placeholder="••••••••"
-          className={`form-input rounded-md border px-3 py-2 ${
-            errors.password
-              ? "border-red-500 focus:ring-red-500"
-              : "border-gray-300"
-          }`}
-          {...register("password")}
-        />
-        {errors.password && (
-          <span className="text-xs font-medium text-red-500 animate-in fade-in">
-            {errors.password.message as string}
-          </span>
-        )}
-      </div>
+      {/* Grupo Password con la variante de ver contraseña */}
+      <TextField
+        id="password"
+        label="Password"
+        type="password"
+        placeholder="••••••••"
+        error={errors.password?.message}
+        {...register("password")}
+      />
 
       {/* Alerta de Error del Servidor (Credenciales incorrectas) */}
       {serverError && (

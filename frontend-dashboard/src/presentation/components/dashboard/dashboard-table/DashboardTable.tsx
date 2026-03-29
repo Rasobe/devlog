@@ -4,7 +4,12 @@ import { useDashboardTable } from "./useDashboardTable";
 
 const DashboardTable = () => {
   const { data, isLoading, error } = useDashboardTable();
-  return <div>{JSON.stringify(data)}</div>;
+  return (
+    <div>
+      <div>{JSON.stringify(data)}</div>
+      <button type="button">Create Post</button>
+    </div>
+  );
 };
 
 export default DashboardTable;

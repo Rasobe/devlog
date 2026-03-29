@@ -1,16 +1,12 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
-import {
-  CreatePostRequest,
-  CreatePostResponse,
-  getPosts,
-  createPost,
-  GetPostsResponse,
-} from "../api";
+import { getPosts, createPost } from "../api";
+import { CreatePostInput, Post } from "@/domain/models/post.model";
+import { PostMapper } from "../mappers/post.mapper";
 
 export class PostRepositoryImpl implements IPostRepository {
-  async createPost(request: CreatePostRequest): Promise<CreatePostResponse> {
+  async createPost(request: CreatePostInput): Promise<Post> {
     const { data, error } = await createPost({
-      body: request,
+      body: PostMapper.toApi(request),
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -24,9 +20,9 @@ export class PostRepositoryImpl implements IPostRepository {
       throw new Error("Error al crear el post");
     }
 
-    return data;
+    return PostMapper.toDomain(data);
   }
-  async getPosts(publishedOnly?: boolean): Promise<GetPostsResponse> {
+  async getPosts(publishedOnly?: boolean): Promise<Post[]> {
     const { data, error } = await getPosts({
       query: {
         publishedOnly,
@@ -41,6 +37,6 @@ export class PostRepositoryImpl implements IPostRepository {
       throw new Error("Error al obtener las entradas");
     }
 
-    return data;
+    return data.map(PostMapper.toDomain);
   }
 }

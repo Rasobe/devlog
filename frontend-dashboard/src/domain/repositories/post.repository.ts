@@ -1,10 +1,7 @@
-import {
-  CreatePostRequest,
-  CreatePostResponse,
-  GetPostsResponse,
-} from "@/infrastructure/api";
+import { Post } from "@/domain/models/post.model";
+import { CreatePostRequest } from "@/infrastructure/api";
 
 export interface IPostRepository {
-  getPosts(publishedOnly?: boolean): Promise<GetPostsResponse>;
-  createPost(request: CreatePostRequest): Promise<CreatePostResponse>;
+  getPosts(publishedOnly?: boolean): Promise<Post[]>;
+  createPost(request: CreatePostRequest): Promise<Post>;
 }

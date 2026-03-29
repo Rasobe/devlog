@@ -1,9 +1,10 @@
 import { IAuthRepository } from "@/domain/repositories/auth.repository";
+import { AuthResult } from "@/domain/models/auth.model";
 import { login } from "@/infrastructure/api/sdk.gen";
-import type { LoginResponse } from "@/infrastructure/api/types.gen";
+import { AuthMapper } from "../mappers/auth.mapper";
 
 export class AuthRepositoryImpl implements IAuthRepository {
-  async login(email: string, password: string): Promise<LoginResponse> {
+  async login(email: string, password: string): Promise<AuthResult> {
     const { data, error } = await login({
       body: { email, password },
     });
@@ -16,6 +17,6 @@ export class AuthRepositoryImpl implements IAuthRepository {
       throw new Error("Error inesperado: no hay datos en la respuesta del login");
     }
 
-    return data;
+    return AuthMapper.toDomain(data);
   }
 }

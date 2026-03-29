@@ -4,6 +4,7 @@ import { authStorage } from "@/infrastructure/services/auth-storage";
 import { useEffect, useState, useCallback } from "react";
 import { loginUseCase } from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
+import type { AuthResult } from "@/domain/models/auth.model";
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -24,7 +25,11 @@ export function useAuth() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const loginMut = useMutation<any, LoginError | Error, { email: string; password: string }>({
+  const loginMut = useMutation<
+    AuthResult,
+    LoginError | Error,
+    { email: string; password: string }
+  >({
     mutationFn: async ({ email, password }) => {
       return await loginUseCase.execute(email, password);
     },
@@ -53,7 +58,7 @@ export function useAuth() {
   return {
     isInitializing,
     isLoading: loginMut.isPending,
-    error: loginMut.error ? loginMut.error : null,
+    error: loginMut.error ?? loginMut.error,
     isAuthenticated,
     login,
     logout,

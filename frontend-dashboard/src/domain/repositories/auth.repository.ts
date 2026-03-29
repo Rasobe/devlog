@@ -1,5 +1,5 @@
-import type { LoginResponse } from "@/infrastructure/api/types.gen";
+import { AuthResult } from "@/domain/models/auth.model";
 
 export interface IAuthRepository {
-  login(email: string, password: string): Promise<LoginResponse>;
+  login(email: string, password: string): Promise<AuthResult>;
 }

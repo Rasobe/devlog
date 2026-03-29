@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useAuth } from "@/features/auth/hooks/useAuth";
-import { LoginResponse, LoginError } from "@/services/api/types.gen";
-import { FullScreenLoader } from "@/shared/components/ui/FullScreenLoader";
+import { useAuth } from "@/presentation/hooks/useAuth";
+import { LoginResponse, LoginError } from "@/infrastructure/api/types.gen";
+import { FullScreenLoader } from "@/presentation/components/ui/FullScreenLoader";
 
 // Define qué expone el context
 interface AuthContextType {

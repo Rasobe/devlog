@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "@/services/api-client";
-import { authStorage } from "@/features/auth/services/auth-storage";
+import { apiClient } from "@/infrastructure/api-client";
+import { authStorage } from "@/infrastructure/services/auth-storage";
 import { useEffect, useState, useCallback } from "react";
-import { loginUseCase } from "../infrastructure/dependencies";
+import { loginUseCase } from "@/infrastructure/dependencies";
+import type { LoginError } from "@/infrastructure/api/types.gen";
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -23,14 +24,11 @@ export function useAuth() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const loginMut = useMutation({
-    mutationFn: async ({ email, password }: { email: string; password: string }) => {
-      // Usar la capa de aplicación (Caso de Uso) en lugar de llamar a la API directamente
+  const loginMut = useMutation<any, LoginError | Error, { email: string; password: string }>({
+    mutationFn: async ({ email, password }) => {
       return await loginUseCase.execute(email, password);
     },
     onSuccess: () => {
-      // El UseCase ya guardó el token y el user en el storage
-      // Solamente actualizamos el estado de React
       setIsAuthenticated(true);
     },
     onError: (err) => {

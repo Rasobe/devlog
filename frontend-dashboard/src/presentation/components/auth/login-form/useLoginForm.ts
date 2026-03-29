@@ -3,12 +3,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useAuthContext } from "@/store/AuthContext";
+import { useAuthContext } from "@/presentation/store/AuthContext";
 import {
   defaultLoginValues,
   loginSchema,
-  LoginSchema,
-} from "../../schemas/auth.schema";
+  type LoginSchema,
+} from "@/presentation/schemas/auth.schema";
 
 export const useLoginForm = () => {
   const router = useRouter();

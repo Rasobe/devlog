@@ -3,7 +3,7 @@ import { defineConfig } from "@hey-api/openapi-ts";
 export default defineConfig({
   input: "http://localhost:8080/api/v1/v3/api-docs",
   output: {
-    path: "src/services/api",
+    path: "src/infrastructure/api",
   },
   plugins: [
     "@hey-api/client-fetch",

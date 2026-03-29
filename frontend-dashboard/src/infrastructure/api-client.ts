@@ -1,6 +1,5 @@
-// src/services/api-client.ts
 import axios from "axios";
-import { authStorage } from "@/features/auth/services/auth-storage";
+import { authStorage } from "@/infrastructure/services/auth-storage";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ROUTES } from "@/presentation/config/routes";
 
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import {
@@ -26,7 +27,7 @@ export const useLoginForm = () => {
     try {
       await login(data.email, data.password);
 
-      router.push("/dashboard");
+      router.push(ROUTES.DASHBOARD);
     } catch (error: any) {
       console.error("Fallo en la autenticación:", error);
 

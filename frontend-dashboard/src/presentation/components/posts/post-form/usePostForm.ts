@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPostUseCase } from "@/infrastructure/dependencies";
+import { ROUTES } from "@/presentation/config/routes";
 import {
   createPostSchema,
   defaultCreatePostValues,
@@ -23,7 +24,7 @@ export const usePostForm = () => {
 
     try {
       await createPostUseCase.execute(data);
-      router.push("/dashboard");
+      router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al crear el post:", error);
 

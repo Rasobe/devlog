@@ -6,27 +6,16 @@ import { loginUseCase } from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
 import type { AuthResult } from "@/domain/models/auth.model";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/presentation/config/routes";
 
 export function useAuth() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isInitializing, setIsInitializing] = useState<boolean>(true);
-
-  // Initialize auth state from local storage on mount
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      const token = authStorage.getToken();
-
-      if (token) {
-        setIsAuthenticated(true);
-      }
-      setIsInitializing(false);
-    }, 0);
-
-    return () => clearTimeout(timeout);
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    () => !!authStorage.getToken(),
+  );
+  const [isInitializing] = useState<boolean>(false);
 
   const loginMut = useMutation<
     AuthResult,
@@ -56,8 +45,8 @@ export function useAuth() {
     setIsAuthenticated(false);
     apiClient.interceptors.request.clear();
     queryClient.clear();
-    router.push("/login");
-  }, [queryClient]);
+    router.push(ROUTES.LOGIN);
+  }, [queryClient, router]);
 
   return {
     isInitializing,

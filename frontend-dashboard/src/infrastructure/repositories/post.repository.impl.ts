@@ -2,13 +2,14 @@ import { IPostRepository } from "@/domain/repositories/post.repository";
 import { getPosts, createPost } from "../api";
 import { CreatePostInput, Post } from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
+import { authStorage } from "../services/auth-storage";
 
 export class PostRepositoryImpl implements IPostRepository {
   async createPost(request: CreatePostInput): Promise<Post> {
     const { data, error } = await createPost({
       body: PostMapper.toApi(request),
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${authStorage.getToken()}`,
       },
     });
 

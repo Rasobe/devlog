@@ -22,7 +22,7 @@ class JwtService(
         return Jwts.builder()
             .subject(email)
             .claim("userId", userId)
-            .claim("role", role)
+            .claim("role", role.name)
             .issuedAt(Date())
             .expiration(Date(System.currentTimeMillis() + expirationMs))
             .signWith(key)

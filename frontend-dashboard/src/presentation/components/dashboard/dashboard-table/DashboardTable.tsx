@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { Button } from "../../ui/Button";
 import { useDashboardTable } from "./useDashboardTable";
 
 const DashboardTable = () => {
@@ -7,7 +9,9 @@ const DashboardTable = () => {
   return (
     <div>
       <div>{JSON.stringify(data)}</div>
-      <button type="button">Create Post</button>
+      <Link href="/posts/new">
+        <Button variant="primary">Create Post</Button>
+      </Link>
     </div>
   );
 };

@@ -5,9 +5,12 @@ import { useEffect, useState, useCallback } from "react";
 import { loginUseCase } from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
 import type { AuthResult } from "@/domain/models/auth.model";
+import { useRouter } from "next/navigation";
 
 export function useAuth() {
+  const router = useRouter();
   const queryClient = useQueryClient();
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
@@ -53,6 +56,7 @@ export function useAuth() {
     setIsAuthenticated(false);
     apiClient.interceptors.request.clear();
     queryClient.clear();
+    router.push("/login");
   }, [queryClient]);
 
   return {

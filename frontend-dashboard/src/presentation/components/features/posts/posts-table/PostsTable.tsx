@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface PostsTableProps {
   posts: Post[];
-  onDelete: (slug: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
@@ -39,7 +39,7 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
         <tbody>
           {posts.map((post) => (
             <tr
-              key={post.slug}
+              key={post.id}
               className="hover:bg-muted/50 transition-colors border-t border-border"
             >
               <td className="px-4 py-3 text-sm font-medium text-foreground">
@@ -64,13 +64,13 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
 
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-1">
-                  <Link href={ROUTES.POSTS_EDIT(post.slug)}>
+                  <Link href={ROUTES.POSTS_EDIT(post.id)}>
                     <button className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
                       <Pencil size={15} />
                     </button>
                   </Link>
                   <button
-                    onClick={() => onDelete(post.slug)}
+                    onClick={() => onDelete(post.id)}
                     className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors text-muted-foreground hover:text-red-600 dark:hover:text-red-400"
                   >
                     <Trash2 size={15} />

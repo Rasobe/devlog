@@ -3,8 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { createPost, deletePost, getPostBySlug, getPosts, login, type Options, register, updatePost } from '../sdk.gen';
-import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostData, UpdatePostError, UpdatePostResponse } from '../types.gen';
+import { createPost, deletePost, getPostById, getPostBySlug, getPosts, login, type Options, register, updatePost } from '../sdk.gen';
+import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostByIdData, GetPostByIdResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostData, UpdatePostError, UpdatePostResponse } from '../types.gen';
 
 /**
  * Delete a post
@@ -172,4 +172,24 @@ export const getPostBySlugOptions = (options: Options<GetPostBySlugData>) => que
         return data;
     },
     queryKey: getPostBySlugQueryKey(options)
+});
+
+export const getPostByIdQueryKey = (options: Options<GetPostByIdData>) => createQueryKey('getPostById', options);
+
+/**
+ * Get post by ID (Internal)
+ *
+ * Retrieves a post by internal UUID
+ */
+export const getPostByIdOptions = (options: Options<GetPostByIdData>) => queryOptions<GetPostByIdResponse, DefaultError, GetPostByIdResponse, ReturnType<typeof getPostByIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getPostById({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getPostByIdQueryKey(options)
 });

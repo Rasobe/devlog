@@ -12,6 +12,7 @@ export type UpdatePostRequest = {
 };
 
 export type PostResponse = {
+    id: string;
     title: string;
     slug: string;
     content: string;
@@ -48,7 +49,7 @@ export type LoginRequest = {
 export type DeletePostData = {
     body?: never;
     path: {
-        id: number;
+        id: string;
     };
     query?: never;
     url: '/posts/{id}';
@@ -77,7 +78,7 @@ export type DeletePostResponse = DeletePostResponses[keyof DeletePostResponses];
 export type UpdatePostData = {
     body: UpdatePostRequest;
     path: {
-        id: number;
+        id: string;
     };
     query?: never;
     url: '/posts/{id}';
@@ -235,3 +236,21 @@ export type GetPostBySlugResponses = {
 };
 
 export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugResponses];
+
+export type GetPostByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/posts/admin/{id}';
+};
+
+export type GetPostByIdResponses = {
+    /**
+     * OK
+     */
+    200: PostResponse;
+};
+
+export type GetPostByIdResponse = GetPostByIdResponses[keyof GetPostByIdResponses];

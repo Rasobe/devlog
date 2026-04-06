@@ -4,6 +4,7 @@ import com.devlog.domain.model.Post
 import com.devlog.domain.repository.PostRepository
 import com.devlog.infrastructure.persistence.entity.PostEntity
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 @Component
 class PostRepositoryImpl(
@@ -17,7 +18,7 @@ class PostRepositoryImpl(
         }
     }
 
-    override fun findById(id: Long): Post? {
+    override fun findById(id: UUID): Post? {
         return jpa.findById(id).orElse(null)?.toDomain()
     }
 
@@ -29,7 +30,7 @@ class PostRepositoryImpl(
         return jpa.save(PostEntity.fromDomain(post)).toDomain()
     }
 
-    override fun delete(id: Long) {
+    override fun delete(id: UUID) {
         return jpa.deleteById(id)
     }
 

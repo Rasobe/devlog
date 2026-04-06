@@ -3,14 +3,15 @@ package com.devlog.infrastructure.persistence.entity
 import com.devlog.domain.model.Post
 import jakarta.persistence.*
 import java.time.Instant
+import java.util.UUID
 
 @Entity
 @Table(name = "posts")
 class PostEntity(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    @GeneratedValue(strategy = GenerationType.UUID)
+    val id: UUID? = null,
 
     @Column(nullable = false)
     var title: String,

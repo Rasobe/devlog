@@ -9,7 +9,7 @@ export const ROUTES = {
 
   // Posts
   POSTS_NEW: "/dashboard/posts/new",
-  POSTS_EDIT: (slug: string) => `/dashboard/posts/${slug}/edit`,
+  POSTS_EDIT: (id: string) => `/dashboard/posts/${id}/edit`,
   POSTS_VIEW: (slug: string) => `/posts/${slug}`,
 
   // Settings

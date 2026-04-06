@@ -1,6 +1,11 @@
 "use client";
 
-import { createPostUseCase, getPostBySlugUseCase } from "@/infrastructure/dependencies";
+import { CreatePostInput, UpdatePostInput } from "@/domain/models/post.model";
+import {
+  createPostUseCase,
+  getPostByIdUseCase,
+  updatePostUseCase,
+} from "@/infrastructure/dependencies";
 import { ROUTES } from "@/presentation/config/routes";
 import {
   createPostSchema,
@@ -13,14 +18,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface UsePostFormProps {
-  slug?: string;
+  id?: string;
 }
 
-export const usePostForm = ({ slug }: UsePostFormProps) => {
+export const usePostForm = ({ id }: UsePostFormProps) => {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
-  const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!slug);
+  const [isPostLoaded, setIsPostLoaded] = useState<boolean>(false);
+  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!id);
   const [fetchError, setFetchError] = useState<boolean>(false);
 
   const form = useForm<CreatePostSchema>({
@@ -29,13 +34,13 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
   });
 
   useEffect(() => {
-    if (!slug) return;
+    if (!id) return;
 
     const fetchPost = async () => {
       try {
         setIsFetchingPost(true);
         setFetchError(false);
-        const post = await getPostBySlugUseCase.execute(slug);
+        const post = await getPostByIdUseCase.execute(id);
 
         if (post) {
           form.reset({
@@ -44,7 +49,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
             content: post.content,
             published: post.published,
           });
-          setIsEditable(true);
+          setIsPostLoaded(true);
         } else {
           setFetchError(true);
         }
@@ -57,17 +62,15 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     };
 
     fetchPost();
-  }, [slug, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-  const onSubmitHandler = async (data: CreatePostSchema) => {
-    setServerError(null);
-
+  const createPost = async (data: CreatePostInput) => {
     try {
       await createPostUseCase.execute(data);
       router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al crear el post:", error);
-
       const errorMessage =
         error instanceof Error
           ? error.message
@@ -76,12 +79,37 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     }
   };
 
+  const updatePost = async (data: UpdatePostInput) => {
+    if (!id) return;
+    try {
+      await updatePostUseCase.execute(id, data);
+      router.push(ROUTES.DASHBOARD);
+    } catch (error: unknown) {
+      console.error("Error al actualizar el post:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Error inesperado al actualizar el post.";
+      setServerError(errorMessage);
+    }
+  };
+
+  const onSubmitHandler = async (data: CreatePostSchema) => {
+    setServerError(null);
+
+    if (isPostLoaded && id) {
+      updatePost(data);
+    } else {
+      createPost(data);
+    }
+  };
+
   return {
     form,
     onSubmit: form.handleSubmit(onSubmitHandler),
     isLoading: form.formState.isSubmitting,
     serverError,
-    isEditable,
+    isPostLoaded,
     isFetchingPost,
     fetchError,
   };

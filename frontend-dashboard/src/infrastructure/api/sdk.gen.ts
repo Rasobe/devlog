@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostData, UpdatePostErrors, UpdatePostResponses } from './types.gen';
+import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostByIdData, GetPostByIdResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostData, UpdatePostErrors, UpdatePostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -108,5 +108,16 @@ export const login = <ThrowOnError extends boolean = false>(options: Options<Log
 export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPostBySlugData, ThrowOnError>) => (options.client ?? client).get<GetPostBySlugResponses, GetPostBySlugErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts/{slug}',
+    ...options
+});
+
+/**
+ * Get post by ID (Internal)
+ *
+ * Retrieves a post by internal UUID
+ */
+export const getPostById = <ThrowOnError extends boolean = false>(options: Options<GetPostByIdData, ThrowOnError>) => (options.client ?? client).get<GetPostByIdResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/posts/admin/{id}',
     ...options
 });

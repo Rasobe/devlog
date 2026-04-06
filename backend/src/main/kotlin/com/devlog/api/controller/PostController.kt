@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import java.util.UUID
 
 @RestController
 @RequestMapping("/posts")
@@ -47,6 +48,14 @@ class PostController(
     )
     fun getPostBySlug(@PathVariable slug: String): ResponseEntity<PostResponse> {
         return ResponseEntity.ok(PostResponse.fromDomain(postService.getPostBySlug(slug)))
+    }
+
+    @GetMapping("/admin/{id}")
+    @PreAuthorize("hasAnyRole('AUTHOR', 'ADMIN')")
+    @SecurityRequirement(name = "Bearer Auth")
+    @Operation(summary = "Get post by ID (Internal)", description = "Retrieves a post by internal UUID")
+    fun getPostById(@PathVariable id: UUID): ResponseEntity<PostResponse> {
+        return ResponseEntity.ok(PostResponse.fromDomain(postService.getPostById(id)))
     }
 
     @PostMapping
@@ -82,7 +91,7 @@ class PostController(
         ApiResponse(responseCode = "400", description = "Invalid request data"),
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
-    fun updatePost(@PathVariable id: Long, @Valid @RequestBody request: UpdatePostRequest): ResponseEntity<PostResponse> {
+    fun updatePost(@PathVariable id: UUID, @Valid @RequestBody request: UpdatePostRequest): ResponseEntity<PostResponse> {
         val updatedPost = postService.updatePost(id, request)
         return ResponseEntity.ok(PostResponse.fromDomain(updatedPost))
     }
@@ -99,7 +108,7 @@ class PostController(
         ApiResponse(responseCode = "401", description = "Unauthorized"),
         ApiResponse(responseCode = "404", description = "Post not found")
     ])
-    fun deletePost(@PathVariable id: Long): ResponseEntity<Void> {
+    fun deletePost(@PathVariable id: UUID): ResponseEntity<Void> {
         postService.deletePost(id)
         return ResponseEntity.noContent().build()
     }

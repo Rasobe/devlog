@@ -1,9 +1,10 @@
 package com.devlog.domain.model
 
 import java.time.Instant
+import java.util.UUID
 
 data class Post(
-    val id: Long? = null,
+    val id: UUID? = null,
     val title: String,
     val slug: String,
     val content: String,

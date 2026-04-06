@@ -1,4 +1,5 @@
 export interface Post {
+  id: string;
   title: string;
   slug: string;
   content: string;
@@ -9,6 +10,13 @@ export interface Post {
 }
 
 export interface CreatePostInput {
+  title: string;
+  content: string;
+  excerpt: string;
+  published: boolean;
+}
+
+export interface UpdatePostInput {
   title: string;
   content: string;
   excerpt: string;

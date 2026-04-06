@@ -7,6 +7,7 @@ import com.devlog.api.exception.ResourceNotFoundException
 import com.devlog.domain.model.Post
 import com.devlog.domain.repository.PostRepository
 import org.springframework.stereotype.Service
+import java.util.UUID
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -20,6 +21,10 @@ class PostService(
 
     fun getPostBySlug(slug: String) : Post {
         return postRepository.findBySlug(slug) ?: throw ResourceNotFoundException("Post not found")
+    }
+
+    fun getPostById(id: UUID) : Post {
+        return postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
     }
 
     @Transactional
@@ -40,7 +45,7 @@ class PostService(
     }
 
     @Transactional
-    fun updatePost(id: Long, request: UpdatePostRequest) : Post {
+    fun updatePost(id: UUID, request: UpdatePostRequest) : Post {
         val existingPost = postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
         val updatedPost = existingPost.copy(
             title = request.title ?: existingPost.title,
@@ -52,7 +57,7 @@ class PostService(
     }
 
     @Transactional
-    fun deletePost(id: Long) {
+    fun deletePost(id: UUID) {
         postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
         postRepository.delete(id)
     }

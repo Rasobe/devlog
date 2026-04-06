@@ -239,6 +239,9 @@ export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugRe
 
 export type GetPostByIdData = {
     body?: never;
+    headers: {
+        Authorization: string;
+    };
     path: {
         id: string;
     };

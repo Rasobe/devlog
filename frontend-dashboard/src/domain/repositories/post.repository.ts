@@ -1,10 +1,9 @@
-import { Post } from "@/domain/models/post.model";
-import { CreatePostRequest, UpdatePostRequest } from "@/infrastructure/api";
+import { CreatePostInput, UpdatePostInput, Post } from "@/domain/models/post.model";
 
 export interface IPostRepository {
   getPosts(publishedOnly?: boolean): Promise<Post[]>;
   getPostBySlug(slug: string): Promise<Post | null>;
-  createPost(request: CreatePostRequest): Promise<Post>;
-  updatePost(id: string, request: UpdatePostRequest): Promise<Post>;
+  createPost(request: CreatePostInput): Promise<Post>;
+  updatePost(id: string, request: UpdatePostInput): Promise<Post>;
   getPostById(id: string): Promise<Post | null>;
 }

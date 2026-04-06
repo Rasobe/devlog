@@ -33,7 +33,7 @@ class PostController(
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK"),
     ])
-    fun getPosts(@RequestParam publishedOnly: Boolean = true) : ResponseEntity<List<PostResponse>> {
+    fun getPosts(@RequestParam publishedOnly: Boolean = false) : ResponseEntity<List<PostResponse>> {
         return ResponseEntity.ok(postService.getAllPosts(publishedOnly).map { PostResponse.fromDomain(it) })
     }
 

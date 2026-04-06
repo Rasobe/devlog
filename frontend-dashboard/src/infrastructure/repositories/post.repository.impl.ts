@@ -1,11 +1,11 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
-import { getPosts, createPost, getPostBySlug, updatePost, UpdatePostRequest } from "../api";
-import { CreatePostInput, Post } from "@/domain/models/post.model";
+import { getPosts, createPost, getPostBySlug, getPostById, updatePost } from "../api";
+import { CreatePostInput, UpdatePostInput, Post } from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
 
 export class PostRepositoryImpl implements IPostRepository {
-  async updatePost(id: string, request: UpdatePostRequest): Promise<Post> {
+  async updatePost(id: string, request: UpdatePostInput): Promise<Post> {
     const { data, error } = await updatePost({
       path: {
         id,
@@ -26,23 +26,24 @@ export class PostRepositoryImpl implements IPostRepository {
 
     return PostMapper.toDomain(data);
   }
-  
+
   async getPostById(id: string): Promise<Post | null> {
-    const token = authStorage.getToken();
-    const response = await fetch(`http://localhost:8080/api/v1/posts/admin/${id}`, {
+    const { data, error } = await getPostById({
+      path: { id },
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${authStorage.getToken()}`,
+      },
     });
 
-    if (!response.ok) {
-       if (response.status === 404) return null;
-       throw new Error("Error fetching post by id");
+    if (error) {
+      throw error;
     }
 
-    const data = await response.json();
+    if (!data) return null;
+
     return PostMapper.toDomain(data);
   }
+
 
   async getPostBySlug(slug: string): Promise<Post | null> {
     const { data, error } = await getPostBySlug({

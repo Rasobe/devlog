@@ -12,6 +12,7 @@ export const DashboardTable = () => {
   const renderContent = () => {
     if (isLoading) return <PostsTableSkeleton />;
     if (error) return <p className="text-red-500">Error loading posts</p>;
+    
     return <PostsTable posts={posts || []} onDelete={() => {}} />;
   };
 

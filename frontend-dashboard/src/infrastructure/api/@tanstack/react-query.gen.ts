@@ -3,46 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { createPost, deletePost, getPostById, getPostBySlug, getPosts, login, type Options, register, updatePost } from '../sdk.gen';
-import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostByIdData, GetPostByIdResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostData, UpdatePostError, UpdatePostResponse } from '../types.gen';
-
-/**
- * Delete a post
- *
- * Deletes a blog post by its ID. Only an admin can delete a post.
- */
-export const deletePostMutation = (options?: Partial<Options<DeletePostData>>): UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> => {
-    const mutationOptions: UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await deletePost({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Update an existing post
- *
- * Updates an existing blog post. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post.
- */
-export const updatePostMutation = (options?: Partial<Options<UpdatePostData>>): UseMutationOptions<UpdatePostResponse, UpdatePostError, Options<UpdatePostData>> => {
-    const mutationOptions: UseMutationOptions<UpdatePostResponse, UpdatePostError, Options<UpdatePostData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updatePost({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
+import { createPost, deletePost, getPostById, getPostBySlug, getPosts, login, type Options, register, updatePostBySlug } from '../sdk.gen';
+import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostByIdData, GetPostByIdResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -75,6 +37,45 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
         params.query = options.query;
     }
     return [params];
+};
+
+export const getPostBySlugQueryKey = (options: Options<GetPostBySlugData>) => createQueryKey('getPostBySlug', options);
+
+/**
+ * Get post by slug
+ *
+ * Retrieves a single blog post by its slug. The slug is a URL-friendly identifier for the post, typically derived from the post's title. For example, a post titled 'My First Post' might have a slug of 'my-first-post'.
+ */
+export const getPostBySlugOptions = (options: Options<GetPostBySlugData>) => queryOptions<GetPostBySlugResponse, GetPostBySlugError, GetPostBySlugResponse, ReturnType<typeof getPostBySlugQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getPostBySlug({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getPostBySlugQueryKey(options)
+});
+
+/**
+ * Update an existing post by slug
+ *
+ * Updates an existing blog post using the slug. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post.
+ */
+export const updatePostBySlugMutation = (options?: Partial<Options<UpdatePostBySlugData>>): UseMutationOptions<UpdatePostBySlugResponse, UpdatePostBySlugError, Options<UpdatePostBySlugData>> => {
+    const mutationOptions: UseMutationOptions<UpdatePostBySlugResponse, UpdatePostBySlugError, Options<UpdatePostBySlugData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await updatePostBySlug({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
 };
 
 export const getPostsQueryKey = (options?: Options<GetPostsData>) => createQueryKey('getPosts', options);
@@ -154,26 +155,6 @@ export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutatio
     return mutationOptions;
 };
 
-export const getPostBySlugQueryKey = (options: Options<GetPostBySlugData>) => createQueryKey('getPostBySlug', options);
-
-/**
- * Get post by slug
- *
- * Retrieves a single blog post by its slug. The slug is a URL-friendly identifier for the post, typically derived from the post's title. For example, a post titled 'My First Post' might have a slug of 'my-first-post'.
- */
-export const getPostBySlugOptions = (options: Options<GetPostBySlugData>) => queryOptions<GetPostBySlugResponse, GetPostBySlugError, GetPostBySlugResponse, ReturnType<typeof getPostBySlugQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getPostBySlug({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getPostBySlugQueryKey(options)
-});
-
 export const getPostByIdQueryKey = (options: Options<GetPostByIdData>) => createQueryKey('getPostById', options);
 
 /**
@@ -193,3 +174,22 @@ export const getPostByIdOptions = (options: Options<GetPostByIdData>) => queryOp
     },
     queryKey: getPostByIdQueryKey(options)
 });
+
+/**
+ * Delete a post
+ *
+ * Deletes a blog post by its ID. Only an admin can delete a post.
+ */
+export const deletePostMutation = (options?: Partial<Options<DeletePostData>>): UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> => {
+    const mutationOptions: UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deletePost({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};

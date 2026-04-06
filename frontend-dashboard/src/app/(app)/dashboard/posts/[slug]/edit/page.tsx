@@ -5,11 +5,11 @@ import { PostForm } from "@/presentation/components/features/posts";
 
 const EditPostPage = () => {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.slug as string;
 
   return (
     <div>
-      {id ? <PostForm mode="edit" id={id} /> : <div>No se encontró la entrada</div>}
+      {slug ? <PostForm mode="edit" slug={slug} /> : <div>No se encontró la entrada</div>}
     </div>
   );
 };

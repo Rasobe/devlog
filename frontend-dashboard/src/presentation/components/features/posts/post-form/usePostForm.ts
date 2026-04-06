@@ -3,7 +3,7 @@
 import { CreatePostInput, UpdatePostInput } from "@/domain/models/post.model";
 import {
   createPostUseCase,
-  getPostByIdUseCase,
+  getPostBySlugUseCase,
   updatePostUseCase,
 } from "@/infrastructure/dependencies";
 import { ROUTES } from "@/presentation/config/routes";
@@ -18,14 +18,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface UsePostFormProps {
-  id?: string;
+  slug?: string;
 }
 
-export const usePostForm = ({ id }: UsePostFormProps) => {
+export const usePostForm = ({ slug }: UsePostFormProps) => {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [isPostLoaded, setIsPostLoaded] = useState<boolean>(false);
-  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!id);
+  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!slug);
   const [fetchError, setFetchError] = useState<boolean>(false);
 
   const form = useForm<CreatePostSchema>({
@@ -34,13 +34,13 @@ export const usePostForm = ({ id }: UsePostFormProps) => {
   });
 
   useEffect(() => {
-    if (!id) return;
+    if (!slug) return;
 
     const fetchPost = async () => {
       try {
         setIsFetchingPost(true);
         setFetchError(false);
-        const post = await getPostByIdUseCase.execute(id);
+        const post = await getPostBySlugUseCase.execute(slug);
 
         if (post) {
           form.reset({
@@ -63,7 +63,7 @@ export const usePostForm = ({ id }: UsePostFormProps) => {
 
     fetchPost();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [slug]);
 
   const createPost = async (data: CreatePostInput) => {
     try {
@@ -80,9 +80,9 @@ export const usePostForm = ({ id }: UsePostFormProps) => {
   };
 
   const updatePost = async (data: UpdatePostInput) => {
-    if (!id) return;
+    if (!slug) return;
     try {
-      await updatePostUseCase.execute(id, data);
+      await updatePostUseCase.execute(slug, data);
       router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al actualizar el post:", error);
@@ -97,7 +97,7 @@ export const usePostForm = ({ id }: UsePostFormProps) => {
   const onSubmitHandler = async (data: CreatePostSchema) => {
     setServerError(null);
 
-    if (isPostLoaded && id) {
+    if (isPostLoaded && slug) {
       updatePost(data);
     } else {
       createPost(data);

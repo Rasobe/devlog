@@ -64,7 +64,7 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
 
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-1">
-                  <Link href={ROUTES.POSTS_EDIT(post.id)}>
+                  <Link href={ROUTES.POSTS_EDIT(post.slug)}>
                     <button className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
                       <Pencil size={15} />
                     </button>

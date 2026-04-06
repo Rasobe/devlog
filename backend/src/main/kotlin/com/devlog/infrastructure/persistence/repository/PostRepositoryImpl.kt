@@ -38,4 +38,18 @@ class PostRepositoryImpl(
         return jpa.existsBySlug(slug)
     }
 
+    override fun updateBySlug(slug: String, post: Post): Post {
+        val entity = jpa.findBySlug(slug)
+            ?: throw NoSuchElementException("Post with slug '$slug' not found")
+
+        entity.title = post.title
+        entity.slug = post.slug
+        entity.content = post.content
+        entity.excerpt = post.excerpt
+        entity.published = post.published
+        entity.updatedAt = post.updatedAt
+
+        return jpa.save(entity).toDomain()
+    }
+
 }

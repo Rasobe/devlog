@@ -5,10 +5,10 @@ import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
 
 export class PostRepositoryImpl implements IPostRepository {
-  async updatePost(id: string, request: UpdatePostInput): Promise<Post> {
+  async updatePost(slug: string, request: UpdatePostInput): Promise<Post> {
     const { data, error } = await updatePost({
       path: {
-        id,
+        slug,
       },
       body: PostMapper.toApiUpdate(request),
       headers: {

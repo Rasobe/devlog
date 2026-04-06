@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostByIdData, GetPostByIdResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostData, UpdatePostErrors, UpdatePostResponses } from './types.gen';
+import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostByIdData, GetPostByIdResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -19,24 +19,24 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 };
 
 /**
- * Delete a post
+ * Get post by slug
  *
- * Deletes a blog post by its ID. Only an admin can delete a post.
+ * Retrieves a single blog post by its slug. The slug is a URL-friendly identifier for the post, typically derived from the post's title. For example, a post titled 'My First Post' might have a slug of 'my-first-post'.
  */
-export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
+export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPostBySlugData, ThrowOnError>) => (options.client ?? client).get<GetPostBySlugResponses, GetPostBySlugErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{id}',
+    url: '/posts/{slug}',
     ...options
 });
 
 /**
- * Update an existing post
+ * Update an existing post by slug
  *
- * Updates an existing blog post. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post.
+ * Updates an existing blog post using the slug. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post.
  */
-export const updatePost = <ThrowOnError extends boolean = false>(options: Options<UpdatePostData, ThrowOnError>) => (options.client ?? client).put<UpdatePostResponses, UpdatePostErrors, ThrowOnError>({
+export const updatePostBySlug = <ThrowOnError extends boolean = false>(options: Options<UpdatePostBySlugData, ThrowOnError>) => (options.client ?? client).put<UpdatePostBySlugResponses, UpdatePostBySlugErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{id}',
+    url: '/posts/{slug}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -101,17 +101,6 @@ export const login = <ThrowOnError extends boolean = false>(options: Options<Log
 });
 
 /**
- * Get post by slug
- *
- * Retrieves a single blog post by its slug. The slug is a URL-friendly identifier for the post, typically derived from the post's title. For example, a post titled 'My First Post' might have a slug of 'my-first-post'.
- */
-export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPostBySlugData, ThrowOnError>) => (options.client ?? client).get<GetPostBySlugResponses, GetPostBySlugErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{slug}',
-    ...options
-});
-
-/**
  * Get post by ID (Internal)
  *
  * Retrieves a post by internal UUID
@@ -119,5 +108,16 @@ export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Opt
 export const getPostById = <ThrowOnError extends boolean = false>(options: Options<GetPostByIdData, ThrowOnError>) => (options.client ?? client).get<GetPostByIdResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts/admin/{id}',
+    ...options
+});
+
+/**
+ * Delete a post
+ *
+ * Deletes a blog post by its ID. Only an admin can delete a post.
+ */
+export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/posts/{id}',
     ...options
 });

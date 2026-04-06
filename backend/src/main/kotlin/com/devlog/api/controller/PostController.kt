@@ -79,20 +79,20 @@ class PostController(
         return ResponseEntity.status(HttpStatus.CREATED).body(PostResponse.fromDomain(createdPost))
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{slug}")
     @PreAuthorize("hasAnyRole('AUTHOR', 'ADMIN')")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
-        summary = "Update an existing post",
-        description = "Updates an existing blog post. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post."
+        summary = "Update an existing post by slug",
+        description = "Updates an existing blog post using the slug. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post."
     )
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK"),
         ApiResponse(responseCode = "400", description = "Invalid request data"),
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
-    fun updatePost(@PathVariable id: UUID, @Valid @RequestBody request: UpdatePostRequest): ResponseEntity<PostResponse> {
-        val updatedPost = postService.updatePost(id, request)
+    fun updatePostBySlug(@PathVariable slug: String, @Valid @RequestBody request: UpdatePostRequest): ResponseEntity<PostResponse> {
+        val updatedPost = postService.updatePostBySlug(slug, request)
         return ResponseEntity.ok(PostResponse.fromDomain(updatedPost))
     }
 

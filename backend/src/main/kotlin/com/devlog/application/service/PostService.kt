@@ -30,9 +30,11 @@ class PostService(
     @Transactional
     fun createPost(request: CreatePostRequest, authorId: Long): Post {
         val slug = generateSlug(request.title)
+
         if (postRepository.existsBySlug(slug)) {
-            throw ResourceAlreadyExistsException("...")
+            throw ResourceAlreadyExistsException("A post with this title already exists")
         }
+
         val post = Post(
             title = request.title,
             slug = slug,
@@ -45,14 +47,23 @@ class PostService(
     }
 
     @Transactional
-    fun updatePost(id: UUID, request: UpdatePostRequest) : Post {
-        val existingPost = postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
+    fun updatePostBySlug(slug: String, request: UpdatePostRequest): Post {
+        val existingPost = postRepository.findBySlug(slug)
+            ?: throw ResourceNotFoundException("Post not found")
+
+        val newSlug = request.title?.let { generateSlug(it) }
+        if (newSlug != null && newSlug != slug && postRepository.existsBySlug(newSlug)) {
+            throw ResourceAlreadyExistsException("A post with this title already exists")
+        }
+
         val updatedPost = existingPost.copy(
             title = request.title ?: existingPost.title,
+            slug = newSlug ?: existingPost.slug,
             content = request.content ?: existingPost.content,
             excerpt = request.excerpt ?: existingPost.excerpt,
             published = request.published ?: existingPost.published
         )
+
         return postRepository.save(updatedPost)
     }
 

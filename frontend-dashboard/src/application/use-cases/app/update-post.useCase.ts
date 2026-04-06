@@ -4,7 +4,7 @@ import { IPostRepository } from "@/domain/repositories/post.repository";
 export class UpdatePostUseCase {
   constructor(private readonly repository: IPostRepository) {}
 
-  async execute(id: string, data: UpdatePostInput) {
-    return this.repository.updatePost(id, data);
+  async execute(slug: string, data: UpdatePostInput) {
+    return this.repository.updatePost(slug, data);
   }
 }

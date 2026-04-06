@@ -46,45 +46,43 @@ export type LoginRequest = {
     password: string;
 };
 
-export type DeletePostData = {
+export type GetPostBySlugData = {
     body?: never;
     path: {
-        id: string;
+        slug: string;
     };
     query?: never;
-    url: '/posts/{id}';
+    url: '/posts/{slug}';
 };
 
-export type DeletePostErrors = {
-    /**
-     * Unauthorized
-     */
-    401: unknown;
+export type GetPostBySlugErrors = {
     /**
      * Post not found
      */
-    404: unknown;
+    404: PostResponse;
 };
 
-export type DeletePostResponses = {
+export type GetPostBySlugError = GetPostBySlugErrors[keyof GetPostBySlugErrors];
+
+export type GetPostBySlugResponses = {
     /**
-     * Post deleted successfully
+     * OK
      */
-    204: void;
+    200: PostResponse;
 };
 
-export type DeletePostResponse = DeletePostResponses[keyof DeletePostResponses];
+export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugResponses];
 
-export type UpdatePostData = {
+export type UpdatePostBySlugData = {
     body: UpdatePostRequest;
     path: {
-        id: string;
+        slug: string;
     };
     query?: never;
-    url: '/posts/{id}';
+    url: '/posts/{slug}';
 };
 
-export type UpdatePostErrors = {
+export type UpdatePostBySlugErrors = {
     /**
      * Invalid request data
      */
@@ -95,16 +93,16 @@ export type UpdatePostErrors = {
     401: PostResponse;
 };
 
-export type UpdatePostError = UpdatePostErrors[keyof UpdatePostErrors];
+export type UpdatePostBySlugError = UpdatePostBySlugErrors[keyof UpdatePostBySlugErrors];
 
-export type UpdatePostResponses = {
+export type UpdatePostBySlugResponses = {
     /**
      * OK
      */
     200: PostResponse;
 };
 
-export type UpdatePostResponse = UpdatePostResponses[keyof UpdatePostResponses];
+export type UpdatePostBySlugResponse = UpdatePostBySlugResponses[keyof UpdatePostBySlugResponses];
 
 export type GetPostsData = {
     body?: never;
@@ -210,38 +208,8 @@ export type LoginResponses = {
 
 export type LoginResponse = LoginResponses[keyof LoginResponses];
 
-export type GetPostBySlugData = {
-    body?: never;
-    path: {
-        slug: string;
-    };
-    query?: never;
-    url: '/posts/{slug}';
-};
-
-export type GetPostBySlugErrors = {
-    /**
-     * Post not found
-     */
-    404: PostResponse;
-};
-
-export type GetPostBySlugError = GetPostBySlugErrors[keyof GetPostBySlugErrors];
-
-export type GetPostBySlugResponses = {
-    /**
-     * OK
-     */
-    200: PostResponse;
-};
-
-export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugResponses];
-
 export type GetPostByIdData = {
     body?: never;
-    headers: {
-        Authorization: string;
-    };
     path: {
         id: string;
     };
@@ -257,3 +225,32 @@ export type GetPostByIdResponses = {
 };
 
 export type GetPostByIdResponse = GetPostByIdResponses[keyof GetPostByIdResponses];
+
+export type DeletePostData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/posts/{id}';
+};
+
+export type DeletePostErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+    /**
+     * Post not found
+     */
+    404: unknown;
+};
+
+export type DeletePostResponses = {
+    /**
+     * Post deleted successfully
+     */
+    204: void;
+};
+
+export type DeletePostResponse = DeletePostResponses[keyof DeletePostResponses];

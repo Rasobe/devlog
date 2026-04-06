@@ -10,4 +10,5 @@ interface PostRepository {
     fun save(post: Post): Post
     fun delete(id: UUID)
     fun existsBySlug(slug: String): Boolean
+    fun updateBySlug(slug: String, post: Post): Post
 }

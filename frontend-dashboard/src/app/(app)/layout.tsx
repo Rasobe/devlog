@@ -1,5 +1,5 @@
+import { AppHeader } from "@/presentation/components/global";
 import { ReactNode } from "react";
-import AppHeader from "@/presentation/components/layouts/AppHeader";
 
 interface DashboardLayoutProps {
   children: ReactNode;

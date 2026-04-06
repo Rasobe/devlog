@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { ROUTES } from "@/presentation/config/routes";
 
-const AppHeader = () => {
+export const AppHeader = () => {
   const { logout } = useAuthContext();
 
   return (
@@ -30,5 +30,3 @@ const AppHeader = () => {
     </header>
   );
 };
-
-export default AppHeader;

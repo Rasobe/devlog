@@ -1,15 +1,14 @@
 import { Post } from "@/domain/models/post.model";
-import Link from "next/link";
-import { Button } from "../../ui/Button";
-import { Pencil, Trash2 } from "lucide-react";
 import { ROUTES } from "@/presentation/config/routes";
+import { Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 interface PostsTableProps {
   posts: Post[];
   onDelete: (slug: string) => void;
 }
 
-const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
+export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
   const formattedDate = (date: Date) =>
     new Date(date).toLocaleDateString("es-ES", {
       day: "numeric",
@@ -85,5 +84,3 @@ const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
     </div>
   );
 };
-
-export default PostsTable;

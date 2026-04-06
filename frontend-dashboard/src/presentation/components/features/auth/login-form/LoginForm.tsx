@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/presentation/components/ui/Button";
+import { Button, TextField } from "@/presentation/components/global";
 import { useLoginForm } from "./useLoginForm";
-import { TextField } from "@/presentation/components/ui/TextField";
 
 export const LoginForm = () => {
   // Extraemos también el estado del formulario para los errores y el loading

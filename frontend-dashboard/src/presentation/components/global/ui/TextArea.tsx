@@ -25,7 +25,11 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             error
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-300 dark:border-white/10"
-          } ${className || ""}`}
+          } ${className || ""} ${
+            props.readOnly
+              ? "bg-muted/50 cursor-not-allowed focus:ring-0"
+              : ""
+          }`}
           {...props}
         />
 
@@ -40,3 +44,4 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 );
 
 TextArea.displayName = "TextArea";
+

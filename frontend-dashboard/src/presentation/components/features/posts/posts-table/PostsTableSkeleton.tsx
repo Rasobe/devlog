@@ -1,4 +1,4 @@
-const PostsTableSkeleton = () => {
+export const PostsTableSkeleton = () => {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-border">
       <table className="w-full border-collapse">
@@ -50,5 +50,3 @@ const PostsTableSkeleton = () => {
     </div>
   );
 };
-
-export default PostsTableSkeleton;

@@ -3,7 +3,7 @@
 import { createContext, useContext, ReactNode } from "react";
 import { useAuth } from "@/presentation/hooks/useAuth";
 import { LoginResponse, LoginError } from "@/infrastructure/api/types.gen";
-import { FullScreenLoader } from "@/presentation/components/ui/FullScreenLoader";
+import { FullScreenLoader } from "@/presentation/components/global";
 
 // Define qué expone el context
 interface AuthContextType {

@@ -1,3 +1,5 @@
+"use client"
+
 import { InputHTMLAttributes, forwardRef, useState } from "react";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -21,14 +23,14 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const inputId = id || props.name;
 
     return (
-      <div className="flex flex-col gap-1.5 w-full">
+      <div className={`flex flex-col gap-1.5 w-full`}>
         {label && (
           <label htmlFor={inputId} className="form-label font-medium text-sm">
             {label}
           </label>
         )}
 
-        <div className="relative">
+        <div className={`relative`}>
           <input
             ref={ref}
             id={inputId}
@@ -37,7 +39,11 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               error
                 ? "border-red-500 focus:ring-red-500"
                 : "border-gray-300 dark:border-white/10"
-            } ${isPasswordField ? "pr-10" : ""} ${className || ""}`}
+            } ${isPasswordField ? "pr-10" : ""} ${className || ""} ${
+              props.readOnly
+                ? "bg-muted/50 cursor-not-allowed focus:ring-0"
+                : ""
+            }`}
             {...props}
           />
 

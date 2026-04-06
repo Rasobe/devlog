@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/infrastructure/api-client";
-import { UserResponse } from "@/infrastructure/api/types.gen";
 import { useAuthContext } from "@/presentation/store/AuthContext";
+import { User } from "@/core/types/user";
 
 export function useUser() {
   const { isAuthenticated } = useAuthContext();

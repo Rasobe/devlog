@@ -5,7 +5,7 @@ interface PostCardProps {
   post: Post;
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+export const PostCard = ({ post }: PostCardProps) => {
   const formattedDate = new Date(post.createdAt).toLocaleDateString("es-ES", {
     day: "numeric",
     month: "long",
@@ -30,5 +30,3 @@ const PostCard = ({ post }: PostCardProps) => {
     </article>
   );
 };
-
-export default PostCard;

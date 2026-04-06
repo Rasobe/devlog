@@ -5,11 +5,11 @@ import { usePostForm } from "./usePostForm";
 import { Button, TextArea, TextField } from "@/presentation/components/global";
 
 interface PostFormProps {
-  readOnly?: boolean;
+  mode?: "create" | "edit";
   slug?: string;
 }
 
-export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
+export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
   const {
     form,
     onSubmit,
@@ -34,10 +34,10 @@ export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                {readOnly ? "Editar entrada" : "Nueva entrada"}
+                {mode === "edit" ? "Editar entrada" : "Nueva entrada"}
               </h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                {readOnly
+                {mode === "edit"
                   ? "Edita la entrada"
                   : "Crea una nueva entrada para tu blog."}
               </p>
@@ -63,7 +63,6 @@ export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
                 placeholder="Ej: Mi primer post sobre React"
                 {...register("title")}
                 error={errors.title?.message}
-                readOnly={readOnly}
               />
 
               <TextArea
@@ -84,21 +83,18 @@ export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
 
               {/* Toggle publicación */}
               <div className="flex items-center gap-3">
-                <label
-                  className={`relative inline-flex items-center ${readOnly ? "cursor-not-allowed" : "cursor-pointer"}`}
-                >
+                <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     className="peer sr-only"
                     {...register("published")}
-                    disabled={readOnly}
                   />
                   <div
-                    className={`h-6 w-11 rounded-full bg-muted transition-colors ${readOnly ? "opacity-50" : ""} peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring/50 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all peer-checked:after:translate-x-full`}
+                    className={`h-6 w-11 rounded-full bg-muted transition-colors ${mode === "edit" ? "opacity-50" : ""} peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring/50 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all peer-checked:after:translate-x-full`}
                   />
                 </label>
                 <span className="text-sm font-medium text-foreground">
-                  {readOnly ? "Publicado" : "Publicar inmediatamente"}
+                  Publicar inmediatamente
                 </span>
               </div>
             </div>
@@ -108,9 +104,8 @@ export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
                 type="submit"
                 variant="gradient"
                 isLoading={isLoading}
-                disabled={readOnly}
               >
-                {readOnly ? "Guardar cambios" : "Crear entrada"}
+                {mode === "edit" ? "Guardar cambios" : "Crear entrada"}
               </Button>
             </div>
           </form>
@@ -119,7 +114,7 @@ export const PostForm = ({ readOnly = false, slug }: PostFormProps) => {
         <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center text-card-foreground shadow-sm animate-in fade-in zoom-in-95 duration-200">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
           <p className="mt-4 text-sm font-medium text-muted-foreground">
-            Cargando datos de la entrada...
+            Cargando datos...
           </p>
         </div>
       ) : fetchError ? (

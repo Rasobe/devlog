@@ -1,12 +1,12 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
-import { getPosts, createPost, getPostBySlug, getPostById, updatePost } from "../api";
+import { getPosts, createPost, getPostBySlug, getPostById, updatePostBySlug } from "../api";
 import { CreatePostInput, UpdatePostInput, Post } from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
 
 export class PostRepositoryImpl implements IPostRepository {
   async updatePost(slug: string, request: UpdatePostInput): Promise<Post> {
-    const { data, error } = await updatePost({
+    const { data, error } = await updatePostBySlug({
       path: {
         slug,
       },

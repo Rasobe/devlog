@@ -6,6 +6,7 @@ import { CreatePostUseCase } from "@/application/use-cases/app/create-post.useCa
 import { GetPostBySlugUseCase } from "@/application/use-cases/app/get-post-by-slug.useCase";
 import { GetPostByIdUseCase } from "@/application/use-cases/app/get-post-by-id.useCase";
 import { UpdatePostUseCase } from "@/application/use-cases/app/update-post.useCase";
+import { DeletePostUseCase } from "@/application/use-cases/app/delete-post.useCase";
 
 export const authRepository = new AuthRepositoryImpl();
 export const loginUseCase = new LoginUseCase(authRepository);
@@ -16,3 +17,4 @@ export const createPostUseCase = new CreatePostUseCase(postRepository);
 export const getPostBySlugUseCase = new GetPostBySlugUseCase(postRepository);
 export const getPostByIdUseCase = new GetPostByIdUseCase(postRepository);
 export const updatePostUseCase = new UpdatePostUseCase(postRepository);
+export const deletePostUseCase = new DeletePostUseCase(postRepository);

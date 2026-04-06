@@ -13,6 +13,7 @@ import {
   type CreatePostSchema,
 } from "@/presentation/schemas/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ interface UsePostFormProps {
 
 export const usePostForm = ({ slug }: UsePostFormProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [serverError, setServerError] = useState<string | null>(null);
   const [isPostLoaded, setIsPostLoaded] = useState<boolean>(false);
   const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!slug);
@@ -68,6 +70,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
   const createPost = async (data: CreatePostInput) => {
     try {
       await createPostUseCase.execute(data);
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
       router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al crear el post:", error);
@@ -83,6 +86,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     if (!slug) return;
     try {
       await updatePostUseCase.execute(slug, data);
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
       router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al actualizar el post:", error);

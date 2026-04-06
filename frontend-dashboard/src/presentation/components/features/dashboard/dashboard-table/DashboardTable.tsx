@@ -7,13 +7,13 @@ import {
 } from "@/presentation/components/features/posts";
 
 export const DashboardTable = () => {
-  const { posts, isLoading, error } = useDashboardTable();
+  const { posts, isLoading, error, deletePost } = useDashboardTable();
 
   const renderContent = () => {
     if (isLoading) return <PostsTableSkeleton />;
     if (error) return <p className="text-red-500">Error loading posts</p>;
     
-    return <PostsTable posts={posts || []} onDelete={() => {}} />;
+    return <PostsTable posts={posts || []} onDelete={deletePost} />;
   };
 
   return <div className="flex flex-col gap-4">{renderContent()}</div>;

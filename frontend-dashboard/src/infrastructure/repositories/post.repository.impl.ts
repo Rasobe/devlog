@@ -1,5 +1,5 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
-import { getPosts, createPost, getPostBySlug, getPostById, updatePostBySlug } from "../api";
+import { getPosts, createPost, getPostBySlug, getPostById, updatePostBySlug, deletePost } from "../api";
 import { CreatePostInput, UpdatePostInput, Post } from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
@@ -96,5 +96,20 @@ export class PostRepositoryImpl implements IPostRepository {
     }
 
     return data.map(PostMapper.toDomain);
+  }
+
+  async deletePost(id: string): Promise<void> {
+    const { error } = await deletePost({
+      path: {
+        id,
+      },
+      headers: {
+        Authorization: `Bearer ${authStorage.getToken()}`,
+      },
+    });
+
+    if (error) {
+      throw error;
+    }
   }
 }

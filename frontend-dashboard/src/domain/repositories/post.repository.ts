@@ -6,4 +6,5 @@ export interface IPostRepository {
   createPost(request: CreatePostInput): Promise<Post>;
   updatePost(slug: string, request: UpdatePostInput): Promise<Post>;
   getPostById(id: string): Promise<Post | null>;
+  deletePost(id: string): Promise<void>;
 }

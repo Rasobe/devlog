@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   description: "DevLog Admin Dashboard",
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 

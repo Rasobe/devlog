@@ -10,6 +10,7 @@ import {
   TextArea,
   TextField,
 } from "@/presentation/components/global";
+import { ROUTES } from "@/presentation/config/routes";
 
 interface PostFormProps {
   mode?: "create" | "edit";
@@ -20,6 +21,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
   const {
     form,
     onSubmit,
+    onCancel,
     isLoading,
     serverError,
     isPostLoaded,
@@ -57,11 +59,9 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
                   : "Crea una nueva entrada para tu blog."}
               </p>
             </div>
-            <Link href="/dashboard">
-              <Button type="button" variant="outline">
-                Cancelar
-              </Button>
-            </Link>
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancelar
+            </Button>
           </div>
 
           {/* Form */}

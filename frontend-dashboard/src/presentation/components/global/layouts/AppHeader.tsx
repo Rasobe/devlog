@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { ROUTES } from "@/presentation/config/routes";
@@ -15,7 +16,7 @@ export const AppHeader = () => {
             href={ROUTES.DASHBOARD}
             className="text-lg font-bold tracking-tight text-foreground hover:text-primary transition-colors"
           >
-            DevLog
+            <Image src="/favicon.ico" alt="Favicon" width={40} height={40} />
           </Link>
 
           <button

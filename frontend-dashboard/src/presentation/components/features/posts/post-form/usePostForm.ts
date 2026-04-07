@@ -71,7 +71,6 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     try {
       await createPostUseCase.execute(data);
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
-      router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al crear el post:", error);
       const errorMessage =
@@ -87,7 +86,6 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     try {
       await updatePostUseCase.execute(slug, data);
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
-      router.push(ROUTES.DASHBOARD);
     } catch (error: unknown) {
       console.error("Error al actualizar el post:", error);
       const errorMessage =
@@ -106,10 +104,17 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     } else {
       createPost(data);
     }
+
+    router.push(ROUTES.POSTS);
+  };
+
+  const onCancel = () => {
+    router.push(ROUTES.POSTS);
   };
 
   return {
     form,
+    onCancel,
     onSubmit: form.handleSubmit(onSubmitHandler),
     isLoading: form.formState.isSubmitting,
     serverError,

@@ -19,7 +19,7 @@ export const DashboardMetrics = () => {
     );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-16 px-4 border-y">
       <MetricCard value={published} label="Publicaciones" />
       <MetricCard value={drafts} label="Borradores" />
       <MetricCard value={lasPostDate} label="Última publicación" />

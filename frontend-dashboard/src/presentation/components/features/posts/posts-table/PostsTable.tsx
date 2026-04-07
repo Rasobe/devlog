@@ -39,7 +39,7 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
         <tbody>
           {posts.map((post) => (
             <tr
-              key={post.id}
+              key={post.slug}
               className="hover:bg-muted/50 transition-colors border-t border-border"
             >
               <td className="px-4 py-3 text-sm font-medium text-foreground">
@@ -70,7 +70,7 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
                     </button>
                   </Link>
                   <button
-                    onClick={() => onDelete(post.id)}
+                    onClick={() => onDelete(post.slug)}
                     className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors text-muted-foreground hover:text-red-600 dark:hover:text-red-400"
                   >
                     <Trash2 size={15} />

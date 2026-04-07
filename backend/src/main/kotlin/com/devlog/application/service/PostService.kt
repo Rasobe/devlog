@@ -23,10 +23,6 @@ class PostService(
         return postRepository.findBySlug(slug) ?: throw ResourceNotFoundException("Post not found")
     }
 
-    fun getPostById(id: UUID) : Post {
-        return postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
-    }
-
     @Transactional
     fun createPost(request: CreatePostRequest, authorId: Long): Post {
         val slug = generateSlug(request.title)
@@ -51,14 +47,11 @@ class PostService(
         val existingPost = postRepository.findBySlug(slug)
             ?: throw ResourceNotFoundException("Post not found")
 
-        val newSlug = request.title?.let { generateSlug(it) }
-        if (newSlug != null && newSlug != slug && postRepository.existsBySlug(newSlug)) {
-            throw ResourceAlreadyExistsException("A post with this title already exists")
-        }
+
 
         val updatedPost = existingPost.copy(
             title = request.title ?: existingPost.title,
-            slug = newSlug ?: existingPost.slug,
+            slug = existingPost.slug,
             content = request.content ?: existingPost.content,
             excerpt = request.excerpt ?: existingPost.excerpt,
             published = request.published ?: existingPost.published

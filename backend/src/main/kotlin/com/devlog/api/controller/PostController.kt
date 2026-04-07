@@ -50,14 +50,6 @@ class PostController(
         return ResponseEntity.ok(PostResponse.fromDomain(postService.getPostBySlug(slug)))
     }
 
-    @GetMapping("/admin/{id}")
-    @PreAuthorize("hasAnyRole('AUTHOR', 'ADMIN')")
-    @SecurityRequirement(name = "Bearer Auth")
-    @Operation(summary = "Get post by ID (Internal)", description = "Retrieves a post by internal UUID")
-    fun getPostById(@PathVariable id: UUID): ResponseEntity<PostResponse> {
-        return ResponseEntity.ok(PostResponse.fromDomain(postService.getPostById(id)))
-    }
-
     @PostMapping
     @PreAuthorize("hasAnyRole('AUTHOR', 'ADMIN')")
     @SecurityRequirement(name = "Bearer Auth")

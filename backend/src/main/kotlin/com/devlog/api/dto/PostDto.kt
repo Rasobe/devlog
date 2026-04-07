@@ -23,7 +23,6 @@ data class UpdatePostRequest(
 )
 
 data class PostResponse(
-    val id: String,
     val title: String,
     val slug: String,
     val content: String,
@@ -35,7 +34,6 @@ data class PostResponse(
     companion object {
         fun fromDomain(post: Post) : PostResponse {
             return PostResponse(
-                id = post.id.toString(),
                 title = post.title,
                 slug = post.slug,
                 content = post.content,
@@ -43,28 +41,6 @@ data class PostResponse(
                 published = post.published,
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt
-            )
-        }
-    }
-}
-
-data class PostSummaryResponse(
-    val id: String,
-    val title: String,
-    val slug: String,
-    val excerpt: String,
-    val published: Boolean,
-    val createdAt: Instant,
-) {
-    companion object {
-        fun fromDomain(post: Post) : PostSummaryResponse {
-            return PostSummaryResponse(
-                id = post.id.toString(),
-                title = post.title,
-                slug = post.slug,
-                excerpt = post.excerpt,
-                published = post.published,
-                createdAt = post.createdAt,
             )
         }
     }

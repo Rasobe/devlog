@@ -1,13 +1,13 @@
 "use client";
 
-import { useDashboardTable } from "./useDashboardTable";
 import {
   PostsTableSkeleton,
   PostsTable,
 } from "@/presentation/components/features/posts";
+import { useDashboardPostsTable } from "./useDashboardPostsTable";
 
-export const DashboardTable = () => {
-  const { posts, isLoading, error, deletePost } = useDashboardTable();
+export const DashboardPostsTable = () => {
+  const { posts, isLoading, error, deletePost } = useDashboardPostsTable();
 
   const renderContent = () => {
     if (isLoading) return <PostsTableSkeleton />;

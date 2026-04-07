@@ -1,4 +1,4 @@
-import { DashboardTable } from "@/presentation/components/features";
+import { DashboardPostsTable } from "@/presentation/components/features";
 import { Button } from "@/presentation/components/global";
 import { ROUTES } from "@/presentation/config/routes";
 import Link from "next/link";
@@ -16,7 +16,7 @@ const DashboardPage = () => {
         </Link>
       </div>
 
-      <DashboardTable />
+      <DashboardPostsTable />
     </div>
   );
 };

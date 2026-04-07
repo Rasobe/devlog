@@ -1,1 +1,1 @@
-export * from "./dashboard-table";
+export * from "./posts-table";

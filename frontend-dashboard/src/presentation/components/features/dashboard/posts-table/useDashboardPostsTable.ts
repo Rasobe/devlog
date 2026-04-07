@@ -2,7 +2,7 @@ import { Post } from "@/domain/models/post.model";
 import { getPostsUseCase, deletePostUseCase } from "@/infrastructure/dependencies";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useDashboardTable = () => {
+export const useDashboardPostsTable = () => {
   const queryClient = useQueryClient();
 
   const {

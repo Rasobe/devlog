@@ -7,7 +7,7 @@ import type { AuthResult } from "@/domain/models/auth.model";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/presentation/config/routes";
 
-export function useAuth() {
+export function useAuthContext() {
   const router = useRouter();
   const queryClient = useQueryClient();
 

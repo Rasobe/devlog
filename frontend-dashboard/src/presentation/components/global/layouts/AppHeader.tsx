@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAuthContext } from "@/presentation/store/AuthContext";
+import { useAuthContext } from "@/presentation/store/auth-context/AuthContext";
 import { ROUTES } from "@/presentation/config/routes";
 
 export const AppHeader = () => {

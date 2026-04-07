@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "@/presentation/config/routes";
 
-import { useAuthContext } from "@/presentation/store/AuthContext";
+import { useAuthContext } from "@/presentation/store/auth-context/AuthContext";
 import {
   defaultLoginValues,
   loginSchema,

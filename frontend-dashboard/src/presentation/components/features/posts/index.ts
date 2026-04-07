@@ -1,3 +1,4 @@
-export * from "./posts-table";
-export * from "./post-card";
-export * from "./post-form";
+export * from "./post-card/PostCard";
+export * from "./post-form/PostForm";
+export * from "./posts-table/PostsTable";
+export * from "./posts-table/PostsTableSkeleton";

@@ -1,6 +1,6 @@
 "use client"
 
-import { formattedDate } from "@/core/utils";
+import { formatFullDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
 import { ROUTES } from "@/presentation/config/routes";
 import { Pencil, Trash2 } from "lucide-react";
@@ -59,7 +59,7 @@ export const PostsTable = ({ posts }: PostsTableProps) => {
               </td>
 
               <td className="px-4 py-3 text-sm text-muted-foreground">
-                {formattedDate(post.createdAt)}
+                {formatFullDate(post.createdAt)}
               </td>
 
               <td className="px-4 py-3">

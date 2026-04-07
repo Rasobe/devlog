@@ -1,18 +1,19 @@
 "use client";
 
 import {
-  PostsTableSkeleton,
   PostsTable,
+  PostsTableSkeleton,
 } from "@/presentation/components/features/posts";
-import { useDashboardPostsTable } from "./useDashboardPostsTable";
+import { usePostsContent } from "./usePostsContent";
+import { ErrorState } from "@/presentation/components/global";
 
-export const DashboardPostsTable = () => {
-  const { posts, isLoading, error } = useDashboardPostsTable();
+export const PostsContent = () => {
+  const { posts, isLoading, error } = usePostsContent();
 
   const renderContent = () => {
     if (isLoading) return <PostsTableSkeleton />;
-    if (error) return <p className="text-red-500">Error loading posts</p>;
-    
+    if (error) return <ErrorState message="Error al cargar los posts" />;
+
     return <PostsTable posts={posts || []} />;
   };
 

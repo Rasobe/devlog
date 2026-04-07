@@ -8,7 +8,7 @@ interface PostRepository {
     fun findById(id: UUID): Post?
     fun findBySlug(slug: String): Post?
     fun save(post: Post): Post
-    fun delete(id: UUID)
+    fun delete(slug: String)
     fun existsBySlug(slug: String): Boolean
     fun updateBySlug(slug: String, post: Post): Post
 }

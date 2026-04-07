@@ -30,8 +30,9 @@ class PostRepositoryImpl(
         return jpa.save(PostEntity.fromDomain(post)).toDomain()
     }
 
-    override fun delete(id: UUID) {
-        return jpa.deleteById(id)
+    override fun delete(slug: String) {
+        val entity = jpa.findBySlug(slug) ?: throw NoSuchElementException("No posts found for $slug")
+        return jpa.delete(entity)
     }
 
     override fun existsBySlug(slug: String): Boolean {
@@ -43,7 +44,6 @@ class PostRepositoryImpl(
             ?: throw NoSuchElementException("Post with slug '$slug' not found")
 
         entity.title = post.title
-        entity.slug = post.slug
         entity.content = post.content
         entity.excerpt = post.excerpt
         entity.published = post.published

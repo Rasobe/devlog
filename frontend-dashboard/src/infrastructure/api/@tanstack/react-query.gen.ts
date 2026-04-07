@@ -3,8 +3,27 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { createPost, deletePost, getPostById, getPostBySlug, getPosts, login, type Options, register, updatePostBySlug } from '../sdk.gen';
-import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostByIdData, GetPostByIdResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse } from '../types.gen';
+import { createPost, deletePost, getPostBySlug, getPosts, login, type Options, register, updatePostBySlug } from '../sdk.gen';
+import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse } from '../types.gen';
+
+/**
+ * Delete a post
+ *
+ * Deletes a blog post by its ID. Only an admin can delete a post.
+ */
+export const deletePostMutation = (options?: Partial<Options<DeletePostData>>): UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> => {
+    const mutationOptions: UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deletePost({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -145,45 +164,6 @@ export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutatio
     const mutationOptions: UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await login({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getPostByIdQueryKey = (options: Options<GetPostByIdData>) => createQueryKey('getPostById', options);
-
-/**
- * Get post by ID (Internal)
- *
- * Retrieves a post by internal UUID
- */
-export const getPostByIdOptions = (options: Options<GetPostByIdData>) => queryOptions<GetPostByIdResponse, DefaultError, GetPostByIdResponse, ReturnType<typeof getPostByIdQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getPostById({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getPostByIdQueryKey(options)
-});
-
-/**
- * Delete a post
- *
- * Deletes a blog post by its ID. Only an admin can delete a post.
- */
-export const deletePostMutation = (options?: Partial<Options<DeletePostData>>): UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> => {
-    const mutationOptions: UseMutationOptions<DeletePostResponse, DefaultError, Options<DeletePostData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await deletePost({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

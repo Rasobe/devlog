@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "@/infrastructure/api-client";
+import { apiClient } from "@/infrastructure/http-client";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { User } from "@/core/types/user";
 
@@ -9,7 +9,7 @@ export function useUser() {
   return useQuery({
     queryKey: ["user"],
     queryFn: async (): Promise<User> => {
-      const { data } = await apiClient.get<User>("/auth/me");
+      const { data } = await apiClient.instance.get<User>("/auth/me")
       
       if (!data) {
         throw new Error("User data not found");

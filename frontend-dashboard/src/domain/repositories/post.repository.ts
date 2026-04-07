@@ -5,6 +5,5 @@ export interface IPostRepository {
   getPostBySlug(slug: string): Promise<Post | null>;
   createPost(request: CreatePostInput): Promise<Post>;
   updatePost(slug: string, request: UpdatePostInput): Promise<Post>;
-  getPostById(id: string): Promise<Post | null>;
-  deletePost(id: string): Promise<void>;
+  deletePost(slug: string): Promise<void>;
 }

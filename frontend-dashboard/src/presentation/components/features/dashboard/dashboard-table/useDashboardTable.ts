@@ -15,7 +15,7 @@ export const useDashboardTable = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => deletePostUseCase.execute(id),
+    mutationFn: (slug: string) => deletePostUseCase.execute(slug),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },

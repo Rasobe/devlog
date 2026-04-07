@@ -9,7 +9,6 @@ export const PostMapper = {
   /**  API → Domain (lo que lees del backend → lo que usas en tu app) */
   toDomain(response: PostResponse): Post {
     return {
-      id: response.id,
       title: response.title,
       slug: response.slug,
       content: response.content,

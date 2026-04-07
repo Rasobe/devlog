@@ -10,6 +10,7 @@ import {
   loginSchema,
   type LoginSchema,
 } from "@/presentation/schemas/auth.schema";
+import { getErrorMessage } from "@/core/utils";
 
 export const useLoginForm = () => {
   const router = useRouter();
@@ -28,13 +29,8 @@ export const useLoginForm = () => {
       await login(data.email, data.password);
 
       router.push(ROUTES.DASHBOARD);
-    } catch (error: any) {
-      console.error("Fallo en la autenticación:", error);
-
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Credenciales incorrectas o error de servidor.";
-      setServerError(errorMessage);
+    } catch (error: unknown) {
+      setServerError(getErrorMessage(error));
     }
   };
 

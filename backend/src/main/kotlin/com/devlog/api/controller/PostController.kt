@@ -88,20 +88,20 @@ class PostController(
         return ResponseEntity.ok(PostResponse.fromDomain(updatedPost))
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{slug}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
         summary = "Delete a post",
-        description = "Deletes a blog post by its ID. Only an admin can delete a post."
+        description = "Deletes a blog post by its slug. Only an admin can delete a post."
     )
     @ApiResponses(value = [
         ApiResponse(responseCode = "204", description = "Post deleted successfully"),
         ApiResponse(responseCode = "401", description = "Unauthorized"),
         ApiResponse(responseCode = "404", description = "Post not found")
     ])
-    fun deletePost(@PathVariable id: UUID): ResponseEntity<Void> {
-        postService.deletePost(id)
+    fun deletePost(@PathVariable slug: String): ResponseEntity<Void> {
+        postService.deletePost(slug)
         return ResponseEntity.noContent().build()
     }
 

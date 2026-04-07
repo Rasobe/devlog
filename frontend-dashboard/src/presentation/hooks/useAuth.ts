@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "@/infrastructure/api-client";
 import { authStorage } from "@/infrastructure/services/auth-storage";
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { loginUseCase } from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
 import type { AuthResult } from "@/domain/models/auth.model";
@@ -43,7 +42,6 @@ export function useAuth() {
   const logout = useCallback(() => {
     authStorage.clear();
     setIsAuthenticated(false);
-    apiClient.interceptors.request.clear();
     queryClient.clear();
     router.push(ROUTES.LOGIN);
   }, [queryClient, router]);

@@ -6,7 +6,7 @@ export default defineConfig({
     path: "src/infrastructure/api",
   },
   plugins: [
-    "@hey-api/client-fetch",
+    "@hey-api/client-axios",
     "@hey-api/sdk",
     "@hey-api/typescript",
     "@tanstack/react-query"

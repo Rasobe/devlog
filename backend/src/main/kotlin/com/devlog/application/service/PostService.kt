@@ -61,9 +61,9 @@ class PostService(
     }
 
     @Transactional
-    fun deletePost(id: UUID) {
-        postRepository.findById(id) ?: throw ResourceNotFoundException("Post not found")
-        postRepository.delete(id)
+    fun deletePost(slug: String) {
+        postRepository.findBySlug(slug) ?: throw ResourceNotFoundException("Post not found")
+        postRepository.delete(slug)
     }
 
     private fun generateSlug(title: String): String {

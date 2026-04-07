@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostByIdData, GetPostByIdResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
+import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -17,6 +17,17 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: Record<string, unknown>;
 };
+
+/**
+ * Delete a post
+ *
+ * Deletes a blog post by its ID. Only an admin can delete a post.
+ */
+export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/posts/{slug}',
+    ...options
+});
 
 /**
  * Get post by slug
@@ -98,26 +109,4 @@ export const login = <ThrowOnError extends boolean = false>(options: Options<Log
         'Content-Type': 'application/json',
         ...options.headers
     }
-});
-
-/**
- * Get post by ID (Internal)
- *
- * Retrieves a post by internal UUID
- */
-export const getPostById = <ThrowOnError extends boolean = false>(options: Options<GetPostByIdData, ThrowOnError>) => (options.client ?? client).get<GetPostByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/admin/{id}',
-    ...options
-});
-
-/**
- * Delete a post
- *
- * Deletes a blog post by its ID. Only an admin can delete a post.
- */
-export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{id}',
-    ...options
 });

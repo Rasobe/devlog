@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --ignore-pattern 'src/services/api/**/*'",
-    "generate": "openapi-ts"
+    "lint": "eslint .",
+    "generate": "openapi-ts",
+    "prepare": "husky"
   },
   "dependencies": {
+    "@hey-api/client-axios": "^0.9.1",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.95.2",
     "@tanstack/react-query-devtools": "^5.95.2",
@@ -23,6 +25,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@hey-api/openapi-ts": "^0.94.5",
     "@tailwindcss/postcss": "^4",
     "@types/js-cookie": "^3.0.6",
@@ -34,8 +38,19 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   }
 }

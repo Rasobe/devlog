@@ -1,5 +1,5 @@
 import { QueryProvider } from "@/presentation/store/QueryProvider";
-import { AuthProvider } from "@/presentation/store/auth-context/AuthContext";
+import { AuthProvider } from "@/presentation/store/AuthContext";
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";

@@ -89,7 +89,7 @@ class PostController(
     }
 
     @DeleteMapping("/{slug}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('AUTHOR', 'ADMIN')")
     @SecurityRequirement(name = "Bearer Auth")
     @Operation(
         summary = "Delete a post",

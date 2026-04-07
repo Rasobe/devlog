@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useAuthContext } from "@/presentation/store/auth-context/useAuthContext";
 import { LoginResponse, LoginError } from "@/infrastructure/api/types.gen";
 import { FullScreenLoader } from "@/presentation/components/global";
+import { useAuth } from "@/presentation/hooks/useAuth";
 
 // Define qué expone el context
 interface AuthContextType {
@@ -24,7 +24,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Componente Provider que envuelve la app
 export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
-  const auth = useAuthContext();
+  const auth = useAuth();
 
   if (auth.isInitializing) {
     return <FullScreenLoader />;

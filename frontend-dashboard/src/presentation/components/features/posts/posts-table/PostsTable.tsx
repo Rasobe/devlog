@@ -1,20 +1,20 @@
+"use client"
+
+import { formattedDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
 import { ROUTES } from "@/presentation/config/routes";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { usePostTable } from "./usePostTable";
+import { ConfirmDialog } from "@/presentation/components/global";
 
 interface PostsTableProps {
   posts: Post[];
-  onDelete: (id: string) => void;
 }
 
-export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
-  const formattedDate = (date: Date) =>
-    new Date(date).toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+export const PostsTable = ({ posts }: PostsTableProps) => {
+  const { slugToDelete, setSlugToDelete, handleConfirm, handleCancel } =
+    usePostTable();
 
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-border">
@@ -70,7 +70,7 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
                     </button>
                   </Link>
                   <button
-                    onClick={() => onDelete(post.slug)}
+                    onClick={() => setSlugToDelete(post.slug)}
                     className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors text-muted-foreground hover:text-red-600 dark:hover:text-red-400"
                   >
                     <Trash2 size={15} />
@@ -81,6 +81,16 @@ export const PostsTable = ({ posts, onDelete }: PostsTableProps) => {
           ))}
         </tbody>
       </table>
+
+      <ConfirmDialog
+        open={!!slugToDelete}
+        title={"¿Eliminar post?"}
+        description={
+          "¿Estás seguro de que quieres eliminar este post? Esta acción no se puede deshacer."
+        }
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };

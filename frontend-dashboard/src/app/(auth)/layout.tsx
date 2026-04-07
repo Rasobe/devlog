@@ -6,7 +6,7 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: Readonly<AuthLayoutProps>) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background p-4">
+    <main className="flex min-h-screen items-center justify-center bg-background">
       {children}
     </main>
   );

@@ -1,4 +1,4 @@
-import { AppHeader } from "@/presentation/components/global";
+import { AppHeader, PageTransition } from "@/presentation/components/global";
 import { ReactNode } from "react";
 
 interface DashboardLayoutProps {
@@ -20,7 +20,7 @@ export default function DashboardLayout({
           py-6 md:py-10
         "
         >
-          {children}
+          <PageTransition>{children}</PageTransition>
         </div>
       </main>
     </div>

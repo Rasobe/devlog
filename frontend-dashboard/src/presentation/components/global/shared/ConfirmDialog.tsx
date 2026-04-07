@@ -17,11 +17,9 @@ export const ConfirmDialog = ({
   onCancel,
   isLoading,
 }: ConfirmDialogProps) => {
-  if (!open) return null;
-
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm"
+      className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-150 ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       onClick={onCancel}
     >
       <div
@@ -29,7 +27,7 @@ export const ConfirmDialog = ({
         aria-labelledby="dialog-title"
         aria-describedby="dialog-description"
         onClick={(e) => e.stopPropagation()}
-        className="bg-background rounded-lg border border-border max-w-sm w-full mx-4"
+        className={`bg-background rounded-lg border border-border max-w-sm w-full mx-4 transition-all duration-150 ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
       >
         <div className="bg-muted/50 px-6 py-4 rounded-t-lg">
           <h3 id="dialog-title" className="font-medium">

@@ -1,13 +1,7 @@
 import { QueryProvider } from "@/presentation/store/QueryProvider";
 import { AuthProvider } from "@/presentation/store/AuthContext";
-import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
-
-export const metadata: Metadata = {
-  title: "DevLog Dashboard",
-  description: "Admin dashboard for DevLog",
-};
 
 interface RootLayoutProps {
   children: ReactNode;

@@ -16,5 +16,12 @@ export const DashboardPostsTable = () => {
     return <PostsTable posts={posts || []} />;
   };
 
-  return <div className="flex flex-col gap-4">{renderContent()}</div>;
+  return (
+    <div
+      key={isLoading ? "loading" : "content"}
+      className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-200"
+    >
+      {renderContent()}
+    </div>
+  );
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePostForm } from "./usePostForm";
 import {
   Button,
@@ -10,7 +9,6 @@ import {
   TextArea,
   TextField,
 } from "@/presentation/components/global";
-import { ROUTES } from "@/presentation/config/routes";
 
 interface PostFormProps {
   mode?: "create" | "edit";

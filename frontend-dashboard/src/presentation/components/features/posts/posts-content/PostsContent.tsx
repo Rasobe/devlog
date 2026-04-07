@@ -12,7 +12,13 @@ export const PostsContent = () => {
 
   const renderContent = () => {
     if (isLoading) return <PostsTableSkeleton />;
-    if (error) return <ErrorState message="Error al cargar los posts" />;
+    if (error)
+      return (
+        <ErrorState
+          message="Error al cargar los posts"
+          showBackButton={false}
+        />
+      );
 
     return <PostsTable posts={posts || []} />;
   };

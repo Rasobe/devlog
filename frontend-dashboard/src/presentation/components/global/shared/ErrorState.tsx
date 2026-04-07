@@ -7,13 +7,15 @@ interface ErrorStateProps {
   description?: string;
   backHref?: string;
   backText?: string;
+  showBackButton?: boolean;
 }
 
 export const ErrorState = ({
   message = "No se pudo cargar la entrada",
-  description = "Es posible que el enlace esté roto, que no tengas permisos, o que el artículo haya sido eliminado previamente.",
+  description = "Es posible que el enlace esté roto o que no tengas permisos.",
   backHref = ROUTES.DASHBOARD,
   backText = "Volver al panel",
+  showBackButton = true,
 }: ErrorStateProps) => {
   return (
     <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center text-card-foreground shadow-sm animate-in fade-in zoom-in-95 duration-200">
@@ -39,9 +41,11 @@ export const ErrorState = ({
       <p className="mb-6 mt-2 max-w-sm text-sm text-muted-foreground">
         {description}
       </p>
-      <Link href={backHref}>
-        <Button variant="outline">{backText}</Button>
-      </Link>
+      {showBackButton && (
+        <Link href={backHref}>
+          <Button variant="outline">{backText}</Button>
+        </Link>
+      )}
     </div>
   );
 };

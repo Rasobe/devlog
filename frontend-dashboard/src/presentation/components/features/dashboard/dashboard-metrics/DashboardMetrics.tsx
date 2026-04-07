@@ -15,6 +15,7 @@ export const DashboardMetrics = () => {
       <ErrorState
         message="Error al cargar las métricas"
         description="Ha habido un error al cargar las métricas"
+        showBackButton={false}
       />
     );
 

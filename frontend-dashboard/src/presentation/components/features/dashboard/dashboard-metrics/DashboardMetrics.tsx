@@ -6,7 +6,7 @@ import { useDashboardMetrics } from "./useDashboardMetrics";
 import { DashboardMetricsSkeleton } from "./DashboardMetricsSkeleton";
 
 export const DashboardMetrics = () => {
-  const { published, drafts, lasPostDate, isLoading, error } =
+  const { published, drafts, lastPostDate, isLoading, error } =
     useDashboardMetrics();
 
   if (isLoading) return <DashboardMetricsSkeleton />;
@@ -22,7 +22,7 @@ export const DashboardMetrics = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-16 px-4 border-y">
       <MetricCard value={published} label="Publicaciones" />
       <MetricCard value={drafts} label="Borradores" />
-      <MetricCard value={lasPostDate} label="Última publicación" />
+      <MetricCard value={lastPostDate} label="Última publicación" />
     </div>
   );
 };

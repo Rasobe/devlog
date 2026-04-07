@@ -15,13 +15,13 @@ export const useDashboardMetrics = () => {
 
   const published = posts?.filter((post) => post.published).length;
   const drafts = posts?.filter((post) => !post.published).length;
-  const lastPost = posts?.sort(
+  const lastPost = [...(posts || [])].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   )[0];
 
-  const lasPostDate = lastPost?.createdAt
+  const lastPostDate = lastPost?.createdAt
     ? formatShortDate(lastPost?.createdAt)
     : "—";
 
-  return { published, drafts, lasPostDate, isLoading, error };
+  return { published, drafts, lastPostDate, isLoading, error };
 };

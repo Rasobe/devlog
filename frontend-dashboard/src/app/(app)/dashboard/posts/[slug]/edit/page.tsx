@@ -1,17 +1,12 @@
-"use client";
+import { EditPostContent } from "@/presentation/components/features";
+import { Metadata } from "next";
 
-import { useParams } from "next/navigation";
-import { PostForm } from "@/presentation/components/features/posts";
+export const metadata: Metadata = {
+  title: "Editar publicación",
+};
 
 const EditPostPage = () => {
-  const params = useParams();
-  const slug = params.slug as string;
-
-  return (
-    <div>
-      {slug ? <PostForm mode="edit" slug={slug} /> : <div>No se encontró la entrada</div>}
-    </div>
-  );
+  return <EditPostContent />;
 };
 
 export default EditPostPage;

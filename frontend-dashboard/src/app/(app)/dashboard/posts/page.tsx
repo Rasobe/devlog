@@ -1,7 +1,12 @@
 import { PostsContent } from "@/presentation/components/features";
 import { Button } from "@/presentation/components/global";
 import { ROUTES } from "@/presentation/config/routes";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Publicaciones",
+};
 
 const DashboardPage = () => {
   return (

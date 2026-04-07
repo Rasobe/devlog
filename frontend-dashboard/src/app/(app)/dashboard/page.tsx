@@ -3,6 +3,11 @@ import {
   DashboardHeader,
   QuickAccessSection,
 } from "@/presentation/components/features";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Inicio",
+};
 
 const page = () => {
   return (

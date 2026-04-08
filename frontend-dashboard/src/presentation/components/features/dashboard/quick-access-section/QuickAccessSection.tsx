@@ -4,13 +4,11 @@ import { ROUTES } from "@/presentation/config/routes";
 
 export const QuickAccessSection = () => {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h3 className="uppercase font-medium text-sm">Acceso Rápido</h3>
-        <p className="text-muted-foreground">
-          Accede rápidamente a las funcionalidades más utilizadas
-        </p>
-      </div>
+    <div>
+      <h2 className="text-xl font-semibold mb-4">
+        Accede rápidamente a las funcionalidades más utilizadas
+      </h2>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <QuickAccessCard
           icon={<FileText />}

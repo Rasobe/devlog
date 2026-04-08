@@ -3,10 +3,19 @@
 import { formatFullDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
 import { ROUTES } from "@/presentation/config/routes";
-import { Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
 import { usePostTable } from "./usePostTable";
-import { Badge, ConfirmDialog } from "@/presentation/components/global";
+import {
+  Badge,
+  ConfirmDialog,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableActions,
+  TableActionBtn,
+} from "@/presentation/components/global";
 
 interface PostsTableProps {
   posts: Post[];
@@ -17,64 +26,52 @@ export const PostsTable = ({ posts }: PostsTableProps) => {
     usePostTable();
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-border">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-muted/50">
-            <th className="text-left text-sm text-muted-foreground font-medium px-4 py-3">
-              Título
-            </th>
-            <th className="text-left text-sm text-muted-foreground font-medium px-4 py-3">
-              Estado
-            </th>
-            <th className="text-left text-sm text-muted-foreground font-medium px-4 py-3">
-              Fecha
-            </th>
-            <th className="text-right text-sm text-muted-foreground font-medium px-4 py-3">
-              Acciones
-            </th>
+    <>
+      <Table>
+        <TableHeader>
+          <tr className="bg-muted/80">
+            <TableHead>Título</TableHead>
+            <TableHead>Estado</TableHead>
+            <TableHead>Fecha</TableHead>
+            <TableHead className="text-right">Acciones</TableHead>
           </tr>
-        </thead>
+        </TableHeader>
 
-        <tbody>
+        <TableBody>
           {posts.map((post) => (
-            <tr
-              key={post.slug}
-              className="hover:bg-muted/50 transition-colors border-t border-border"
-            >
-              <td className="px-4 py-3 text-sm font-medium text-foreground">
+            <TableRow key={post.slug}>
+              <TableCell className="font-medium text-foreground">
                 {post.title}
-              </td>
+              </TableCell>
 
-              <td className="px-4 py-3">
+              <TableCell>
                 <Badge variant={post.published ? "success" : "warning"}>
                   {post.published ? "Publicado" : "Borrador"}
                 </Badge>
-              </td>
+              </TableCell>
 
-              <td className="px-4 py-3 text-sm text-muted-foreground">
+              <TableCell className="text-muted-foreground">
                 {formatFullDate(post.createdAt)}
-              </td>
+              </TableCell>
 
-              <td className="px-4 py-3">
-                <div className="flex items-center justify-end gap-1">
-                  <Link href={ROUTES.POSTS_EDIT(post.slug)}>
-                    <button className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
-                      <Pencil size={15} />
-                    </button>
-                  </Link>
-                  <button
+              <TableCell>
+                <TableActions>
+                  <TableActionBtn
+                    variant="edit"
+                    href={ROUTES.POSTS_EDIT(post.slug)}
+                    title="Editar"
+                  />
+                  <TableActionBtn
+                    variant="delete"
                     onClick={() => setSlugToDelete(post.slug)}
-                    className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors text-muted-foreground hover:text-red-600 dark:hover:text-red-400"
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                </div>
-              </td>
-            </tr>
+                    title="Eliminar"
+                  />
+                </TableActions>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
 
       <ConfirmDialog
         open={!!slugToDelete}
@@ -85,6 +82,6 @@ export const PostsTable = ({ posts }: PostsTableProps) => {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
-    </div>
+    </>
   );
 };

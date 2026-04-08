@@ -18,7 +18,7 @@ export const ErrorState = ({
   showBackButton = true,
 }: ErrorStateProps) => {
   return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center text-card-foreground shadow-sm animate-in fade-in zoom-in-95 duration-200">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center text-card-foreground shadow-sm animate-in fade-in zoom-in-95 duration-200">
       <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-red-100/50 dark:bg-red-900/20">
         <svg
           className="h-7 w-7 text-red-600 dark:text-red-400"

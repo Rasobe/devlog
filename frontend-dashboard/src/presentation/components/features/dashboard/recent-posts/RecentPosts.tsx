@@ -2,42 +2,82 @@
 
 import { formatShortDate } from "@/core/utils";
 import { useRecentPosts } from "./useRecentPosts";
-import { Badge } from "@/presentation/components/global";
+import {
+  Badge,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableActions,
+  TableActionBtn,
+  ErrorState,
+  FetchState,
+} from "@/presentation/components/global";
+import { ROUTES } from "@/presentation/config/routes";
 
 export const RecentPosts = () => {
   const { posts, isLoading, error } = useRecentPosts();
 
-  return (
-    <div className="w-full overflow-x-auto rounded-lg border border-border">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-muted/80">
-            <th className="text-left text-sm font-medium p-4">Estado</th>
-            <th className="text-left text-sm font-medium p-4">Titulo</th>
-            <th className="text-left text-sm font-medium p-4">Creado</th>
-            <th className="text-left text-sm font-medium p-4">Extracto</th>
-            <th className="text-left text-sm font-medium p-4">
-              Acciones
-            </th>
-          </tr>
-        </thead>
+  if (isLoading) {
+    return <FetchState />;
+  }
 
-        <tbody>
+  if (error) {
+    return <ErrorState showBackButton={false} />;
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-semibold mb-4">
+        Tus Publicaciones Recientes
+      </h2>
+      
+      <Table>
+        <TableHeader>
+          <tr className="bg-muted/80">
+            <TableHead>Estado</TableHead>
+            <TableHead>Título</TableHead>
+            <TableHead>Creado</TableHead>
+            <TableHead>Extracto (Excerpt)</TableHead>
+            <TableHead className="text-right">Acciones</TableHead>
+          </tr>
+        </TableHeader>
+
+        <TableBody>
           {posts?.map((post) => (
-            <tr key={post.slug} className="border-t border-border hover:bg-muted/50 transition-colors">
-              <td className="p-4 text-sm">
+            <TableRow key={post.slug}>
+              <TableCell>
                 <Badge variant={post.published ? "success" : "warning"}>
                   {post.published ? "Publicado" : "Borrador"}
                 </Badge>
-              </td>
-              <td className="p-4 text-sm truncate max-w-xs">{post.title}</td>
-              <td className="p-4 text-sm">{formatShortDate(post.createdAt)}</td>
-              <td className="p-4 text-sm truncate max-w-xs">{post.excerpt}</td>
-              <td className="p-4 text-sm"></td>
-            </tr>
+              </TableCell>
+              <TableCell className="font-medium">{post.title}</TableCell>
+              <TableCell className="text-muted-foreground">
+                {formatShortDate(post.createdAt)}
+              </TableCell>
+              <TableCell className="truncate max-w-xs text-muted-foreground">
+                {post.excerpt}
+              </TableCell>
+              <TableCell>
+                <TableActions>
+                  <TableActionBtn
+                    variant="view"
+                    href={ROUTES.POSTS_EDIT(post.slug)}
+                    title="Ver"
+                  />
+                  <TableActionBtn
+                    variant="edit"
+                    href={ROUTES.POSTS_EDIT(post.slug)}
+                    title="Editar"
+                  />
+                </TableActions>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };

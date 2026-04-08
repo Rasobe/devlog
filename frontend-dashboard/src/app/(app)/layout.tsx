@@ -9,9 +9,9 @@ export default function DashboardLayout({
   children,
 }: Readonly<DashboardLayoutProps>) {
   return (
-    <div className="min-h-screen flex flex-row bg-background">
+    <div className="min-h-screen flex flex-row relative z-0">
       <Sidebar />
-      <main className="flex-1 min-w-0 overflow-auto">
+      <main className="flex-1 min-w-0 overflow-auto relative z-10">
         <div
           className="
           mx-auto

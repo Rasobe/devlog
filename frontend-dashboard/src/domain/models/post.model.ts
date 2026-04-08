@@ -4,6 +4,7 @@ export interface Post {
   content: string;
   excerpt: string;
   published: boolean;
+  views: number;
   createdAt: Date;
   updatedAt: Date;
 }

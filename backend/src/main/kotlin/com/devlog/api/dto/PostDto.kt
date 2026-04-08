@@ -28,6 +28,7 @@ data class PostResponse(
     val content: String,
     val excerpt: String,
     val published: Boolean,
+    val views: Long,
     val createdAt: Instant,
     val updatedAt: Instant
 ) {
@@ -39,6 +40,7 @@ data class PostResponse(
                 content = post.content,
                 excerpt = post.excerpt,
                 published = post.published,
+                views = post.views,
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt
             )

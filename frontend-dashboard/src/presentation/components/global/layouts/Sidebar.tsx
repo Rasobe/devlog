@@ -7,11 +7,9 @@ import { NavLink } from "../primitives";
 import { NAV_ITEMS } from "@/presentation/config/navigation";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { LogOut, Plus } from "lucide-react";
-import { authStorage } from "@/infrastructure/services/auth-storage";
 
 export const Sidebar = () => {
-  const { logout } = useAuthContext();
-  const user = authStorage.getUser();
+  const { logout, user } = useAuthContext();
 
   return (
     <aside className="w-64 h-screen sticky top-0 bg-card shrink-0 border-r p-4 flex flex-col">

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authStorage } from "@/infrastructure/services/auth-storage";
-import { useState, useCallback } from "react";
+import { authStorage, type StoredUser } from "@/infrastructure/services/auth-storage";
+import { useState, useCallback, useEffect } from "react";
 import { loginUseCase } from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
 import type { AuthResult } from "@/domain/models/auth.model";
@@ -11,10 +11,23 @@ export function useAuth() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    () => !!authStorage.getToken(),
-  );
-  const [isInitializing] = useState<boolean>(false);
+  const [user, setUser] = useState<StoredUser | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isInitializing, setIsInitializing] = useState<boolean>(true);
+
+  useEffect(() => {
+    Promise.resolve().then(() => {
+      const token = authStorage.getToken();
+      const storedUser = authStorage.getUser();
+      
+      if (token && storedUser) {
+        setIsAuthenticated(true);
+        setUser(storedUser);
+      }
+      
+      setIsInitializing(false);
+    });
+  }, []);
 
   const loginMut = useMutation<
     AuthResult,
@@ -24,8 +37,12 @@ export function useAuth() {
     mutationFn: async ({ email, password }) => {
       return await loginUseCase.execute(email, password);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       setIsAuthenticated(true);
+      setUser({
+        email: data.email,
+        displayName: data.displayName,
+      });
     },
     onError: (err) => {
       console.error("Login failed:", err);
@@ -42,6 +59,7 @@ export function useAuth() {
   const logout = useCallback(() => {
     authStorage.clear();
     setIsAuthenticated(false);
+    setUser(null);
     queryClient.clear();
     router.push(ROUTES.LOGIN);
   }, [queryClient, router]);
@@ -51,6 +69,7 @@ export function useAuth() {
     isLoading: loginMut.isPending,
     error: loginMut.error ?? loginMut.error,
     isAuthenticated,
+    user,
     login,
     logout,
   };

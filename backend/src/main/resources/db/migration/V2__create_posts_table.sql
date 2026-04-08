@@ -5,6 +5,7 @@ CREATE TABLE posts (
     content    TEXT         NOT NULL,
     excerpt    VARCHAR(500) NOT NULL,
     published  BOOLEAN      NOT NULL DEFAULT FALSE,
+    views      BIGINT       NOT NULL DEFAULT 0,
     author_id  BIGINT       NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ  NOT NULL DEFAULT NOW()

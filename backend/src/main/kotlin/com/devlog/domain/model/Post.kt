@@ -11,6 +11,7 @@ data class Post(
     val excerpt: String,
     val published: Boolean = false,
     val authorId: Long,
+    val views: Long = 0,
     val createdAt: Instant = Instant.now(),
     val updatedAt: Instant = Instant.now()
 )

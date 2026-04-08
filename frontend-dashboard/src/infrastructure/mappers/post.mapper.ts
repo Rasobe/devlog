@@ -14,6 +14,7 @@ export const PostMapper = {
       content: response.content,
       excerpt: response.excerpt,
       published: response.published,
+      views: response.views,
       createdAt: new Date(response.createdAt),
       updatedAt: new Date(response.updatedAt),
     };

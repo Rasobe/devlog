@@ -8,21 +8,33 @@ export interface StoredUser {
   displayName: string;
 }
 
+const AUTH_CHANGE_EVENT = "auth-change";
+
+const notify = () => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
+  }
+};
+
 export const authStorage = {
+  subscribe: (callback: () => void) => {
+    window.addEventListener(AUTH_CHANGE_EVENT, callback);
+    return () => window.removeEventListener(AUTH_CHANGE_EVENT, callback);
+  },
   getToken: (): string | null => {
     return Cookies.get(TOKEN_KEY) ?? null;
   },
   setToken: (token: string): void => {
-    // 'strict' previene ataques CSRF. 
-    // Usamos NODE_ENV === "production" para que 'secure' sea true solo en PROD (evita fallos HTTPS en localhost)
     Cookies.set(TOKEN_KEY, token, {
       expires: 7,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
     });
+    notify();
   },
   removeToken: (): void => {
     Cookies.remove(TOKEN_KEY);
+    notify();
   },
   getUser: (): StoredUser | null => {
     if (globalThis.window === undefined) return null; // guard SSR
@@ -31,14 +43,16 @@ export const authStorage = {
   },
   setUser: (user: StoredUser): void => {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
+    notify();
   },
   removeUser: (): void => {
     localStorage.removeItem(USER_KEY);
+    notify();
   },
   clear: (): void => {
     Cookies.remove(TOKEN_KEY);
-    // Limpiamos el guardado en localStorage también
     localStorage.clear();
+    notify();
   },
   isAuthenticated: (): boolean => {
     return !!authStorage.getToken();

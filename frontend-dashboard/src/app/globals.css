@@ -77,9 +77,13 @@
     border-color: var(--border);
   }
   body {
+    @apply min-h-screen antialiased;
     background-color: var(--background);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
     color: var(--foreground);
-    @apply antialiased;
   }
 }
 

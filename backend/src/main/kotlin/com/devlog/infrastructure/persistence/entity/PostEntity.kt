@@ -31,6 +31,9 @@ class PostEntity(
     @Column(name = "author_id", nullable = false)
     var authorId: Long,
 
+    @Column(nullable = false)
+    var views: Long = 0,
+
     @Column(name = "created_at", updatable = false)
     val createdAt: Instant = Instant.now(),
 
@@ -45,6 +48,7 @@ class PostEntity(
         content = content,
         excerpt = excerpt,
         published = published,
+        views = views,
         authorId = authorId,
         createdAt = createdAt,
         updatedAt = updatedAt
@@ -59,6 +63,7 @@ class PostEntity(
             content = post.content,
             excerpt = post.excerpt,
             published = post.published,
+            views = post.views,
             authorId = post.authorId,
             createdAt = post.createdAt,
             updatedAt = post.updatedAt

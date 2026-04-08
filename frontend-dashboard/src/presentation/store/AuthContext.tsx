@@ -4,12 +4,14 @@ import { createContext, useContext, ReactNode } from "react";
 import { LoginResponse, LoginError } from "@/infrastructure/api/types.gen";
 import { FullScreenLoader } from "@/presentation/components/global";
 import { useAuth } from "@/presentation/hooks/useAuth";
+import { StoredUser } from "@/infrastructure/services/auth-storage";
 
 // Define qué expone el context
 interface AuthContextType {
   isInitializing: boolean;
   isLoading: boolean;
   isAuthenticated: boolean;
+  user: StoredUser | null;
   error: LoginError | Error | string | null;
   login: (email: string, password: string) => Promise<LoginResponse>;
   logout: () => void;

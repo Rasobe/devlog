@@ -21,7 +21,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 /**
  * Delete a post
  *
- * Deletes a blog post by its ID. Only an admin can delete a post.
+ * Deletes a blog post by its slug. Only an admin can delete a post.
  */
 export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],

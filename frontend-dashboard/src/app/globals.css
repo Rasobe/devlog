@@ -99,10 +99,10 @@
 
   /* Buttons */
   .btn {
-    @apply inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold tracking-wide transition-all duration-300;
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold tracking-wide transition-all;
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
     @apply disabled:pointer-events-none disabled:opacity-50;
-    @apply h-11 px-6 active:scale-[0.98] hover:-translate-y-0.5 active:translate-y-0;
+    @apply h-10 px-6;
   }
 
   .btn-primary {
@@ -137,5 +137,27 @@
   /* Decorative Backgrounds */
   .bg-gradient-glow {
     @apply absolute rounded-full blur-[120px] pointer-events-none;
+  }
+
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
   }
 }

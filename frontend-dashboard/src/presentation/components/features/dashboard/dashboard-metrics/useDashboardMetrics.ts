@@ -15,6 +15,7 @@ export const useDashboardMetrics = () => {
 
   const published = posts?.filter((post) => post.published).length;
   const drafts = posts?.filter((post) => !post.published).length;
+
   const lastPost = [...(posts || [])].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   )[0];

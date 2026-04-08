@@ -17,7 +17,9 @@ const DashboardPage = () => {
           <p className="text-muted-foreground">Manage your posts</p>
         </div>
         <Link href={ROUTES.POSTS_NEW}>
-          <Button variant="primary">Create Post</Button>
+          <Button variant="primary">
+            Crear Publicación
+          </Button>
         </Link>
       </div>
       <PostsContent />

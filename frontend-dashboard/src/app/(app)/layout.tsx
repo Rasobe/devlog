@@ -1,4 +1,4 @@
-import { AppHeader, PageTransition } from "@/presentation/components/global";
+import { Sidebar } from "@/presentation/components/global";
 import { ReactNode } from "react";
 
 interface DashboardLayoutProps {
@@ -9,8 +9,8 @@ export default function DashboardLayout({
   children,
 }: Readonly<DashboardLayoutProps>) {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <AppHeader />
+    <div className="min-h-screen flex flex-row bg-background">
+      <Sidebar />
       <main className="flex-1 min-w-0 overflow-auto">
         <div
           className="
@@ -20,7 +20,7 @@ export default function DashboardLayout({
           py-6 md:py-10
         "
         >
-          <PageTransition>{children}</PageTransition>
+          {children}
         </div>
       </main>
     </div>

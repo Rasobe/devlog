@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { formatFullDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
@@ -6,7 +6,7 @@ import { ROUTES } from "@/presentation/config/routes";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePostTable } from "./usePostTable";
-import { ConfirmDialog } from "@/presentation/components/global";
+import { Badge, ConfirmDialog } from "@/presentation/components/global";
 
 interface PostsTableProps {
   posts: Post[];
@@ -47,15 +47,9 @@ export const PostsTable = ({ posts }: PostsTableProps) => {
               </td>
 
               <td className="px-4 py-3">
-                <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    post.published
-                      ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                      : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
-                  }`}
-                >
+                <Badge variant={post.published ? "success" : "warning"}>
                   {post.published ? "Publicado" : "Borrador"}
-                </span>
+                </Badge>
               </td>
 
               <td className="px-4 py-3 text-sm text-muted-foreground">

@@ -29,7 +29,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #05050A; /* Deep dark with a hint of purple/blue */
+    --background: #141516; /* Slate 900 - Lighter dark gray with a blueish tint */
     --foreground: #f8fafc;
 
     --primary: #6366f1; /* Indigo */

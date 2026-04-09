@@ -1,13 +1,12 @@
 "use client";
 
-import { ErrorState } from "@/presentation/components/global";
-import { MetricCard } from "./_components";
+import { ErrorState, MetricCard } from "@/presentation/components/global";
 import { useDashboardMetrics } from "./useDashboardMetrics";
 import { DashboardMetricsSkeleton } from "./DashboardMetricsSkeleton";
-import { Album, ChartColumn, NotepadText } from "lucide-react";
+import { CheckCircle2, FileText, ChartColumn } from "lucide-react";
 
 export const DashboardMetrics = () => {
-  const { published, drafts, isLoading, error } = useDashboardMetrics();
+  const { published, drafts, totalViews, isLoading, error } = useDashboardMetrics();
 
   if (isLoading) return <DashboardMetricsSkeleton />;
   if (error)
@@ -23,19 +22,26 @@ export const DashboardMetrics = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <MetricCard
         value={published}
-        label="Publicaciones Totales"
-        icon={<Album />}
+        label="Publicados"
+        icon={<CheckCircle2 className="text-emerald-500" />}
       />
       <MetricCard
         value={drafts}
         label="Borradores en Curso"
-        icon={<NotepadText />}
+        icon={<FileText className="text-amber-500" />}
       />
       <MetricCard
-        value={drafts}
-        label="Vistas Recientes (7 días)"
-        icon={<ChartColumn />}
-      />
+        value={totalViews}
+        label="Vistas Totales"
+        icon={<ChartColumn className="text-indigo-500" />}
+      >
+        <div className="flex items-end gap-1 opacity-80">
+          <div className="w-2 bg-primary/80 rounded-t-sm h-3" />
+          <div className="w-2 bg-primary/80 rounded-t-sm h-6" />
+          <div className="w-2 bg-primary/80 rounded-t-sm h-4" />
+          <div className="w-2 bg-primary/80 rounded-t-sm h-7" />
+        </div>
+      </MetricCard>
     </div>
   );
 };

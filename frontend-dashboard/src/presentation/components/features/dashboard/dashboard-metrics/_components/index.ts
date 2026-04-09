@@ -1,1 +1,1 @@
-export * from './metric-card/MetricCard';
+/** _components index */

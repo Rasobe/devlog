@@ -147,7 +147,7 @@ export type GetPostsData = {
         page?: number;
         size?: number;
         search?: string;
-        publishedOnly?: boolean;
+        status?: 'ALL' | 'PUBLISHED' | 'DRAFT';
     };
     url: '/posts';
 };

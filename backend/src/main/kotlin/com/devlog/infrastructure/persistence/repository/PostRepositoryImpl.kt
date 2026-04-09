@@ -2,6 +2,7 @@ package com.devlog.infrastructure.persistence.repository
 
 import com.devlog.domain.model.PagedResult
 import com.devlog.domain.model.Post
+import com.devlog.domain.model.enums.PostStatus
 import com.devlog.domain.repository.PostRepository
 import com.devlog.infrastructure.persistence.entity.PostEntity
 import org.springframework.data.domain.PageRequest
@@ -12,14 +13,24 @@ import java.util.UUID
 class PostRepositoryImpl(
     private val jpa: PostJpaRepository
 ) : PostRepository {
-    override fun findAll(page: Int, size: Int, search: String?, publishedOnly: Boolean): PagedResult<Post> {
+    override fun findAll(page: Int, size: Int, search: String?, status: PostStatus): PagedResult<Post> {
         val pageable = PageRequest.of(page, size)
 
-        val result = when {
-            publishedOnly && search != null -> jpa.findAllByPublishedTrueAndTitleContainingIgnoreCase(search, pageable)
-            !publishedOnly && search != null -> jpa.findAllByTitleContainingIgnoreCase(search, pageable)
-            publishedOnly -> jpa.findAllByPublishedTrue(pageable)
-            else -> jpa.findAll(pageable)
+        val result = when (status) {
+            PostStatus.PUBLISHED -> if (search != null)
+                jpa.findAllByPublishedTrueAndTitleContainingIgnoreCase(search, pageable)
+            else
+                jpa.findAllByPublishedTrue(pageable)
+
+            PostStatus.DRAFT -> if (search != null)
+                jpa.findAllByPublishedFalseAndTitleContainingIgnoreCase(search, pageable)
+            else
+                jpa.findAllByPublishedFalse(pageable)
+
+            PostStatus.ALL -> if (search != null)
+                jpa.findAllByTitleContainingIgnoreCase(search, pageable)
+            else
+                jpa.findAll(pageable)
         }
 
         return PagedResult(

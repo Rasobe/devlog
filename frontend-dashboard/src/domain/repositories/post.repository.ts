@@ -2,6 +2,7 @@ import {
   CreatePostInput,
   UpdatePostInput,
   Post,
+  PostStatus,
 } from "@/domain/models/post.model";
 import { PagedResult } from "../models/paged-result.model";
 
@@ -10,7 +11,7 @@ export interface IPostRepository {
     page: number,
     size: number,
     search?: string,
-    publishedOnly?: boolean,
+    status?: PostStatus,
   ): Promise<PagedResult<Post>>;
   getPostBySlug(slug: string): Promise<Post | null>;
   createPost(request: CreatePostInput): Promise<Post>;

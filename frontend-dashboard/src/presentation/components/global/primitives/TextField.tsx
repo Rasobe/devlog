@@ -5,10 +5,12 @@ import { InputHTMLAttributes, forwardRef, useState } from "react";
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  width?: "full" | "auto";
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ label, error, type = "text", id, className, ...props }, ref) => {
+  ({ label, error, type = "text", id, className, width = "full", ...props }, ref) => {
+
     const [showPassword, setShowPassword] = useState(false);
 
     // Si es tipo 'password', el botón ajusta su visibilidad real
@@ -23,7 +25,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const inputId = id || props.name;
 
     return (
-      <div className={`flex flex-col gap-1.5 w-full`}>
+      <div className={`flex flex-col gap-1.5 ${width === "full" ? "w-full" : ""}`}>
         {label && (
           <label htmlFor={inputId} className="form-label font-medium text-sm">
             {label}
@@ -35,7 +37,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             ref={ref}
             id={inputId}
             type={inputType}
-            className={`form-input rounded-md border w-full px-3 py-2 transition-colors ${
+            className={`form-input h-10! rounded-md border w-full px-3 py-2 transition-colors ${
+
               error
                 ? "border-red-500 focus:ring-red-500"
                 : "border-gray-300 dark:border-white/10"

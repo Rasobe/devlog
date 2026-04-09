@@ -7,3 +7,4 @@ export * from "./TextField";
 export * from "./Badge";
 export * from "./Table";
 export * from "./TableActions";
+export * from "./Select";

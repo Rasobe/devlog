@@ -22,3 +22,5 @@ export interface UpdatePostInput {
   excerpt: string;
   published: boolean;
 }
+
+export type PostStatus = "ALL" | "PUBLISHED" | "DRAFT";

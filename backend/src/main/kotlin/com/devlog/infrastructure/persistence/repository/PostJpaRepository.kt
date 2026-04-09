@@ -12,4 +12,6 @@ interface PostJpaRepository : JpaRepository<PostEntity, UUID> {
     fun findAllByPublishedTrue(pageable: Pageable): Page<PostEntity>
     fun findAllByTitleContainingIgnoreCase(title: String, pageable: Pageable): Page<PostEntity>
     fun findAllByPublishedTrueAndTitleContainingIgnoreCase(title: String, pageable: Pageable): Page<PostEntity>
+    fun findAllByPublishedFalse(pageable: Pageable): Page<PostEntity>
+    fun findAllByPublishedFalseAndTitleContainingIgnoreCase(title: String, pageable: Pageable): Page<PostEntity>
 }

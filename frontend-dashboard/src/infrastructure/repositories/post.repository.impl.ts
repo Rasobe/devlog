@@ -10,6 +10,7 @@ import {
   CreatePostInput,
   UpdatePostInput,
   Post,
+  PostStatus,
 } from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
@@ -55,6 +56,7 @@ export class PostRepositoryImpl implements IPostRepository {
 
     return PostMapper.toDomain(data);
   }
+
   async createPost(request: CreatePostInput): Promise<Post> {
     const { data, error } = await createPost({
       body: PostMapper.toApiCreate(request),
@@ -73,30 +75,36 @@ export class PostRepositoryImpl implements IPostRepository {
 
     return PostMapper.toDomain(data);
   }
+
   async getPosts(
     page: number,
     size: number,
     search?: string,
-    publishedOnly?: boolean,
+    status?: PostStatus,
   ): Promise<PagedResult<Post>> {
-    const { data, error } = await getPosts({
-      query: {
-        page,
-        size,
-        search,
-        publishedOnly,
-      },
-    });
+    try {
+      const { data, error } = await getPosts({
+        query: {
+          page,
+          size,
+          search,
+          status,
+        },
+      });
 
-    if (error) {
-      throw error;
+      if (error || !data) {
+        console.error("API Error fetching posts:", error);
+        throw new Error(
+          (error as { message?: string })?.message ||
+            "Ocurrió un error inesperado al obtener los posts",
+        );
+      }
+
+      return PostMapper.toPagedDomain(data);
+    } catch (err) {
+      if (err instanceof Error) throw err;
+      throw new Error("Error de conexión al servidor");
     }
-
-    if (!data) {
-      throw new Error("Error al obtener las entradas");
-    }
-
-    return PostMapper.toPagedDomain(data);
   }
 
   async deletePost(slug: string): Promise<void> {

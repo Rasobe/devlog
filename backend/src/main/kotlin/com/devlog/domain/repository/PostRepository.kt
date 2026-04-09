@@ -2,6 +2,7 @@ package com.devlog.domain.repository
 
 import com.devlog.domain.model.PagedResult
 import com.devlog.domain.model.Post
+import com.devlog.domain.model.enums.PostStatus
 import java.util.UUID
 
 interface PostRepository {
@@ -9,7 +10,7 @@ interface PostRepository {
         page: Int = 0,
         size: Int = 10,
         search: String? = null,
-        publishedOnly: Boolean = false
+        status: PostStatus = PostStatus.ALL
     ): PagedResult<Post>
     fun findById(id: UUID): Post?
     fun findBySlug(slug: String): Post?

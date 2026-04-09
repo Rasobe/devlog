@@ -29,7 +29,9 @@ export const QuickAccessSection = () => {
           label={"Configuración"}
           description={"Ajustes del blog"}
           href={ROUTES.SETTINGS}
-          colorBase="secondary"
+          badge="Próximamente"
+          disabled
+          colorBase="warning"
         />
         <QuickAccessCard
           icon={<BarChart2 />}

@@ -1,8 +1,19 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
-import { getPosts, createPost, getPostBySlug, updatePostBySlug, deletePost } from "../api";
-import { CreatePostInput, UpdatePostInput, Post } from "@/domain/models/post.model";
+import {
+  getPosts,
+  createPost,
+  getPostBySlug,
+  updatePostBySlug,
+  deletePost,
+} from "../api";
+import {
+  CreatePostInput,
+  UpdatePostInput,
+  Post,
+} from "@/domain/models/post.model";
 import { PostMapper } from "../mappers/post.mapper";
 import { authStorage } from "../services/auth-storage";
+import { PagedResult } from "@/domain/models/paged-result.model";
 
 export class PostRepositoryImpl implements IPostRepository {
   async updatePost(slug: string, request: UpdatePostInput): Promise<Post> {
@@ -62,9 +73,17 @@ export class PostRepositoryImpl implements IPostRepository {
 
     return PostMapper.toDomain(data);
   }
-  async getPosts(publishedOnly?: boolean): Promise<Post[]> {
+  async getPosts(
+    page: number,
+    size: number,
+    search?: string,
+    publishedOnly?: boolean,
+  ): Promise<PagedResult<Post>> {
     const { data, error } = await getPosts({
       query: {
+        page,
+        size,
+        search,
         publishedOnly,
       },
     });
@@ -77,7 +96,7 @@ export class PostRepositoryImpl implements IPostRepository {
       throw new Error("Error al obtener las entradas");
     }
 
-    return data.map(PostMapper.toDomain);
+    return PostMapper.toPagedDomain(data);
   }
 
   async deletePost(slug: string): Promise<void> {

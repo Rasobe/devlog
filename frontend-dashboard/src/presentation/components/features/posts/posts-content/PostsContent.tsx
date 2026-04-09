@@ -11,7 +11,7 @@ import {
   Select,
   TextField,
 } from "@/presentation/components/global";
-import { Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 
 export const PostsContent = () => {
   const {
@@ -66,6 +66,27 @@ export const PostsContent = () => {
 
       {/* Contenido */}
       {renderContent()}
+
+      {/* Paginación */}
+      <div className="flex flex-row items-center gap-2">
+        <button
+          onClick={() => setPage(currentPage - 1)}
+          disabled={currentPage <= 0}
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <span className="text-sm">
+          Página {totalPages > 0 ? currentPage + 1 : 0} de {totalPages}
+        </span>
+        <button
+          onClick={() => setPage(currentPage + 1)}
+          disabled={currentPage >= totalPages - 1}
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,10 @@
 package com.devlog.infrastructure.persistence.repository
 
+import com.devlog.domain.model.PagedResult
 import com.devlog.domain.model.Post
 import com.devlog.domain.repository.PostRepository
 import com.devlog.infrastructure.persistence.entity.PostEntity
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import java.util.UUID
 
@@ -10,12 +12,22 @@ import java.util.UUID
 class PostRepositoryImpl(
     private val jpa: PostJpaRepository
 ) : PostRepository {
-    override fun findAll(publishedOnly: Boolean): List<Post> {
-        return if (publishedOnly) {
-            jpa.findAllByPublished(true).map { it.toDomain() }
-        } else {
-            jpa.findAll().map { it.toDomain() }
+    override fun findAll(page: Int, size: Int, search: String?, publishedOnly: Boolean): PagedResult<Post> {
+        val pageable = PageRequest.of(page, size)
+
+        val result = when {
+            publishedOnly && search != null -> jpa.findAllByPublishedTrueAndTitleContainingIgnoreCase(search, pageable)
+            !publishedOnly && search != null -> jpa.findAllByTitleContainingIgnoreCase(search, pageable)
+            publishedOnly -> jpa.findAllByPublishedTrue(pageable)
+            else -> jpa.findAll(pageable)
         }
+
+        return PagedResult(
+            content = result.content.map { it.toDomain() },
+            totalElements = result.totalElements,
+            totalPages = result.totalPages,
+            currentPage = result.number
+        )
     }
 
     override fun findById(id: UUID): Post? {

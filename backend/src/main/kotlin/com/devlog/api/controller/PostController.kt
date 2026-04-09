@@ -4,6 +4,7 @@ import com.devlog.api.dto.CreatePostRequest
 import com.devlog.api.dto.PostResponse
 import com.devlog.api.dto.UpdatePostRequest
 import com.devlog.application.service.PostService
+import com.devlog.domain.model.PagedResult
 import com.devlog.infrastructure.security.JwtService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -33,8 +34,21 @@ class PostController(
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "OK"),
     ])
-    fun getPosts(@RequestParam publishedOnly: Boolean = false) : ResponseEntity<List<PostResponse>> {
-        return ResponseEntity.ok(postService.getAllPosts(publishedOnly).map { PostResponse.fromDomain(it) })
+    fun getPosts(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "20") size: Int,
+        @RequestParam(required = false) search: String?,
+        @RequestParam(defaultValue = "false") publishedOnly: Boolean
+    ) : ResponseEntity<PagedResult<PostResponse>> {
+        val response = postService.getAllPosts(page, size, search, publishedOnly)
+        return ResponseEntity.ok(
+            PagedResult(
+                content = response.content.map { PostResponse.fromDomain(it) },
+                totalElements = response.totalElements,
+                totalPages = response.totalPages,
+                currentPage = response.currentPage
+            )
+        )
     }
 
     @GetMapping("/{slug}")

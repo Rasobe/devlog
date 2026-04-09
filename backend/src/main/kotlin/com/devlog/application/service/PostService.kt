@@ -4,6 +4,7 @@ import com.devlog.api.dto.CreatePostRequest
 import com.devlog.api.dto.UpdatePostRequest
 import com.devlog.api.exception.ResourceAlreadyExistsException
 import com.devlog.api.exception.ResourceNotFoundException
+import com.devlog.domain.model.PagedResult
 import com.devlog.domain.model.Post
 import com.devlog.domain.repository.PostRepository
 import org.springframework.stereotype.Service
@@ -15,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository
 ) {
-    fun getAllPosts(publishedOnly: Boolean) : List<Post> {
-        return postRepository.findAll(publishedOnly)
+    fun getAllPosts(page: Int, size: Int, search: String?, publishedOnly: Boolean) : PagedResult<Post> {
+        return postRepository.findAll(page, size, search, publishedOnly)
     }
 
     fun getPostBySlug(slug: String) : Post {

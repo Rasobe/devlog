@@ -46,6 +46,13 @@ export type LoginRequest = {
     password: string;
 };
 
+export type PagedResultPostResponse = {
+    content: Array<PostResponse>;
+    totalElements: number;
+    totalPages: number;
+    currentPage: number;
+};
+
 export type DeletePostData = {
     body?: never;
     path: {
@@ -137,6 +144,9 @@ export type GetPostsData = {
     body?: never;
     path?: never;
     query?: {
+        page?: number;
+        size?: number;
+        search?: string;
         publishedOnly?: boolean;
     };
     url: '/posts';
@@ -146,7 +156,7 @@ export type GetPostsResponses = {
     /**
      * OK
      */
-    200: Array<PostResponse>;
+    200: PagedResultPostResponse;
 };
 
 export type GetPostsResponse = GetPostsResponses[keyof GetPostsResponses];

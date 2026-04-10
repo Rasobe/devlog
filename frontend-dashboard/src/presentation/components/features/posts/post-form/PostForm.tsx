@@ -28,6 +28,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
   } = usePostForm({
     slug,
   });
+
   const {
     register,
     formState: { errors },

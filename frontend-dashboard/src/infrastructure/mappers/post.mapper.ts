@@ -28,7 +28,7 @@ export const PostMapper = {
 
   toPagedDomain(response: PagedResultPostResponse): PagedResult<Post> {
     return {
-      content: response.content.map(this.toDomain),
+      content: response.content?.map(this.toDomain) ?? [],
       totalElements: response.totalElements,
       totalPages: response.totalPages,
       currentPage: response.currentPage,

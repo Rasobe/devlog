@@ -4,11 +4,7 @@ import { getPostsUseCase } from "@/infrastructure/dependencies";
 import { useQuery } from "@tanstack/react-query";
 
 export const useDashboardMetrics = () => {
-  const {
-    data,
-    isLoading,
-    error,
-  } = useQuery<PagedResult<Post>>({
+  const { data, isLoading, error } = useQuery<PagedResult<Post>>({
     queryKey: ["posts"],
     queryFn: () => getPostsUseCase.execute(),
   });

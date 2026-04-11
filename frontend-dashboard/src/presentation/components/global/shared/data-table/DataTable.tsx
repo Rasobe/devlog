@@ -60,9 +60,11 @@ export const DataTable = <T,>({
                 onChange={(e) => setLocalSearch(e.target.value)}
                 placeholder={search.placeholder ?? "Buscar..."}
                 className="pl-10 h-10!"
+                disabled={isLoading || data?.length === 0}
               />
             </div>
           )}
+
           {filters?.map((filter) => (
             <div key={filter.key}>{filter.render()}</div>
           ))}
@@ -87,18 +89,45 @@ export const DataTable = <T,>({
 
           {/* Data */}
           <tbody>
-            {data?.map((item, index) => (
-              <tr
-                key={index}
-                className="border-t border-border hover:bg-muted/30"
-              >
-                {columns.map((column) => (
-                  <td key={column.key} className="px-4 py-3 text-sm">
-                    {column.render(item)}
-                  </td>
-                ))}
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, rowIndex) => (
+                <tr
+                  key={`skeleton-${rowIndex}`}
+                  className="border-t border-border"
+                >
+                  {columns.map((column) => (
+                    <td
+                      key={`skeleton-col-${column.key}`}
+                      className="px-4 py-3"
+                    >
+                      <div className="h-5 w-full animate-pulse rounded bg-muted/60" />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : data.length > 0 ? (
+              data?.map((item, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-border hover:bg-muted/30"
+                >
+                  {columns.map((column) => (
+                    <td key={column.key} className="px-4 py-3 text-sm">
+                      {column.render(item)}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="text-center text-sm py-8 text-muted-foreground"
+                >
+                  No hay datos
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

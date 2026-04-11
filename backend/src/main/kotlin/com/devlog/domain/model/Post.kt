@@ -10,7 +10,7 @@ data class Post(
     val content: String,
     val excerpt: String,
     val published: Boolean = false,
-    val authorId: Long,
+    val authorId: UUID,
     val views: Long = 0,
     val createdAt: Instant = Instant.now(),
     val updatedAt: Instant = Instant.now()

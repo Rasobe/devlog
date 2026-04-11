@@ -29,7 +29,7 @@ class PostEntity(
     var published: Boolean = false,
 
     @Column(name = "author_id", nullable = false)
-    var authorId: Long,
+    var authorId: UUID,
 
     @Column(nullable = false)
     var views: Long = 0,

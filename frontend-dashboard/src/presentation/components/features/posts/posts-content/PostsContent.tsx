@@ -1,12 +1,10 @@
 "use client";
 
 import { Post, PostStatus } from "@/domain/models/post.model";
-import { PostsTableSkeleton } from "@/presentation/components/features/posts";
 import { usePostsContent } from "./usePostsContent";
 import {
   Badge,
   DataTable,
-  DataTableColumn,
   ErrorState,
   Select,
 } from "@/presentation/components/global";
@@ -40,6 +38,12 @@ const columns = [
   },
 ];
 
+const statusOptions = [
+  { value: "ALL", label: "Todos" },
+  { value: "PUBLISHED", label: "Publicados" },
+  { value: "DRAFT", label: "Borradores" },
+];
+
 export const PostsContent = () => {
   const {
     posts,
@@ -54,17 +58,14 @@ export const PostsContent = () => {
     currentPage,
   } = usePostsContent();
 
-  const renderContent = () => {
-    if (isLoading) return <PostsTableSkeleton />;
-    if (error)
-      return (
-        <ErrorState
-          message="Error al cargar los posts"
-          showBackButton={false}
-        />
-      );
-
+  if (error) {
     return (
+      <ErrorState message="Error al cargar los posts" showBackButton={false} />
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
       <DataTable<Post>
         data={posts}
         columns={columns}
@@ -80,11 +81,7 @@ export const PostsContent = () => {
               <Select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as PostStatus)}
-                options={[
-                  { value: "ALL", label: "Todos" },
-                  { value: "PUBLISHED", label: "Publicados" },
-                  { value: "DRAFT", label: "Borradores" },
-                ]}
+                options={statusOptions}
               />
             ),
           },
@@ -96,13 +93,6 @@ export const PostsContent = () => {
         }}
         isLoading={isLoading}
       />
-    );
-    //! return <PostsTable posts={posts || []} />;                    REMOOOOVEEEE
-  };
-
-  return (
-    <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
-      {renderContent()}
     </div>
   );
 };

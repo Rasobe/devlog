@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.Date
+import java.util.UUID
 import javax.crypto.SecretKey
 
 @Service
@@ -18,7 +19,7 @@ class JwtService(
         Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun generateToken(email: String, userId: Long?, role: UserRole): String {
+    fun generateToken(email: String, userId: UUID?, role: UserRole): String {
         return Jwts.builder()
             .subject(email)
             .claim("userId", userId)
@@ -32,8 +33,8 @@ class JwtService(
     fun extractEmail(token: String): String =
         extractClaims(token).subject  // el email está en subject, no en claims["email"]
 
-    fun extractUserId(token: String): Long =
-        (extractClaims(token)["userId"] as Int).toLong()  // Integer → Long
+    fun extractUserId(token: String): UUID =
+        UUID.fromString(extractClaims(token)["userId"] as String)
 
     fun extractRole(token: String): String =
         extractClaims(token)["role"] as String

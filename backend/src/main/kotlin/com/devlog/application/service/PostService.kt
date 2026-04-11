@@ -26,7 +26,7 @@ class PostService(
     }
 
     @Transactional
-    fun createPost(request: CreatePostRequest, authorId: Long): Post {
+    fun createPost(request: CreatePostRequest, authorId: UUID): Post {
         val slug = generateSlug(request.title)
 
         if (postRepository.existsBySlug(slug)) {

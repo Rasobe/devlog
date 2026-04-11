@@ -75,4 +75,8 @@ class PostRepositoryImpl(
         return jpa.save(entity).toDomain()
     }
 
+    override fun getTotalViewsByAuthor(authorId: UUID): Long {
+        TODO("Not yet implemented")
+    }
+
 }

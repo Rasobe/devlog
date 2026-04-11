@@ -18,4 +18,5 @@ interface PostRepository {
     fun delete(slug: String)
     fun existsBySlug(slug: String): Boolean
     fun updateBySlug(slug: String, post: Post): Post
+    fun getTotalViewsByAuthor(authorId: UUID): Long
 }

@@ -4,8 +4,8 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { createPost, deletePost, getPostBySlug, getPosts, login, type Options, register, updatePostBySlug } from '../sdk.gen';
-import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse } from '../types.gen';
+import { createPost, deletePost, getMe, getMyStats, getPostBySlug, getPosts, login, type Options, register, updatePostBySlug } from '../sdk.gen';
+import type { CreatePostData, CreatePostError, CreatePostResponse, DeletePostData, DeletePostResponse, GetMeData, GetMeError, GetMeResponse, GetMyStatsData, GetMyStatsResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse } from '../types.gen';
 
 /**
  * Delete a post
@@ -232,3 +232,41 @@ export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutatio
     };
     return mutationOptions;
 };
+
+export const getMyStatsQueryKey = (options?: Options<GetMyStatsData>) => createQueryKey('getMyStats', options);
+
+/**
+ * Get current user stats
+ */
+export const getMyStatsOptions = (options?: Options<GetMyStatsData>) => queryOptions<GetMyStatsResponse, AxiosError<DefaultError>, GetMyStatsResponse, ReturnType<typeof getMyStatsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getMyStats({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyStatsQueryKey(options)
+});
+
+export const getMeQueryKey = (options?: Options<GetMeData>) => createQueryKey('getMe', options);
+
+/**
+ * Get current user
+ *
+ * Returns the currently authenticated user details. Requires a valid JWT token.
+ */
+export const getMeOptions = (options?: Options<GetMeData>) => queryOptions<GetMeResponse, AxiosError<GetMeError>, GetMeResponse, ReturnType<typeof getMeQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getMe({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMeQueryKey(options)
+});

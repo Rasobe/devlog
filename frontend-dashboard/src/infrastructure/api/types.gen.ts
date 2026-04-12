@@ -46,11 +46,20 @@ export type LoginRequest = {
     password: string;
 };
 
+export type UserStatsResponse = {
+    totalViews: number;
+};
+
 export type PagedResultPostResponse = {
     content: Array<PostResponse>;
     totalElements: number;
     totalPages: number;
     currentPage: number;
+};
+
+export type UserResponse = {
+    email: string;
+    displayName: string;
 };
 
 export type DeletePostData = {
@@ -163,9 +172,6 @@ export type GetPostsResponse = GetPostsResponses[keyof GetPostsResponses];
 
 export type CreatePostData = {
     body: CreatePostRequest;
-    headers: {
-        Authorization: string;
-    };
     path?: never;
     query?: never;
     url: '/posts';
@@ -246,3 +252,48 @@ export type LoginResponses = {
 };
 
 export type LoginResponse = LoginResponses[keyof LoginResponses];
+
+export type GetMyStatsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/users/me/stats';
+};
+
+export type GetMyStatsResponses = {
+    /**
+     * OK
+     */
+    200: UserStatsResponse;
+};
+
+export type GetMyStatsResponse = GetMyStatsResponses[keyof GetMyStatsResponses];
+
+export type GetMeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type GetMeErrors = {
+    /**
+     * Unauthorized or Token Expired
+     */
+    401: UserResponse;
+    /**
+     * User not found
+     */
+    404: UserResponse;
+};
+
+export type GetMeError = GetMeErrors[keyof GetMeErrors];
+
+export type GetMeResponses = {
+    /**
+     * User details returned successfully
+     */
+    200: UserResponse;
+};
+
+export type GetMeResponse = GetMeResponses[keyof GetMeResponses];

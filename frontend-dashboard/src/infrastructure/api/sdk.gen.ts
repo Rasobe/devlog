@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
+import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetMeData, GetMeErrors, GetMeResponses, GetMyStatsData, GetMyStatsResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -109,4 +109,24 @@ export const login = <ThrowOnError extends boolean = false>(options: Options<Log
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Get current user stats
+ */
+export const getMyStats = <ThrowOnError extends boolean = false>(options?: Options<GetMyStatsData, ThrowOnError>) => (options?.client ?? client).get<GetMyStatsResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/users/me/stats',
+    ...options
+});
+
+/**
+ * Get current user
+ *
+ * Returns the currently authenticated user details. Requires a valid JWT token.
+ */
+export const getMe = <ThrowOnError extends boolean = false>(options?: Options<GetMeData, ThrowOnError>) => (options?.client ?? client).get<GetMeResponses, GetMeErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/auth/me',
+    ...options
 });

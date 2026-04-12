@@ -13,7 +13,7 @@ class UserRepositoryImpl(
         return jpa.findByEmail(email)?.toDomain()
     }
 
-    override fun findById(id: Long): User? {
+    override fun findById(id: java.util.UUID): User? {
         return jpa.findById(id).orElse(null)?.toDomain()
     }
 

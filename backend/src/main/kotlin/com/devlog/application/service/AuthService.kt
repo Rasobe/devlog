@@ -3,6 +3,7 @@ package com.devlog.application.service
 import com.devlog.api.dto.AuthResponse
 import com.devlog.api.dto.LoginRequest
 import com.devlog.api.dto.RegisterRequest
+import com.devlog.api.dto.UserResponse
 import com.devlog.api.exception.ResourceAlreadyExistsException
 import com.devlog.api.exception.UnauthorizedException
 import com.devlog.domain.model.User
@@ -57,6 +58,17 @@ class AuthService(
         val token = jwtService.generateToken(user.email, user.id, user.role)
         return AuthResponse(
             token = token,
+            email = user.email,
+            displayName = user.displayName
+        )
+    }
+
+    @Transactional(readOnly = true)
+    fun me(userId: java.util.UUID): UserResponse {
+        val user = userRepository.findById(userId)
+            ?: throw UnauthorizedException("User not found or disabled")
+
+        return UserResponse(
             email = user.email,
             displayName = user.displayName
         )

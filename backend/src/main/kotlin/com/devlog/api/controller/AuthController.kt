@@ -14,7 +14,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import com.devlog.api.dto.UserResponse
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
+import java.util.UUID
 
 @RestController
 @RequestMapping("/auth")
@@ -48,6 +52,20 @@ class AuthController(
     ])
     fun login(@Valid @RequestBody request: LoginRequest): ResponseEntity<AuthResponse> {
         return ResponseEntity.ok(authService.login(request))
+    }
+
+    @GetMapping("/me")
+    @Operation(
+        summary = "Get current user",
+        description = "Returns the currently authenticated user details. Requires a valid JWT token."
+    )
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "User details returned successfully"),
+        ApiResponse(responseCode = "401", description = "Unauthorized or Token Expired"),
+        ApiResponse(responseCode = "404", description = "User not found")
+    ])
+    fun getMe(@org.springframework.security.core.annotation.AuthenticationPrincipal userId: UUID): ResponseEntity<UserResponse> {
+        return ResponseEntity.ok(authService.me(userId))
     }
 
 }

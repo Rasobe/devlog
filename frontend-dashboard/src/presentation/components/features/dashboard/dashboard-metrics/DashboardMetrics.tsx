@@ -6,7 +6,8 @@ import { DashboardMetricsSkeleton } from "./DashboardMetricsSkeleton";
 import { CheckCircle2, FileText, ChartColumn } from "lucide-react";
 
 export const DashboardMetrics = () => {
-  const { published, drafts, totalViews, isLoading, error } = useDashboardMetrics();
+  const { totalPublishedPosts, totalDraftPosts, totalViews, isLoading, error } =
+    useDashboardMetrics();
 
   if (isLoading) return <DashboardMetricsSkeleton />;
   if (error)
@@ -21,12 +22,12 @@ export const DashboardMetrics = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <MetricCard
-        value={published}
+        value={totalPublishedPosts}
         label="Publicados"
         icon={<CheckCircle2 className="text-emerald-500" />}
       />
       <MetricCard
-        value={drafts}
+        value={totalDraftPosts}
         label="Borradores en Curso"
         icon={<FileText className="text-amber-500" />}
       />

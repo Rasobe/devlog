@@ -1,13 +1,18 @@
 "use client";
 
 import { Album, ChartColumn, CheckCircle2, FileText } from "lucide-react";
-import { MetricCard } from "@/presentation/components/global";
+import { MetricCard, Skeleton } from "@/presentation/components/global";
 import { usePostsMetrics } from "./usePostsMetrics";
-import { Skeleton } from "@/presentation/components/global";
 
 export const PostsMetrics = () => {
-  const { total, published, drafts, totalViews, isLoading, error } =
-    usePostsMetrics();
+  const {
+    totalPosts,
+    totalPublishedPosts,
+    totalDraftPosts,
+    totalViews,
+    isLoading,
+    error,
+  } = usePostsMetrics();
 
   if (isLoading) {
     return (
@@ -25,21 +30,21 @@ export const PostsMetrics = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       {/* Total de Publicaciones */}
       <MetricCard
-        value={total}
+        value={totalPosts}
         label="Publicaciones Totales"
         icon={<Album className="text-blue-500" />}
       />
 
       {/* Publicados */}
       <MetricCard
-        value={published}
+        value={totalPublishedPosts}
         label="Publicados"
         icon={<CheckCircle2 className="text-emerald-500" />}
       />
 
       {/* Borradores */}
       <MetricCard
-        value={drafts}
+        value={totalDraftPosts}
         label="Borradores"
         icon={<FileText className="text-amber-500" />}
       />

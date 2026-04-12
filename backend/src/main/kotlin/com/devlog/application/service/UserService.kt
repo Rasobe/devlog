@@ -13,6 +13,15 @@ class UserService(
 ) {
     fun getStats(authorId: UUID): UserStatsResponse {
         val totalViews = postRepository.getTotalViewsByAuthor(authorId)
-        return UserStatsResponse(totalViews)
+        val totalPosts = postRepository.getTotalPostsByAuthor(authorId)
+        val totalPublished = postRepository.getTotalPublishedPostsByAuthor(authorId)
+        val totalDrafts = postRepository.getTotalDraftPostsByAuthor(authorId)
+
+        return UserStatsResponse(
+            totalPosts = totalPosts,
+            totalPublishedPosts = totalPublished,
+            totalDraftPosts = totalDrafts,
+            totalViews = totalViews
+        )
     }
 }

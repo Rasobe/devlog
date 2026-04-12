@@ -19,4 +19,7 @@ interface PostJpaRepository : JpaRepository<PostEntity, UUID> {
 
     @Query("SELECT COALESCE(SUM(p.views), 0) FROM PostEntity p WHERE p.authorId = :authorId")
     fun sumViewsByAuthorId(@Param("authorId") authorId: UUID): Long
+
+    fun countByAuthorId(authorId: UUID): Long
+    fun countByAuthorIdAndPublished(authorId: UUID, published: Boolean): Long
 }

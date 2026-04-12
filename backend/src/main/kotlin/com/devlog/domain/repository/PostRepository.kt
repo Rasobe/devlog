@@ -19,4 +19,7 @@ interface PostRepository {
     fun existsBySlug(slug: String): Boolean
     fun updateBySlug(slug: String, post: Post): Post
     fun getTotalViewsByAuthor(authorId: UUID): Long
+    fun getTotalPostsByAuthor(authorId: UUID): Long
+    fun getTotalPublishedPostsByAuthor(authorId: UUID): Long
+    fun getTotalDraftPostsByAuthor(authorId: UUID): Long
 }

@@ -79,4 +79,16 @@ class PostRepositoryImpl(
         return jpa.sumViewsByAuthorId(authorId)
     }
 
+    override fun getTotalPostsByAuthor(authorId: UUID): Long {
+        return jpa.countByAuthorId(authorId)
+    }
+
+    override fun getTotalPublishedPostsByAuthor(authorId: UUID): Long {
+        return jpa.countByAuthorIdAndPublished(authorId, true)
+    }
+
+    override fun getTotalDraftPostsByAuthor(authorId: UUID): Long {
+        return jpa.countByAuthorIdAndPublished(authorId, false)
+    }
+
 }

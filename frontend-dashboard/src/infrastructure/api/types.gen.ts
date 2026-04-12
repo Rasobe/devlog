@@ -47,6 +47,9 @@ export type LoginRequest = {
 };
 
 export type UserStatsResponse = {
+    totalPosts: number;
+    totalPublishedPosts: number;
+    totalDraftPosts: number;
     totalViews: number;
 };
 

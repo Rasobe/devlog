@@ -16,6 +16,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
@@ -79,9 +80,8 @@ class PostController(
     ])
     fun createPost(
         @Valid @RequestBody request: CreatePostRequest,
-        @RequestHeader("Authorization") authHeader: String
+        @AuthenticationPrincipal userId: UUID
     ): ResponseEntity<PostResponse> {
-        val userId = jwtService.extractUserId(authHeader.substring(7))
         val createdPost = postService.createPost(request, userId)
         return ResponseEntity.status(HttpStatus.CREATED).body(PostResponse.fromDomain(createdPost))
     }

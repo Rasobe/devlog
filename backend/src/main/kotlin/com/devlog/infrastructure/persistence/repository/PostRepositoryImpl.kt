@@ -76,7 +76,7 @@ class PostRepositoryImpl(
     }
 
     override fun getTotalViewsByAuthor(authorId: UUID): Long {
-        TODO("Not yet implemented")
+        return jpa.sumViewsByAuthorId(authorId)
     }
 
 }

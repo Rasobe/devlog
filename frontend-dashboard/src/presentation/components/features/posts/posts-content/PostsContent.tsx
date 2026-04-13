@@ -7,8 +7,11 @@ import {
   DataTable,
   ErrorState,
   Select,
+  TableActionBtn,
+  TableActions,
 } from "@/presentation/components/global";
 import { formatFullDate } from "@/core/utils";
+import { ROUTES } from "@/presentation/config/routes";
 
 const columns = [
   {
@@ -34,6 +37,24 @@ const columns = [
       <span className="text-muted-foreground">
         {formatFullDate(post.createdAt)}
       </span>
+    ),
+  },
+  {
+    key: "actions",
+    header: "",
+    render: (post: Post) => (
+      <TableActions>
+        <TableActionBtn
+          variant="view"
+          href={ROUTES.POSTS_EDIT(post.slug)}
+          title="Ver"
+        />
+        <TableActionBtn
+          variant="edit"
+          href={ROUTES.POSTS_EDIT(post.slug)}
+          title="Editar"
+        />
+      </TableActions>
     ),
   },
 ];

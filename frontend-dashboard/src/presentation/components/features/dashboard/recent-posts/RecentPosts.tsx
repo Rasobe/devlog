@@ -68,7 +68,7 @@ const columns = [
 ];
 
 export const RecentPosts = () => {
-  const { posts, isLoading, error } = useRecentPosts();
+  const { posts, error } = useRecentPosts();
 
   if (error) {
     return <ErrorState showBackButton={false} />;

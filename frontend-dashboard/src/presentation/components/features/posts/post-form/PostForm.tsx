@@ -1,10 +1,12 @@
 "use client";
 
+import { Controller } from "react-hook-form";
 import { usePostForm } from "./usePostForm";
 import {
   Button,
   ErrorState,
   FetchState,
+  MarkdownEditor,
   Switch,
   TextArea,
   TextField,
@@ -85,12 +87,17 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
             error={errors.excerpt?.message}
           />
 
-          <TextArea
-            label="Contenido"
-            placeholder="Escribe el contenido de tu entrada..."
-            rows={12}
-            {...register("content")}
-            error={errors.content?.message}
+          <Controller
+            name="content"
+            control={form.control}
+            render={({ field }) => (
+              <MarkdownEditor
+                label="Contenido"
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.content?.message}
+              />
+            )}
           />
 
           {/* Toggle publicación */}

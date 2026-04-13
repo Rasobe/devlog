@@ -60,7 +60,7 @@ export const DataTable = <T,>({
                 onChange={(e) => setLocalSearch(e.target.value)}
                 placeholder={search.placeholder ?? "Buscar..."}
                 className="pl-10 h-10!"
-                disabled={isLoading || data?.length === 0}
+                disabled={isLoading}
               />
             </div>
           )}

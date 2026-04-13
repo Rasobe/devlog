@@ -4,16 +4,13 @@ import { getPostsUseCase } from "@/infrastructure/dependencies";
 import { useQuery } from "@tanstack/react-query";
 
 export const useRecentPosts = () => {
-  const { data, isLoading, error } = useQuery<PagedResult<Post>>({
+  const { data, error } = useQuery<PagedResult<Post>>({
     queryKey: ["posts"],
     queryFn: () => getPostsUseCase.execute(0, 5),
   });
 
-  const posts = data?.content ?? [];
-
   return {
-    posts,
-    isLoading,
+    posts: data?.content,
     error,
   };
 };

@@ -1,7 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authStorage, type StoredUser } from "@/infrastructure/services/auth-storage";
+import {
+  authStorage,
+  type StoredUser,
+} from "@/infrastructure/services/auth-storage";
 import { useState, useCallback, useEffect } from "react";
-import { loginUseCase } from "@/infrastructure/dependencies";
+import {
+  getCurrentUserUseCase,
+  loginUseCase,
+} from "@/infrastructure/dependencies";
 import type { LoginError } from "@/infrastructure/api/types.gen";
 import type { AuthResult } from "@/domain/models/auth.model";
 import { useRouter } from "next/navigation";
@@ -16,17 +22,26 @@ export function useAuth() {
   const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
   useEffect(() => {
-    Promise.resolve().then(() => {
+    const initialize = async () => {
       const token = authStorage.getToken();
       const storedUser = authStorage.getUser();
-      
+
       if (token && storedUser) {
-        setIsAuthenticated(true);
-        setUser(storedUser);
+        try {
+          await getCurrentUserUseCase.execute();
+          setIsAuthenticated(true);
+          setUser(storedUser);
+        } catch {
+          authStorage.clear();
+          setIsAuthenticated(false);
+          setUser(null);
+        }
       }
-      
+
       setIsInitializing(false);
-    });
+    };
+
+    initialize();
   }, []);
 
   const loginMut = useMutation<

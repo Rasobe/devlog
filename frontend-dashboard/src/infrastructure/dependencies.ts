@@ -1,6 +1,7 @@
 import {
     CreatePostUseCase,
     DeletePostUseCase,
+    GetCurrentUserUseCase,
     GetPostBySlugUseCase,
     GetPostsUseCase,
     GetUserStatsUseCase,
@@ -15,6 +16,7 @@ import {
 
 export const authRepository = new AuthRepositoryImpl();
 export const loginUseCase = new LoginUseCase(authRepository);
+export const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository);
 
 export const userRepository = new UserRepositoryImpl();
 export const getUserStatsUseCase = new GetUserStatsUseCase(userRepository);

@@ -1,9 +1,9 @@
 "use client"
 
-import { useAuth } from "@/presentation/hooks/useAuth";
+import { useAuthContext } from "@/presentation/store/AuthContext";
 
 export const DashboardHeader = () => {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
 
   return (
     <div>

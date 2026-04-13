@@ -2,7 +2,7 @@ import { createClient } from "@hey-api/client-axios";
 import { authStorage } from "@/infrastructure/services/auth-storage";
 
 export const apiClient = createClient({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "http://localhost:8080/api/v1",
 });
 
 apiClient.instance.interceptors.request.use((config) => {

@@ -1,13 +1,17 @@
-import { AuthRepositoryImpl } from "./repositories/auth.repository.impl";
-import { LoginUseCase } from "@/application/use-cases/auth/login.useCase";
-import { PostRepositoryImpl } from "./repositories/post.repository.impl";
-import { GetPostsUseCase } from "@/application/use-cases/app/get-posts.useCase";
-import { CreatePostUseCase } from "@/application/use-cases/app/create-post.useCase";
-import { GetPostBySlugUseCase } from "@/application/use-cases/app/get-post-by-slug.useCase";
-import { UpdatePostUseCase } from "@/application/use-cases/app/update-post.useCase";
-import { DeletePostUseCase } from "@/application/use-cases/app/delete-post.useCase";
-import { GetUserStatsUseCase } from "@/application/use-cases/app/get-user-stats.useCase";
-import { UserRepositoryImpl } from "./repositories/user.repository.impl";
+import {
+    CreatePostUseCase,
+    DeletePostUseCase,
+    GetPostBySlugUseCase,
+    GetPostsUseCase,
+    GetUserStatsUseCase,
+    LoginUseCase,
+    UpdatePostUseCase,
+} from "@/application/use-cases";
+import {
+    AuthRepositoryImpl,
+    PostRepositoryImpl,
+    UserRepositoryImpl,
+} from "./repositories";
 
 export const authRepository = new AuthRepositoryImpl();
 export const loginUseCase = new LoginUseCase(authRepository);

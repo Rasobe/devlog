@@ -1,20 +1,13 @@
 import { db } from "@/db";
 import { posts, postTags, tags } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
-import { and, eq } from "drizzle-orm";
-
-export type PostUpdate = Partial<
-  Omit<typeof posts.$inferInsert, "id" | "createdAt" | "authorId">
->;
-
-export type CreatePostInput = {
-  title: string;
-  content: string;
-  excerpt: string;
-  authorId: string;
-  published?: boolean;
-  categoryId?: string | null;
-};
+import { and, count, eq } from "drizzle-orm";
+import type {
+  PaginationParams,
+  PaginatedResult,
+  CreatePostInput,
+  PostUpdate,
+} from "./posts.types";
 
 const postWithRelations = {
   author: {
@@ -27,11 +20,33 @@ const postWithRelations = {
 } as const;
 
 export const postsService = {
-  findAll: async () => {
-    return db.query.posts.findMany({
-      with: postWithRelations,
-      orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-    });
+  findAll: async ({
+    page,
+    limit,
+  }: PaginationParams): Promise<PaginatedResult<any>> => {
+    const offset = (page - 1) * limit;
+    console.log({ page, limit, offset });
+    const [result, countResult] = await Promise.all([
+      db.query.posts.findMany({
+        with: postWithRelations,
+        orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+        limit,
+        offset,
+      }),
+      db.select({ total: count() }).from(posts),
+    ]);
+
+    const total = countResult[0]?.total ?? 0;
+
+    return {
+      data: result,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   },
 
   findById: async (id: string) => {

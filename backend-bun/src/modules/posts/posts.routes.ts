@@ -25,9 +25,21 @@ const updatePostBody = t.Object({
 
 export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   // Public routes
-  .get("/", () => postsService.findAll(), {
-    detail: { summary: "Get all posts" },
-  })
+  .get(
+    "/",
+    async ({ query }) => {
+      const page = Number(query.page) || 1;
+      const limit = Number(query.limit) || 10;
+      return postsService.findAll({ page, limit });
+    },
+    {
+      query: t.Object({
+        page: t.Optional(t.String()),
+        limit: t.Optional(t.String()),
+      }),
+      detail: { summary: "Get posts paginated" },
+    },
+  )
   .get(
     "/slug/:slug",
     async ({ params: { slug }, set }) => {
@@ -126,7 +138,8 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       } catch (e: unknown) {
         set.status = 404;
         return {
-          message: e instanceof Error ? e.message : "Could not remove tag from post",
+          message:
+            e instanceof Error ? e.message : "Could not remove tag from post",
         };
       }
     },

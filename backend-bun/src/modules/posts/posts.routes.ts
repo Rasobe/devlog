@@ -1,14 +1,13 @@
 import { Elysia, t } from "elysia";
 import { postsService } from "./posts.service";
+import { authPlugin } from "@/plugins/auth.plugin";
 
 // --- Body Schemas ---
 
 const createPostBody = t.Object({
   title: t.String(),
-  slug: t.String(),
   content: t.String(),
   excerpt: t.String(),
-  authorId: t.String(),
   published: t.Optional(t.Boolean()),
   categoryId: t.Optional(t.Nullable(t.String())),
 });
@@ -25,6 +24,7 @@ const updatePostBody = t.Object({
 // --- Routes ---
 
 export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
+  // Public routes
   .get("/", () => postsService.findAll(), {
     detail: { summary: "Get all posts" },
   })
@@ -52,11 +52,13 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     { detail: { summary: "Get post by ID" } },
   )
+  // Protected routes
+  .use(authPlugin)
   .post(
     "/",
-    async ({ body, set }) => {
+    async ({ body, user, set }) => {
       try {
-        return await postsService.create(body);
+        return await postsService.create({ ...body, authorId: user!.id });
       } catch {
         set.status = 400;
         return { message: "Could not create post" };
@@ -64,6 +66,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: createPostBody,
+      requireAuth: true,
       detail: { summary: "Create a new post" },
     },
   )
@@ -79,6 +82,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: updatePostBody,
+      requireAuth: true,
       detail: { summary: "Update a post" },
     },
   )
@@ -92,5 +96,8 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
       return deleted;
     },
-    { detail: { summary: "Delete a post" } },
+    {
+      requireAuth: true,
+      detail: { summary: "Delete a post" },
+    },
   );

@@ -2,13 +2,20 @@ import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// Types inferred from schema
 export type PostInsert = typeof posts.$inferInsert;
 export type PostUpdate = Partial<
   Omit<PostInsert, "id" | "createdAt" | "authorId">
 >;
 
-// Shared relation config, avoid repeating across queries
+export type CreatePostInput = {
+  title: string;
+  content: string;
+  excerpt: string;
+  authorId: string;
+  published?: boolean;
+  categoryId?: string | null;
+};
+
 const postWithRelations = {
   author: {
     columns: { id: true, displayName: true, email: true },
@@ -18,6 +25,16 @@ const postWithRelations = {
     with: { tag: true },
   },
 } as const;
+
+const generateSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+};
 
 export const postsService = {
   findAll: async () => {
@@ -41,15 +58,23 @@ export const postsService = {
     });
   },
 
-  create: async (data: PostInsert) => {
-    const [created] = await db.insert(posts).values(data).returning();
+  create: async (data: CreatePostInput) => {
+    const slug = generateSlug(data.title);
+    const [created] = await db
+      .insert(posts)
+      .values({ ...data, slug })
+      .returning();
     return created!;
   },
 
   update: async (id: string, data: PostUpdate) => {
+    const updateData = data.title
+      ? { ...data, slug: generateSlug(data.title), updatedAt: new Date() }
+      : { ...data, updatedAt: new Date() };
+
     const [updated] = await db
       .update(posts)
-      .set({ ...data, updatedAt: new Date() })
+      .set(updateData)
       .where(eq(posts.id, id))
       .returning();
     return updated;

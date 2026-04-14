@@ -3,6 +3,7 @@ import Elysia from "elysia";
 import { env } from "./config/env";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { postsRoutes } from "./modules/posts/posts.routes";
+import { categoriesRoutes } from "./modules/categories/categories.routes";
 
 const app = new Elysia()
   .use(
@@ -20,7 +21,9 @@ const app = new Elysia()
     status: "ok",
     timestamp: new Date().toISOString(),
   }))
-  .group("/api/v1", (app) => app.use(authRoutes).use(postsRoutes))
+  .group("/api/v1", (app) =>
+    app.use(authRoutes).use(postsRoutes).use(categoriesRoutes),
+  )
   .listen(env.PORT);
 
 console.log(`🦊 DevLog API running at http://localhost:${env.PORT}`);

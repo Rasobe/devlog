@@ -1,9 +1,9 @@
-export type PaginationParams = {
+export interface PaginationParams {
   page: number;
   limit: number;
-};
+}
 
-export type PaginatedResult<T> = {
+export interface PaginatedResult<T> {
   data: T[];
   meta: {
     total: number;
@@ -11,4 +11,4 @@ export type PaginatedResult<T> = {
     limit: number;
     totalPages: number;
   };
-};
+}

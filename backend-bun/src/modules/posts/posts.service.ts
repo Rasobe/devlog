@@ -1,10 +1,10 @@
 import { db } from "@/db";
 import { posts, postTags, tags } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
-import { and, count, eq } from "drizzle-orm";
+import { and, count, eq, desc, inArray } from "drizzle-orm";
 import type {
-  PaginationParams,
-  PaginatedResult,
+  PostPaginationParams,
+  PostPaginatedResult,
   CreatePostInput,
   PostUpdate,
 } from "./posts.types";
@@ -23,18 +23,29 @@ export const postsService = {
   findAll: async ({
     page,
     limit,
-  }: PaginationParams): Promise<PaginatedResult<any>> => {
+  }: PostPaginationParams): Promise<PostPaginatedResult> => {
     const offset = (page - 1) * limit;
-    console.log({ page, limit, offset });
-    const [result, countResult] = await Promise.all([
-      db.query.posts.findMany({
-        with: postWithRelations,
-        orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-        limit,
-        offset,
-      }),
+
+    const [paginatedPosts, countResult] = await Promise.all([
+      db
+        .select({ id: posts.id })
+        .from(posts)
+        .orderBy(desc(posts.createdAt))
+        .limit(limit)
+        .offset(offset),
       db.select({ total: count() }).from(posts),
     ]);
+
+    const ids = paginatedPosts.map((p) => p.id);
+
+    const result =
+      ids.length > 0
+        ? await db.query.posts.findMany({
+            where: inArray(posts.id, ids),
+            with: postWithRelations,
+            orderBy: (posts, { desc }) => [desc(posts.createdAt)],
+          })
+        : [];
 
     const total = countResult[0]?.total ?? 0;
 

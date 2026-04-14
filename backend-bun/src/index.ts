@@ -1,7 +1,8 @@
 import swagger from "@elysiajs/swagger";
-import { timestamp } from "drizzle-orm/gel-core";
-import Elysia, { status } from "elysia";
+import Elysia from "elysia";
 import { env } from "./config/env";
+import { authRoutes } from "./modules/auth/auth.routes";
+import { postsRoutes } from "./modules/posts/posts.routes";
 
 const app = new Elysia()
   .use(
@@ -10,7 +11,7 @@ const app = new Elysia()
         info: {
           title: "DevLog API",
           version: "1.0.0",
-          description: "API for DevLog bloging platform",
+          description: "API for DevLog blogging platform",
         },
       },
     }),
@@ -19,6 +20,7 @@ const app = new Elysia()
     status: "ok",
     timestamp: new Date().toISOString(),
   }))
+  .group("/api/v1", (app) => app.use(authRoutes).use(postsRoutes))
   .listen(env.PORT);
 
 console.log(`🦊 DevLog API running at http://localhost:${env.PORT}`);

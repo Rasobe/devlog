@@ -100,4 +100,38 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       requireAuth: true,
       detail: { summary: "Delete a post" },
     },
+  )
+  .put(
+    "/slug/:slug/tags/:tagSlug",
+    async ({ params: { slug: postSlug, tagSlug }, set }) => {
+      try {
+        return await postsService.addTag(postSlug, tagSlug);
+      } catch (e: unknown) {
+        set.status = 400;
+        return {
+          message: e instanceof Error ? e.message : "Could not add tag to post",
+        };
+      }
+    },
+    {
+      requireAuth: true,
+      detail: { summary: "Add a tag to a post" },
+    },
+  )
+  .delete(
+    "/slug/:slug/tags/:tagSlug",
+    async ({ params: { slug: postSlug, tagSlug }, set }) => {
+      try {
+        return await postsService.removeTag(postSlug, tagSlug);
+      } catch (e: unknown) {
+        set.status = 404;
+        return {
+          message: e instanceof Error ? e.message : "Could not remove tag from post",
+        };
+      }
+    },
+    {
+      requireAuth: true,
+      detail: { summary: "Remove a tag from a post" },
+    },
   );

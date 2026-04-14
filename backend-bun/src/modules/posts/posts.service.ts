@@ -1,7 +1,7 @@
 import { db } from "@/db";
-import { posts } from "@/db/schema";
+import { posts, postTags, tags } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export type PostUpdate = Partial<
   Omit<typeof posts.$inferInsert, "id" | "createdAt" | "authorId">
@@ -75,6 +75,64 @@ export const postsService = {
       .delete(posts)
       .where(eq(posts.id, id))
       .returning();
+    return deleted;
+  },
+
+  addTag: async (postSlug: string, tagSlug: string) => {
+    const post = await db.query.posts.findFirst({
+      where: eq(posts.slug, postSlug),
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    const tag = await db.query.tags.findFirst({
+      where: eq(tags.slug, tagSlug),
+    });
+
+    if (!tag) {
+      throw new Error("Tag not found");
+    }
+
+    const already = await db.query.postTags.findFirst({
+      where: and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)),
+    });
+
+    if (already) {
+      throw new Error("Tag already assigned to this post");
+    }
+
+    const [created] = await db
+      .insert(postTags)
+      .values({ postId: post.id, tagId: tag.id })
+      .returning();
+
+    return created;
+  },
+
+  removeTag: async (postSlug: string, tagSlug: string) => {
+    const post = await db.query.posts.findFirst({
+      where: eq(posts.slug, postSlug),
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    const tag = await db.query.tags.findFirst({
+      where: eq(tags.slug, tagSlug),
+    });
+
+    if (!tag) {
+      throw new Error("Tag not found");
+    }
+
+    const [deleted] = await db
+      .delete(postTags)
+      .where(and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)))
+      .returning();
+
     return deleted;
   },
 };

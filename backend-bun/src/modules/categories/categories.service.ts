@@ -1,8 +1,7 @@
 import { db } from "@/db";
 import { categories } from "@/db/schema";
-import { eq, type Update } from "drizzle-orm";
-
-export type CategoryInsert = typeof categories.$inferInsert;
+import { generateSlug } from "@/lib/slug";
+import { eq } from "drizzle-orm";
 
 export type CreateCategoryInput = {
   name: string;
@@ -10,16 +9,6 @@ export type CreateCategoryInput = {
 
 export type UpdateCategoryInput = {
   name?: string;
-};
-
-const generateSlug = (name: string): string => {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
 };
 
 export const categoriesService = {
@@ -46,11 +35,10 @@ export const categoriesService = {
 
     const [category] = await db
       .insert(categories)
-      .values({
-        name: data.name,
-        slug,
-      })
+      .values({ name: data.name, slug })
       .returning();
+
+    if (!category) throw new Error("Failed to create category");
 
     return category;
   },
@@ -64,17 +52,17 @@ export const categoriesService = {
       throw new Error("Category not found");
     }
 
+    // Only compute new slug if name is being changed
     const updateData = data.name
       ? { name: data.name, slug: generateSlug(data.name) }
-      : { name: data.name };
+      : {};
 
     if (updateData.slug && updateData.slug !== slug) {
-      const existingNewSlug = await db.query.categories.findFirst({
+      const slugConflict = await db.query.categories.findFirst({
         where: eq(categories.slug, updateData.slug),
       });
-
-      if (existingNewSlug) {
-        throw new Error("Category already exists");
+      if (slugConflict) {
+        throw new Error("Category with that name already exists");
       }
     }
 

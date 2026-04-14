@@ -1,10 +1,10 @@
 import { db } from "@/db";
 import { posts } from "@/db/schema";
+import { generateSlug } from "@/lib/slug";
 import { eq } from "drizzle-orm";
 
-export type PostInsert = typeof posts.$inferInsert;
 export type PostUpdate = Partial<
-  Omit<PostInsert, "id" | "createdAt" | "authorId">
+  Omit<typeof posts.$inferInsert, "id" | "createdAt" | "authorId">
 >;
 
 export type CreatePostInput = {
@@ -25,16 +25,6 @@ const postWithRelations = {
     with: { tag: true },
   },
 } as const;
-
-const generateSlug = (title: string): string => {
-  return title
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-};
 
 export const postsService = {
   findAll: async () => {

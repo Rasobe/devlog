@@ -1,8 +1,8 @@
-// --- Body Schemas ---
-
-import Elysia, { t } from "elysia";
-import { categoriesService } from "./categories.service";
+import { Elysia, t } from "elysia";
 import { authPlugin } from "@/plugins/auth.plugin";
+import { categoriesService } from "./categories.service";
+
+// --- Body Schemas ---
 
 const createCategoryBody = t.Object({
   name: t.String(),
@@ -12,7 +12,7 @@ const updateCategoryBody = t.Object({
   name: t.Optional(t.String()),
 });
 
-/// --- Routes ---
+// --- Routes ---
 
 export const categoriesRoutes = new Elysia({
   prefix: "/categories",
@@ -32,19 +32,20 @@ export const categoriesRoutes = new Elysia({
       }
       return category;
     },
-    {
-      detail: { summary: "Get category by slug" },
-    },
+    { detail: { summary: "Get category by slug" } },
   )
+  // Protected routes
   .use(authPlugin)
   .post(
     "/",
     async ({ body, set }) => {
       try {
         return await categoriesService.create(body);
-      } catch {
+      } catch (e: unknown) {
         set.status = 400;
-        return { message: "Could not create category" };
+        return {
+          message: e instanceof Error ? e.message : "Could not create category",
+        };
       }
     },
     {
@@ -81,7 +82,8 @@ export const categoriesRoutes = new Elysia({
       } catch (e: unknown) {
         set.status = 404;
         return {
-          message: e instanceof Error ? e.message : "Could not delete category",
+          message:
+            e instanceof Error ? e.message : "Could not delete category",
         };
       }
     },

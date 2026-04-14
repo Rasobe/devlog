@@ -4,6 +4,7 @@ import { env } from "./config/env";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { postsRoutes } from "./modules/posts/posts.routes";
 import { categoriesRoutes } from "./modules/categories/categories.routes";
+import { tagsRoutes } from "./modules/tags/tags.routes";
 
 const app = new Elysia()
   .use(
@@ -22,7 +23,7 @@ const app = new Elysia()
     timestamp: new Date().toISOString(),
   }))
   .group("/api/v1", (app) =>
-    app.use(authRoutes).use(postsRoutes).use(categoriesRoutes),
+    app.use(authRoutes).use(postsRoutes).use(categoriesRoutes).use(tagsRoutes),
   )
   .listen(env.PORT);
 

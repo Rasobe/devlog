@@ -1,19 +1,21 @@
 import { db } from "@/db";
-import { posts, postTags, tags } from "@/db/schema";
+import { categories, posts, postTags, tags } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
-import { and, count, eq, desc, inArray } from "drizzle-orm";
+import { and, count, eq, desc, inArray, ilike, exists } from "drizzle-orm";
 import type {
   PostPaginationParams,
-  PostPaginatedResult,
   CreatePostInput,
   PostUpdate,
 } from "./posts.types";
+import type { PaginatedResult } from "@/types/pagination";
 
 const postWithRelations = {
   author: {
-    columns: { id: true, displayName: true, email: true },
+    columns: { displayName: true, email: true },
   },
-  category: true,
+  category: {
+    columns: { name: true, slug: true },
+  },
   postTags: {
     with: { tag: true },
   },
@@ -23,17 +25,48 @@ export const postsService = {
   findAll: async ({
     page,
     limit,
-  }: PostPaginationParams): Promise<PostPaginatedResult> => {
+    search,
+    category,
+    tag,
+    published,
+  }: PostPaginationParams): Promise<PaginatedResult<any>> => {
     const offset = (page - 1) * limit;
+
+    const tagFilter = tag
+      ? exists(
+          db
+            .select()
+            .from(postTags)
+            .innerJoin(tags, eq(postTags.tagId, tags.id))
+            .where(and(eq(postTags.postId, posts.id), eq(tags.slug, tag))),
+        )
+      : undefined;
+
+    const where = and(
+      published === undefined ? undefined : eq(posts.published, published),
+      search ? ilike(posts.title, `%${search}%`) : undefined,
+      category
+        ? eq(
+            posts.categoryId,
+            db
+              .select({ id: categories.id })
+              .from(categories)
+              .where(eq(categories.slug, category))
+              .limit(1),
+          )
+        : undefined,
+      tagFilter,
+    );
 
     const [paginatedPosts, countResult] = await Promise.all([
       db
         .select({ id: posts.id })
         .from(posts)
+        .where(where)
         .orderBy(desc(posts.createdAt))
         .limit(limit)
         .offset(offset),
-      db.select({ total: count() }).from(posts),
+      db.select({ total: count() }).from(posts).where(where),
     ]);
 
     const ids = paginatedPosts.map((p) => p.id);
@@ -42,6 +75,10 @@ export const postsService = {
       ids.length > 0
         ? await db.query.posts.findMany({
             where: inArray(posts.id, ids),
+            columns: {
+              categoryId: false,
+              authorId: false,
+            },
             with: postWithRelations,
             orderBy: (posts, { desc }) => [desc(posts.createdAt)],
           })
@@ -64,6 +101,10 @@ export const postsService = {
     return db.query.posts.findFirst({
       where: eq(posts.id, id),
       with: postWithRelations,
+      columns: {
+        categoryId: false,
+        authorId: false,
+      },
     });
   },
 
@@ -71,6 +112,10 @@ export const postsService = {
     return db.query.posts.findFirst({
       where: eq(posts.slug, slug),
       with: postWithRelations,
+      columns: {
+        categoryId: false,
+        authorId: false,
+      },
     });
   },
 
@@ -83,7 +128,7 @@ export const postsService = {
     return created!;
   },
 
-  update: async (id: string, data: PostUpdate) => {
+  update: async (slug: string, data: PostUpdate) => {
     const updateData = data.title
       ? { ...data, slug: generateSlug(data.title), updatedAt: new Date() }
       : { ...data, updatedAt: new Date() };
@@ -91,15 +136,15 @@ export const postsService = {
     const [updated] = await db
       .update(posts)
       .set(updateData)
-      .where(eq(posts.id, id))
+      .where(eq(posts.slug, slug))
       .returning();
     return updated;
   },
 
-  delete: async (id: string) => {
+  delete: async (slug: string) => {
     const [deleted] = await db
       .delete(posts)
-      .where(eq(posts.id, id))
+      .where(eq(posts.slug, slug))
       .returning();
     return deleted;
   },

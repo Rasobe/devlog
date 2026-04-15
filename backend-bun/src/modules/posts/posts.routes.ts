@@ -30,12 +30,26 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     async ({ query }) => {
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
-      return postsService.findAll({ page, limit });
+      const published =
+        query.published === undefined ? undefined : query.published === "true";
+
+      return postsService.findAll({
+        page,
+        limit,
+        search: query.search,
+        category: query.category,
+        tag: query.tag,
+        published,
+      });
     },
     {
       query: t.Object({
         page: t.Optional(t.String()),
         limit: t.Optional(t.String()),
+        search: t.Optional(t.String()),
+        category: t.Optional(t.String()),
+        tag: t.Optional(t.String()),
+        published: t.Optional(t.String()),
       }),
       detail: { summary: "Get posts paginated" },
     },
@@ -51,18 +65,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       return post;
     },
     { detail: { summary: "Get post by slug" } },
-  )
-  .get(
-    "/:id",
-    async ({ params: { id }, set }) => {
-      const post = await postsService.findById(id);
-      if (!post) {
-        set.status = 404;
-        return { message: "Post not found" };
-      }
-      return post;
-    },
-    { detail: { summary: "Get post by ID" } },
   )
   // Protected routes
   .use(authPlugin)
@@ -83,9 +85,9 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
   )
   .patch(
-    "/:id",
-    async ({ params: { id }, body, set }) => {
-      const updated = await postsService.update(id, body);
+    "/slug/:slug",
+    async ({ params: { slug }, body, set }) => {
+      const updated = await postsService.update(slug, body);
       if (!updated) {
         set.status = 404;
         return { message: "Post not found" };
@@ -99,9 +101,9 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
   )
   .delete(
-    "/:id",
-    async ({ params: { id }, set }) => {
-      const deleted = await postsService.delete(id);
+    "/slug/:slug",
+    async ({ params: { slug }, set }) => {
+      const deleted = await postsService.delete(slug);
       if (!deleted) {
         set.status = 404;
         return { message: "Post not found" };

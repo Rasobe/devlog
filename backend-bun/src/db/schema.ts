@@ -43,7 +43,7 @@ export const posts = pgTable("posts", {
   slug: text("slug").notNull().unique(),
   content: text("content").notNull(),
   excerpt: text("excerpt").notNull(),
-  published: boolean("published").default(false).notNull(),
+  published: boolean("published").default(false),
   authorId: uuid("author_id")
     .references(() => users.id)
     .notNull(),

@@ -82,13 +82,11 @@ export const categoriesRoutes = new Elysia({
       } catch (e: unknown) {
         set.status = 404;
         return {
-          message:
-            e instanceof Error ? e.message : "Could not delete category",
+          message: e instanceof Error ? e.message : "Could not delete category",
         };
       }
     },
     {
-      requireAuth: true,
       detail: { summary: "Delete a category" },
     },
   );

@@ -111,7 +111,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       return deleted;
     },
     {
-      requireAuth: true,
       detail: { summary: "Delete a post" },
     },
   )
@@ -128,7 +127,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
     },
     {
-      requireAuth: true,
       detail: { summary: "Add a tag to a post" },
     },
   )
@@ -146,7 +144,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
     },
     {
-      requireAuth: true,
       detail: { summary: "Remove a tag from a post" },
     },
   );

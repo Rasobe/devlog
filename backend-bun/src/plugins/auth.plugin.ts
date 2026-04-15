@@ -30,14 +30,16 @@ export const authPlugin = new Elysia({ name: "auth-plugin" })
         role: payload.role as "AUTHOR" | "ADMIN",
       },
     };
-  })
-  .macro({
-    requireAuth: (enabled: boolean) => ({
-      beforeHandle({ user, set }: any) {
-        if (enabled && !user) {
-          set.status = 401;
-          return { message: "Unauthorized" };
-        }
-      },
-    }),
+  });
+
+export const isAuthenticated = new Elysia({ name: "is-authenticated" })
+  .use(authPlugin)
+  .derive({ as: "scoped" }, ({ user, set }) => {
+    if (!user) {
+      set.status = 401;
+      return { message: "Unauthorized" };
+    }
+    return {
+      user,
+    };
   });

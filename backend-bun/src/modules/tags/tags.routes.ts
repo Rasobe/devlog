@@ -50,7 +50,6 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: createTagBody,
-      requireAuth: true,
       detail: { summary: "Create a new tag" },
     },
   )
@@ -69,7 +68,6 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: updateTagBody,
-      requireAuth: true,
       detail: { summary: "Update a tag" },
     },
   )
@@ -87,7 +85,6 @@ export const tagsRoutes = new Elysia({
       }
     },
     {
-      requireAuth: true,
       detail: { summary: "Delete a tag" },
     },
   );

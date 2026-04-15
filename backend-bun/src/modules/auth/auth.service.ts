@@ -3,6 +3,34 @@ import { users } from "@/db/schema";
 import { hash, verify } from "@node-rs/bcrypt";
 import { eq } from "drizzle-orm";
 import type { AuthUser } from "./auth.types";
+import { generateUsername } from "@/lib/username";
+
+// Generates a unique username based on displayName.
+// If the base username is taken, appends a 4-digit random suffix.
+const resolveUniqueUsername = async (displayName: string): Promise<string> => {
+  const base = generateUsername(displayName);
+
+  const existing = await db.query.users.findFirst({
+    where: eq(users.username, base),
+  });
+
+  if (!existing) return base;
+
+  let username = "";
+  let attempts = 0;
+
+  do {
+    const suffix = Math.floor(Math.random() * 9000) + 1000;
+    username = `${base}${suffix}`;
+    const taken = await db.query.users.findFirst({
+      where: eq(users.username, username),
+    });
+    if (!taken) break;
+    attempts++;
+  } while (attempts < 10);
+
+  return username;
+};
 
 export const authService = {
   register: async (
@@ -18,11 +46,12 @@ export const authService = {
       throw new Error("Email already in use");
     }
 
+    const username = await resolveUniqueUsername(displayName);
     const passwordHash = await hash(password, 10);
 
     const [user] = await db
       .insert(users)
-      .values({ email, passwordHash, displayName })
+      .values({ email, username, passwordHash, displayName })
       .returning({
         id: users.id,
         email: users.email,

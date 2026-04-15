@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { authPlugin } from "@/plugins/auth.plugin";
+import { isAdmin } from "@/plugins/auth.plugin";
 import { tagsService } from "./tags.service";
 
 // --- Body Schemas ---
@@ -18,7 +18,7 @@ export const tagsRoutes = new Elysia({
   prefix: "/tags",
   tags: ["Tags"],
 })
-  // Public routes
+  // ── Public ────────────────────────────────────────────────────────────────
   .get("/", () => tagsService.findAll(), {
     detail: { summary: "Get all tags" },
   })
@@ -34,8 +34,8 @@ export const tagsRoutes = new Elysia({
     },
     { detail: { summary: "Get tag by slug" } },
   )
-  // Protected routes
-  .use(authPlugin)
+  // ── Admin only ────────────────────────────────────────────────────────────
+  .use(isAdmin)
   .post(
     "/",
     async ({ body, set }) => {
@@ -50,7 +50,7 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: createTagBody,
-      detail: { summary: "Create a new tag" },
+      detail: { summary: "Create a new tag (admin)" },
     },
   )
   .patch(
@@ -68,7 +68,7 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: updateTagBody,
-      detail: { summary: "Update a tag" },
+      detail: { summary: "Update a tag (admin)" },
     },
   )
   .delete(
@@ -85,6 +85,6 @@ export const tagsRoutes = new Elysia({
       }
     },
     {
-      detail: { summary: "Delete a tag" },
+      detail: { summary: "Delete a tag (admin)" },
     },
   );

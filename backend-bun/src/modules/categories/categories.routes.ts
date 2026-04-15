@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { authPlugin } from "@/plugins/auth.plugin";
+import { isAdmin } from "@/plugins/auth.plugin";
 import { categoriesService } from "./categories.service";
 
 // --- Body Schemas ---
@@ -18,7 +18,7 @@ export const categoriesRoutes = new Elysia({
   prefix: "/categories",
   tags: ["Categories"],
 })
-  // Public routes
+  // ── Public ────────────────────────────────────────────────────────────────
   .get("/", () => categoriesService.findAll(), {
     detail: { summary: "Get all categories" },
   })
@@ -34,8 +34,8 @@ export const categoriesRoutes = new Elysia({
     },
     { detail: { summary: "Get category by slug" } },
   )
-  // Protected routes
-  .use(authPlugin)
+  // ── Admin only ────────────────────────────────────────────────────────────
+  .use(isAdmin)
   .post(
     "/",
     async ({ body, set }) => {
@@ -50,8 +50,7 @@ export const categoriesRoutes = new Elysia({
     },
     {
       body: createCategoryBody,
-      requireAuth: true,
-      detail: { summary: "Create a new category" },
+      detail: { summary: "Create a new category (admin)" },
     },
   )
   .patch(
@@ -69,8 +68,7 @@ export const categoriesRoutes = new Elysia({
     },
     {
       body: updateCategoryBody,
-      requireAuth: true,
-      detail: { summary: "Update a category" },
+      detail: { summary: "Update a category (admin)" },
     },
   )
   .delete(
@@ -87,6 +85,6 @@ export const categoriesRoutes = new Elysia({
       }
     },
     {
-      detail: { summary: "Delete a category" },
+      detail: { summary: "Delete a category (admin)" },
     },
   );

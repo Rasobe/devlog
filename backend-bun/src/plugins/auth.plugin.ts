@@ -9,7 +9,7 @@ export const authPlugin = new Elysia({ name: "auth-plugin" })
       secret: env.JWT_SECRET,
     }),
   )
-  .derive({ as: "scoped" }, async ({ jwt, headers }) => {
+  .derive({ as: "global" }, async ({ jwt, headers }) => {
     const authorization = headers.authorization;
 
     if (!authorization?.startsWith("Bearer ")) {
@@ -34,12 +34,28 @@ export const authPlugin = new Elysia({ name: "auth-plugin" })
 
 export const isAuthenticated = new Elysia({ name: "is-authenticated" })
   .use(authPlugin)
-  .derive({ as: "scoped" }, ({ user, set }) => {
+  .onBeforeHandle({ as: "scoped" }, ({ user, set }) => {
     if (!user) {
       set.status = 401;
       return { message: "Unauthorized" };
     }
-    return {
-      user,
-    };
-  });
+  })
+  .derive({ as: "scoped" }, ({ user }) => ({
+    user: user as NonNullable<typeof user>,
+  }));
+
+export const isAdmin = new Elysia({ name: "is-admin" })
+  .use(authPlugin)
+  .onBeforeHandle({ as: "scoped" }, ({ user, set }) => {
+    if (!user) {
+      set.status = 401;
+      return { message: "Unauthorized" };
+    }
+    if (user.role !== "ADMIN") {
+      set.status = 403;
+      return { message: "Forbidden" };
+    }
+  })
+  .derive({ as: "scoped" }, ({ user }) => ({
+    user: user as NonNullable<typeof user>,
+  }));

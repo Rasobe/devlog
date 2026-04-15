@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { postsService } from "./posts.service";
-import { authPlugin } from "@/plugins/auth.plugin";
+import { isAuthenticated } from "@/plugins/auth.plugin";
 
 // --- Body Schemas ---
 
@@ -24,7 +24,7 @@ const updatePostBody = t.Object({
 // --- Routes ---
 
 export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
-  // Public routes
+  // ── Public ────────────────────────────────────────────────────────────────
   .get(
     "/",
     async ({ query }) => {
@@ -66,8 +66,8 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     { detail: { summary: "Get post by slug" } },
   )
-  // Protected routes
-  .use(authPlugin)
+  // ── Protected (authenticated users) ───────────────────────────────────────
+  .use(isAuthenticated)
   .post(
     "/",
     async ({ body, user, set }) => {
@@ -80,7 +80,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: createPostBody,
-      requireAuth: true,
       detail: { summary: "Create a new post" },
     },
   )
@@ -96,7 +95,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: updatePostBody,
-      requireAuth: true,
       detail: { summary: "Update a post" },
     },
   )

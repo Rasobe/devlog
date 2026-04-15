@@ -45,7 +45,6 @@ export const tagsService = {
       throw new Error("Tag not found");
     }
 
-    // Only compute new slug if name is being changed
     const updateData = data.name
       ? { name: data.name, slug: generateSlug(data.name) }
       : {};

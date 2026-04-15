@@ -5,8 +5,6 @@ import { eq } from "drizzle-orm";
 import type { AuthUser } from "./auth.types";
 import { generateUsername } from "@/lib/username";
 
-// Generates a unique username based on displayName.
-// If the base username is taken, appends a 4-digit random suffix.
 const resolveUniqueUsername = async (displayName: string): Promise<string> => {
   const base = generateUsername(displayName);
 

@@ -2,15 +2,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { hash, verify } from "@node-rs/bcrypt";
 import { eq } from "drizzle-orm";
-
-// Public user shape (never expose passwordHash)
-export type AuthUser = {
-  id: string;
-  email: string;
-  displayName: string;
-  role: "AUTHOR" | "ADMIN";
-  createdAt: Date;
-};
+import type { AuthUser } from "./auth.types";
 
 export const authService = {
   register: async (

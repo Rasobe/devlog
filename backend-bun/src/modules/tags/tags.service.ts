@@ -2,14 +2,7 @@ import { db } from "@/db";
 import { tags } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
 import { eq } from "drizzle-orm";
-
-export type CreateTagInput = {
-  name: string;
-};
-
-export type UpdateTagInput = {
-  name?: string;
-};
+import type { CreateTagInput, UpdateTagInput } from "./tags.types";
 
 export const tagsService = {
   findAll: async () => {

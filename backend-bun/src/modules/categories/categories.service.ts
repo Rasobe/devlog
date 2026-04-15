@@ -2,14 +2,10 @@ import { db } from "@/db";
 import { categories } from "@/db/schema";
 import { generateSlug } from "@/lib/slug";
 import { eq } from "drizzle-orm";
-
-export type CreateCategoryInput = {
-  name: string;
-};
-
-export type UpdateCategoryInput = {
-  name?: string;
-};
+import type {
+  CreateCategoryInput,
+  UpdateCategoryInput,
+} from "./categories.types";
 
 export const categoriesService = {
   findAll: async () => {

@@ -5,4 +5,10 @@ export interface UserStats {
   totalViews: number;
   totalComments: number;
   totalLikes: number;
+  postsByMonth: MonthlyPostCount[];
+}
+
+export interface MonthlyPostCount {
+  month: string;
+  count: number;
 }

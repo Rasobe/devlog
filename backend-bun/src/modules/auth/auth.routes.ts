@@ -1,20 +1,8 @@
 import { jwt } from "@elysiajs/jwt";
 import { env } from "@/config/env";
-import { Elysia, t } from "elysia";
+import Elysia from "elysia";
 import { authService } from "./auth.service";
-
-// --- Body Schemas ---
-
-const registerBody = t.Object({
-  email: t.String({ format: "email" }),
-  password: t.String({ minLength: 6 }),
-  displayName: t.String({ minLength: 2 }),
-});
-
-const loginBody = t.Object({
-  email: t.String({ format: "email" }),
-  password: t.String({ minLength: 6 }),
-});
+import { registerBody, loginBody } from "./auth.schemas";
 
 // --- Routes ---
 

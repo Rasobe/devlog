@@ -1,16 +1,7 @@
-import { Elysia, t } from "elysia";
+import Elysia from "elysia";
 import { isAdmin } from "@/plugins/auth.plugin";
 import { tagsService } from "./tags.service";
-
-// --- Body Schemas ---
-
-const createTagBody = t.Object({
-  name: t.String(),
-});
-
-const updateTagBody = t.Object({
-  name: t.Optional(t.String()),
-});
+import { createTagBody, updateTagBody } from "./tags.schemas";
 
 // --- Routes ---
 

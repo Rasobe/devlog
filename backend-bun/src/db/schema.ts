@@ -21,6 +21,7 @@ export const users = pgTable("users", {
   displayName: text("display_name").notNull(),
   role: userRoleEnum("role").default("AUTHOR").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // Categories

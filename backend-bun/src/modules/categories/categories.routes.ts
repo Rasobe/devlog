@@ -1,16 +1,7 @@
-import { Elysia, t } from "elysia";
+import Elysia from "elysia";
 import { isAdmin } from "@/plugins/auth.plugin";
 import { categoriesService } from "./categories.service";
-
-// --- Body Schemas ---
-
-const createCategoryBody = t.Object({
-  name: t.String(),
-});
-
-const updateCategoryBody = t.Object({
-  name: t.Optional(t.String()),
-});
+import { createCategoryBody, updateCategoryBody } from "./categories.schemas";
 
 // --- Routes ---
 

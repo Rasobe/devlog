@@ -7,8 +7,15 @@ export const statsRoutes = new Elysia({ prefix: "/stats", tags: ["Stats"] })
   .use(isAuthenticated)
   .get(
     "/",
-    async ({ user }) => {
-      return statsService.getUserStats(user!.id);
+    async ({ user, set }) => {
+      try {
+        return await statsService.getUserStats(user.id);
+      } catch (e: unknown) {
+        set.status = 400;
+        return {
+          message: e instanceof Error ? e.message : "Could not fetch stats",
+        };
+      }
     },
     { detail: { summary: "Get stats for current user" } },
   );

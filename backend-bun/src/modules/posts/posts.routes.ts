@@ -1,25 +1,7 @@
-import { Elysia, t } from "elysia";
+import Elysia from "elysia";
 import { postsService } from "./posts.service";
 import { isAuthenticated } from "@/plugins/auth.plugin";
-
-// --- Body Schemas ---
-
-const createPostBody = t.Object({
-  title: t.String(),
-  content: t.String(),
-  excerpt: t.String(),
-  published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Nullable(t.String())),
-});
-
-const updatePostBody = t.Object({
-  title: t.Optional(t.String()),
-  slug: t.Optional(t.String()),
-  content: t.Optional(t.String()),
-  excerpt: t.Optional(t.String()),
-  published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Nullable(t.String())),
-});
+import { createPostBody, updatePostBody, postsQuery } from "./posts.schemas";
 
 // --- Routes ---
 
@@ -43,14 +25,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       });
     },
     {
-      query: t.Object({
-        page: t.Optional(t.String()),
-        limit: t.Optional(t.String()),
-        search: t.Optional(t.String()),
-        category: t.Optional(t.String()),
-        tag: t.Optional(t.String()),
-        published: t.Optional(t.String()),
-      }),
+      query: postsQuery,
       detail: { summary: "Get posts paginated" },
     },
   )
@@ -72,10 +47,12 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     "/",
     async ({ body, user, set }) => {
       try {
-        return await postsService.create({ ...body, authorId: user!.id });
-      } catch {
+        return await postsService.create({ ...body, authorId: user.id });
+      } catch (e: unknown) {
         set.status = 400;
-        return { message: "Could not create post" };
+        return {
+          message: e instanceof Error ? e.message : "Could not create post",
+        };
       }
     },
     {

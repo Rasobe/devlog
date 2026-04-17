@@ -53,6 +53,22 @@ services:
       redis:
         condition: service_healthy
 
+  backend-bun:
+    build:
+      context: ./backend-bun
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend-bun/src:/app/src
+
 volumes:
   postgres_data:
   redis_data:

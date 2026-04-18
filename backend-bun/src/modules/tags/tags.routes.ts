@@ -4,6 +4,7 @@ import { tagsService } from "./tags.service";
 import {
   createTagBody,
   tagResponseSchema,
+  tagsResponseSchema,
   updateTagBody,
 } from "./tags.schemas";
 import { errorSchema } from "@/shared/schemas";
@@ -14,6 +15,9 @@ export const tagsRoutes = new Elysia({
 })
   // --- Public ---
   .get("/", () => tagsService.findAll(), {
+    response: {
+      200: tagsResponseSchema,
+    },
     detail: { summary: "Get all tags" },
   })
   .get(

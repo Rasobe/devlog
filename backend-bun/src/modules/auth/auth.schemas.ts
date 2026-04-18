@@ -18,7 +18,7 @@ export const authUserSchema = t.Object({
   email: t.String(),
   displayName: t.String(),
   role: t.Union([t.Literal("AUTHOR"), t.Literal("ADMIN")]),
-  createdAt: t.Date(),
+  createdAt: t.String(),
 });
 
 export const authResponseSchema = t.Object({

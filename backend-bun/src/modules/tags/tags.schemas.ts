@@ -14,3 +14,5 @@ export const tagResponseSchema = t.Object({
   name: t.String(),
   slug: t.String(),
 });
+
+export const tagsResponseSchema = t.Array(tagResponseSchema);

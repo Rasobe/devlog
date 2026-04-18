@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { generateUsername } from "@/lib/username";
+import { generateUsername } from "@/lib/strings";
 import { eq } from "drizzle-orm";
 
 export const resolveUniqueUsername = async (

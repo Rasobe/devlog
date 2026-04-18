@@ -6,7 +6,7 @@ export const createPostBody = t.Object({
   content: t.String(),
   excerpt: t.String(),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Union([t.String(), t.Null()])),
+  categoryId: t.Optional(t.String()),
 });
 
 export const updatePostBody = t.Object({
@@ -15,7 +15,7 @@ export const updatePostBody = t.Object({
   content: t.Optional(t.String()),
   excerpt: t.Optional(t.String()),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Union([t.String(), t.Null()])),
+  categoryId: t.Optional(t.String()),
 });
 
 export const postsQuery = t.Object({
@@ -24,7 +24,7 @@ export const postsQuery = t.Object({
   search: t.Optional(t.String()),
   category: t.Optional(t.String()),
   tag: t.Optional(t.String()),
-  published: t.Optional(t.String()),
+  published: t.Optional(t.Boolean()),
 });
 
 // --- Response Schemas ---
@@ -33,12 +33,10 @@ const authorSchema = t.Object({
   email: t.String(),
 });
 
-const categorySchema = t.Nullable(
-  t.Object({
-    name: t.String(),
-    slug: t.String(),
-  }),
-);
+const categorySchema = t.Object({
+  name: t.String(),
+  slug: t.String(),
+});
 
 const tagSchema = t.Object({
   tag: t.Object({
@@ -52,12 +50,12 @@ export const postSchema = t.Object({
   slug: t.String(),
   content: t.String(),
   excerpt: t.String(),
-  published: t.Union([t.Boolean(), t.Null()]),
+  published: t.Boolean(),
   views: t.Number(),
   createdAt: t.String(),
   updatedAt: t.String(),
   author: authorSchema,
-  category: categorySchema,
+  category: t.Optional(categorySchema),
   postTags: t.Array(tagSchema),
 });
 

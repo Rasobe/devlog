@@ -41,7 +41,7 @@ export type PostApiV1AuthRegisterResponses = {
             email: string;
             displayName: string;
             role: string;
-            createdAt: unknown | string | string | number;
+            createdAt: string;
         };
         token: string;
     };
@@ -74,7 +74,7 @@ export type PostApiV1AuthLoginResponses = {
             email: string;
             displayName: string;
             role: string;
-            createdAt: unknown | string | string | number;
+            createdAt: string;
         };
         token: string;
     };
@@ -91,7 +91,7 @@ export type GetApiV1PostsData = {
         search?: string;
         category?: string;
         tag?: string;
-        published?: string;
+        published?: boolean;
     };
     url: '/api/v1/posts/';
 };
@@ -103,18 +103,18 @@ export type GetApiV1PostsResponses = {
             slug: string;
             content: string;
             excerpt: string;
-            published: boolean | unknown | null;
+            published: boolean;
             views: number;
-            createdAt: unknown | string | string | number;
-            updatedAt: unknown | string | string | number;
+            createdAt: string;
+            updatedAt: string;
             author: {
                 displayName: string;
                 email: string;
             };
-            category: {
+            category?: {
                 name: string;
                 slug: string;
-            } | unknown | null;
+            };
             postTags: Array<{
                 tag: {
                     name: string;
@@ -139,7 +139,7 @@ export type PostApiV1PostsData = {
         content: string;
         excerpt: string;
         published?: boolean;
-        categoryId?: string | unknown | null;
+        categoryId?: string;
     };
     path?: never;
     query?: never;
@@ -160,18 +160,18 @@ export type PostApiV1PostsResponses = {
         slug: string;
         content: string;
         excerpt: string;
-        published: boolean | unknown | null;
+        published: boolean;
         views: number;
-        createdAt: unknown | string | string | number;
-        updatedAt: unknown | string | string | number;
+        createdAt: string;
+        updatedAt: string;
         author: {
             displayName: string;
             email: string;
         };
-        category: {
+        category?: {
             name: string;
             slug: string;
-        } | unknown | null;
+        };
         postTags: Array<{
             tag: {
                 name: string;
@@ -231,18 +231,18 @@ export type GetApiV1PostsSlugBySlugResponses = {
         slug: string;
         content: string;
         excerpt: string;
-        published: boolean | unknown | null;
+        published: boolean;
         views: number;
-        createdAt: unknown | string | string | number;
-        updatedAt: unknown | string | string | number;
+        createdAt: string;
+        updatedAt: string;
         author: {
             displayName: string;
             email: string;
         };
-        category: {
+        category?: {
             name: string;
             slug: string;
-        } | unknown | null;
+        };
         postTags: Array<{
             tag: {
                 name: string;
@@ -261,7 +261,7 @@ export type PatchApiV1PostsSlugBySlugData = {
         content?: string;
         excerpt?: string;
         published?: boolean;
-        categoryId?: string | unknown | null;
+        categoryId?: string;
     };
     path: {
         slug: string;
@@ -284,18 +284,18 @@ export type PatchApiV1PostsSlugBySlugResponses = {
         slug: string;
         content: string;
         excerpt: string;
-        published: boolean | unknown | null;
+        published: boolean;
         views: number;
-        createdAt: unknown | string | string | number;
-        updatedAt: unknown | string | string | number;
+        createdAt: string;
+        updatedAt: string;
         author: {
             displayName: string;
             email: string;
         };
-        category: {
+        category?: {
             name: string;
             slug: string;
-        } | unknown | null;
+        };
         postTags: Array<{
             tag: {
                 name: string;
@@ -511,8 +511,13 @@ export type GetApiV1TagsData = {
 };
 
 export type GetApiV1TagsResponses = {
-    200: unknown;
+    200: Array<{
+        name: string;
+        slug: string;
+    }>;
 };
+
+export type GetApiV1TagsResponse = GetApiV1TagsResponses[keyof GetApiV1TagsResponses];
 
 export type PostApiV1TagsData = {
     body: {
@@ -647,7 +652,7 @@ export type GetApiV1UsersByUserIdResponses = {
     200: {
         username: string;
         displayName: string;
-        createdAt: unknown | string | string | number;
+        createdAt: string;
     };
 };
 
@@ -672,7 +677,7 @@ export type GetApiV1UsersMeResponses = {
     200: {
         username: string;
         displayName: string;
-        createdAt: unknown | string | string | number;
+        createdAt: string;
         email: string;
         role: string;
     };
@@ -702,7 +707,7 @@ export type PatchApiV1UsersMeResponses = {
     200: {
         username: string;
         displayName: string;
-        createdAt: unknown | string | string | number;
+        createdAt: string;
         email: string;
         role: string;
     };
@@ -732,7 +737,7 @@ export type PatchApiV1UsersMePasswordResponses = {
     200: {
         username: string;
         displayName: string;
-        createdAt: unknown | string | string | number;
+        createdAt: string;
         email: string;
         role: string;
     };

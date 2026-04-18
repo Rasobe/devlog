@@ -47,11 +47,8 @@ export const mapToDomainPost = (
       email: dbPost.author.email,
     },
     category: dbPost.category
-      ? {
-          name: dbPost.category.name,
-          slug: dbPost.category.slug,
-        }
-      : null,
+      ? { name: dbPost.category.name, slug: dbPost.category.slug }
+      : undefined,
     postTags: dbPost.postTags.flatMap((pt) =>
       pt.tag === null
         ? []

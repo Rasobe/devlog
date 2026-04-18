@@ -29,10 +29,10 @@ export type PostWithRelations = Omit<Post, "authorId" | "categoryId"> & {
     displayName: string;
     email: string;
   };
-  category: {
+  category?: {
     name: string;
     slug: string;
-  } | null;
+  };
   postTags: {
     tag: {
       id: string;

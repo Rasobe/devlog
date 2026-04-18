@@ -173,7 +173,11 @@ export const patchApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>
 /**
  * Get all tags
  */
-export const getApiV1Tags = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1TagsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1TagsResponses, unknown, ThrowOnError>({ url: '/api/v1/tags/', ...options });
+export const getApiV1Tags = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1TagsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1TagsResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/tags/',
+    ...options
+});
 
 /**
  * Create a new tag (admin)

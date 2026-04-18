@@ -1,7 +1,13 @@
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import { postsService } from "./posts.service";
 import { isAuthenticated } from "@/plugins/auth.plugin";
-import { createPostBody, updatePostBody, postsQuery } from "./posts.schemas";
+import {
+  createPostBody,
+  updatePostBody,
+  postsQuery,
+  paginatedPostsSchema,
+  postSchema,
+} from "./posts.schemas";
 
 // --- Routes ---
 
@@ -26,6 +32,9 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       query: postsQuery,
+      response: {
+        200: paginatedPostsSchema,
+      },
       detail: { summary: "Get posts paginated" },
     },
   )
@@ -39,7 +48,13 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
       return post;
     },
-    { detail: { summary: "Get post by slug" } },
+    {
+      response: {
+        200: postSchema,
+        404: t.Object({ message: t.String() }),
+      },
+      detail: { summary: "Get post by slug" },
+    },
   )
   // ── Protected (authenticated users) ───────────────────────────────────────
   .use(isAuthenticated)
@@ -47,6 +62,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     "/",
     async ({ body, user, set }) => {
       try {
+        set.status = 201;
         return await postsService.create({ ...body, authorId: user.id });
       } catch (e: unknown) {
         set.status = 400;
@@ -57,6 +73,10 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: createPostBody,
+      response: {
+        201: postSchema,
+        400: t.Object({ message: t.String() }),
+      },
       detail: { summary: "Create a new post" },
     },
   )
@@ -72,6 +92,10 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       body: updatePostBody,
+      response: {
+        200: postSchema,
+        404: t.Object({ message: t.String() }),
+      },
       detail: { summary: "Update a post" },
     },
   )

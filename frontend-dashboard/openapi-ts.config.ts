@@ -1,7 +1,7 @@
 import { defineConfig } from "@hey-api/openapi-ts";
 
 export default defineConfig({
-  input: "http://localhost:8080/api/v1/v3/api-docs",
+  input: "http://localhost:3001/swagger/json",
   output: {
     path: "src/infrastructure/api",
   },
@@ -9,6 +9,6 @@ export default defineConfig({
     "@hey-api/client-axios",
     "@hey-api/sdk",
     "@hey-api/typescript",
-    "@tanstack/react-query"
+    "@tanstack/react-query",
   ],
 });

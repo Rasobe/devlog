@@ -4,22 +4,16 @@ import { generateSlug } from "@/lib/slug";
 import { and, count, eq, desc, inArray, ilike, exists } from "drizzle-orm";
 import type {
   PostPaginationParams,
+  PostPaginatedResult,
   CreatePostInput,
   PostUpdate,
+  PostWithRelations,
 } from "./posts.types";
-import type { PaginatedResult } from "@/types/pagination";
-
-const postWithRelations = {
-  author: {
-    columns: { displayName: true, email: true },
-  },
-  category: {
-    columns: { name: true, slug: true },
-  },
-  postTags: {
-    with: { tag: true },
-  },
-} as const;
+import {
+  mapToDomainPost,
+  postWithRelations,
+  type DrizzlePostResult,
+} from "./posts.mappers";
 
 export const postsService = {
   findAll: async ({
@@ -29,7 +23,7 @@ export const postsService = {
     category,
     tag,
     published,
-  }: PostPaginationParams): Promise<PaginatedResult<any>> => {
+  }: PostPaginationParams): Promise<PostPaginatedResult> => {
     const offset = (page - 1) * limit;
 
     const tagFilter = tag
@@ -73,7 +67,7 @@ export const postsService = {
 
     const result =
       ids.length > 0
-        ? await db.query.posts.findMany({
+        ? ((await db.query.posts.findMany({
             where: inArray(posts.id, ids),
             columns: {
               categoryId: false,
@@ -81,13 +75,13 @@ export const postsService = {
             },
             with: postWithRelations,
             orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-          })
+          })) as DrizzlePostResult[])
         : [];
 
     const total = countResult[0]?.total ?? 0;
 
     return {
-      data: result,
+      data: result.map(mapToDomainPost),
       meta: {
         total,
         page,
@@ -97,38 +91,38 @@ export const postsService = {
     };
   },
 
-  findById: async (id: string) => {
-    return db.query.posts.findFirst({
-      where: eq(posts.id, id),
-      with: postWithRelations,
-      columns: {
-        categoryId: false,
-        authorId: false,
-      },
-    });
-  },
-
-  findBySlug: async (slug: string) => {
-    return db.query.posts.findFirst({
+  findBySlug: async (slug: string): Promise<PostWithRelations | undefined> => {
+    const post = (await db.query.posts.findFirst({
       where: eq(posts.slug, slug),
       with: postWithRelations,
       columns: {
         categoryId: false,
         authorId: false,
       },
-    });
+    })) as DrizzlePostResult | undefined;
+
+    if (!post) return undefined;
+    return mapToDomainPost(post);
   },
 
-  create: async (data: CreatePostInput) => {
+  create: async (data: CreatePostInput): Promise<PostWithRelations> => {
     const slug = generateSlug(data.title);
     const [created] = await db
       .insert(posts)
       .values({ ...data, slug })
       .returning();
-    return created!;
+
+    if (!created) throw new Error("Could not create post");
+
+    const post = await postsService.findBySlug(created.slug);
+    if (!post) throw new Error("Could not fetch created post");
+    return post;
   },
 
-  update: async (slug: string, data: PostUpdate) => {
+  update: async (
+    slug: string,
+    data: PostUpdate,
+  ): Promise<PostWithRelations | null> => {
     const updateData = data.title
       ? { ...data, slug: generateSlug(data.title), updatedAt: new Date() }
       : { ...data, updatedAt: new Date() };
@@ -138,7 +132,10 @@ export const postsService = {
       .set(updateData)
       .where(eq(posts.slug, slug))
       .returning();
-    return updated;
+
+    if (!updated) return null;
+    const post = await postsService.findBySlug(updated.slug);
+    return post ?? null;
   },
 
   delete: async (slug: string) => {

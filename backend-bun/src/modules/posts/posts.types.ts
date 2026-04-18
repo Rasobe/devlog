@@ -24,4 +24,22 @@ export interface CreatePostInput {
   categoryId?: string | null;
 }
 
-export type PostPaginatedResult = PaginatedResult<Post>;
+export type PostWithRelations = Omit<Post, "authorId" | "categoryId"> & {
+  author: {
+    displayName: string;
+    email: string;
+  };
+  category: {
+    name: string;
+    slug: string;
+  } | null;
+  postTags: {
+    tag: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  }[];
+};
+
+export type PostPaginatedResult = PaginatedResult<PostWithRelations>;

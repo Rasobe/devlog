@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreatePostData, CreatePostErrors, CreatePostResponses, DeletePostData, DeletePostErrors, DeletePostResponses, GetMeData, GetMeErrors, GetMeResponses, GetMyStatsData, GetMyStatsResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses } from './types.gen';
+import type { DeleteApiV1CategoriesBySlugData, DeleteApiV1CategoriesBySlugResponses, DeleteApiV1PostsSlugBySlugData, DeleteApiV1PostsSlugBySlugResponses, DeleteApiV1PostsSlugBySlugTagsByTagSlugData, DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses, DeleteApiV1TagsBySlugData, DeleteApiV1TagsBySlugResponses, GetApiV1CategoriesBySlugData, GetApiV1CategoriesBySlugResponses, GetApiV1CategoriesData, GetApiV1CategoriesResponses, GetApiV1PostsData, GetApiV1PostsResponses, GetApiV1PostsSlugBySlugData, GetApiV1PostsSlugBySlugResponses, GetApiV1StatsData, GetApiV1StatsResponses, GetApiV1TagsBySlugData, GetApiV1TagsBySlugResponses, GetApiV1TagsData, GetApiV1TagsResponses, GetApiV1UsersByUserIdData, GetApiV1UsersByUserIdResponses, GetApiV1UsersMeData, GetApiV1UsersMeResponses, GetHealthData, GetHealthResponses, PatchApiV1CategoriesBySlugData, PatchApiV1CategoriesBySlugResponses, PatchApiV1PostsSlugBySlugData, PatchApiV1PostsSlugBySlugResponses, PatchApiV1TagsBySlugData, PatchApiV1TagsBySlugResponses, PatchApiV1UsersMeData, PatchApiV1UsersMePasswordData, PatchApiV1UsersMePasswordResponses, PatchApiV1UsersMeResponses, PostApiV1AuthLoginData, PostApiV1AuthLoginResponses, PostApiV1AuthRegisterData, PostApiV1AuthRegisterResponses, PostApiV1CategoriesData, PostApiV1CategoriesResponses, PostApiV1PostsData, PostApiV1PostsResponses, PostApiV1TagsData, PostApiV1TagsResponses, PutApiV1PostsSlugBySlugTagsByTagSlugData, PutApiV1PostsSlugBySlugTagsByTagSlugResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -18,77 +18,13 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-/**
- * Delete a post
- *
- * Deletes a blog post by its slug. Only an admin can delete a post.
- */
-export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{slug}',
-    ...options
-});
-
-/**
- * Get post by slug
- *
- * Retrieves a single blog post by its slug. The slug is a URL-friendly identifier for the post, typically derived from the post's title. For example, a post titled 'My First Post' might have a slug of 'my-first-post'.
- */
-export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPostBySlugData, ThrowOnError>) => (options.client ?? client).get<GetPostBySlugResponses, GetPostBySlugErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{slug}',
-    ...options
-});
-
-/**
- * Update an existing post by slug
- *
- * Updates an existing blog post using the slug. The request body can include the title, content, and published status of the post. Only the author of the post or an admin can update the post.
- */
-export const updatePostBySlug = <ThrowOnError extends boolean = false>(options: Options<UpdatePostBySlugData, ThrowOnError>) => (options.client ?? client).put<UpdatePostBySlugResponses, UpdatePostBySlugErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts/{slug}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get all posts
- *
- * Retrieves a list of all blog posts. Optionally, you can filter to only include published posts by setting the 'publishedOnly' query parameter to true.
- */
-export const getPosts = <ThrowOnError extends boolean = false>(options?: Options<GetPostsData, ThrowOnError>) => (options?.client ?? client).get<GetPostsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts',
-    ...options
-});
-
-/**
- * Create a new post
- *
- * Creates a new blog post. The request body should include the title, content, and optionally the published status of the post. The authenticated user will be set as the author of the post.
- */
-export const createPost = <ThrowOnError extends boolean = false>(options: Options<CreatePostData, ThrowOnError>) => (options.client ?? client).post<CreatePostResponses, CreatePostErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/posts',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+export const getHealth = <ThrowOnError extends boolean = false>(options?: Options<GetHealthData, ThrowOnError>) => (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({ url: '/health', ...options });
 
 /**
  * Register a new user
- *
- * Registers a new user with the provided username, email, and password. Returns an authentication response containing a JWT token upon successful registration.
  */
-export const register = <ThrowOnError extends boolean = false>(options: Options<RegisterData, ThrowOnError>) => (options.client ?? client).post<RegisterResponses, RegisterErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/auth/register',
+export const postApiV1AuthRegister = <ThrowOnError extends boolean = false>(options: Options<PostApiV1AuthRegisterData, ThrowOnError>) => (options.client ?? client).post<PostApiV1AuthRegisterResponses, unknown, ThrowOnError>({
+    url: '/api/v1/auth/register',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -97,13 +33,10 @@ export const register = <ThrowOnError extends boolean = false>(options: Options<
 });
 
 /**
- * Login a user
- *
- * Authenticates a user with the provided username and password. Returns an authentication response containing a JWT token upon successful login.
+ * Login with email and password
  */
-export const login = <ThrowOnError extends boolean = false>(options: Options<LoginData, ThrowOnError>) => (options.client ?? client).post<LoginResponses, LoginErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/auth/login',
+export const postApiV1AuthLogin = <ThrowOnError extends boolean = false>(options: Options<PostApiV1AuthLoginData, ThrowOnError>) => (options.client ?? client).post<PostApiV1AuthLoginResponses, unknown, ThrowOnError>({
+    url: '/api/v1/auth/login',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -112,21 +45,167 @@ export const login = <ThrowOnError extends boolean = false>(options: Options<Log
 });
 
 /**
- * Get current user stats
+ * Get posts paginated
  */
-export const getMyStats = <ThrowOnError extends boolean = false>(options?: Options<GetMyStatsData, ThrowOnError>) => (options?.client ?? client).get<GetMyStatsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/users/me/stats',
-    ...options
+export const getApiV1Posts = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1PostsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1PostsResponses, unknown, ThrowOnError>({ url: '/api/v1/posts/', ...options });
+
+/**
+ * Create a new post
+ */
+export const postApiV1Posts = <ThrowOnError extends boolean = false>(options: Options<PostApiV1PostsData, ThrowOnError>) => (options.client ?? client).post<PostApiV1PostsResponses, unknown, ThrowOnError>({
+    url: '/api/v1/posts/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 /**
- * Get current user
- *
- * Returns the currently authenticated user details. Requires a valid JWT token.
+ * Delete a post
  */
-export const getMe = <ThrowOnError extends boolean = false>(options?: Options<GetMeData, ThrowOnError>) => (options?.client ?? client).get<GetMeResponses, GetMeErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/auth/me',
-    ...options
+export const deleteApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1PostsSlugBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/posts/slug/{slug}', ...options });
+
+/**
+ * Get post by slug
+ */
+export const getApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1PostsSlugBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/posts/slug/{slug}', ...options });
+
+/**
+ * Update a post
+ */
+export const patchApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1PostsSlugBySlugResponses, unknown, ThrowOnError>({
+    url: '/api/v1/posts/slug/{slug}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
+
+/**
+ * Remove a tag from a post
+ */
+export const deleteApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1PostsSlugBySlugTagsByTagSlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses, unknown, ThrowOnError>({ url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}', ...options });
+
+/**
+ * Add a tag to a post
+ */
+export const putApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boolean = false>(options: Options<PutApiV1PostsSlugBySlugTagsByTagSlugData, ThrowOnError>) => (options.client ?? client).put<PutApiV1PostsSlugBySlugTagsByTagSlugResponses, unknown, ThrowOnError>({ url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}', ...options });
+
+/**
+ * Get all categories
+ */
+export const getApiV1Categories = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1CategoriesData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1CategoriesResponses, unknown, ThrowOnError>({ url: '/api/v1/categories/', ...options });
+
+/**
+ * Create a new category (admin)
+ */
+export const postApiV1Categories = <ThrowOnError extends boolean = false>(options: Options<PostApiV1CategoriesData, ThrowOnError>) => (options.client ?? client).post<PostApiV1CategoriesResponses, unknown, ThrowOnError>({
+    url: '/api/v1/categories/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Delete a category (admin)
+ */
+export const deleteApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1CategoriesBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/categories/{slug}', ...options });
+
+/**
+ * Get category by slug
+ */
+export const getApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1CategoriesBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/categories/{slug}', ...options });
+
+/**
+ * Update a category (admin)
+ */
+export const patchApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1CategoriesBySlugResponses, unknown, ThrowOnError>({
+    url: '/api/v1/categories/{slug}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get all tags
+ */
+export const getApiV1Tags = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1TagsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1TagsResponses, unknown, ThrowOnError>({ url: '/api/v1/tags/', ...options });
+
+/**
+ * Create a new tag (admin)
+ */
+export const postApiV1Tags = <ThrowOnError extends boolean = false>(options: Options<PostApiV1TagsData, ThrowOnError>) => (options.client ?? client).post<PostApiV1TagsResponses, unknown, ThrowOnError>({
+    url: '/api/v1/tags/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Delete a tag (admin)
+ */
+export const deleteApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1TagsBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/tags/{slug}', ...options });
+
+/**
+ * Get tag by slug
+ */
+export const getApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1TagsBySlugResponses, unknown, ThrowOnError>({ url: '/api/v1/tags/{slug}', ...options });
+
+/**
+ * Update a tag (admin)
+ */
+export const patchApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1TagsBySlugResponses, unknown, ThrowOnError>({
+    url: '/api/v1/tags/{slug}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get public user profile
+ */
+export const getApiV1UsersByUserId = <ThrowOnError extends boolean = false>(options: Options<GetApiV1UsersByUserIdData, ThrowOnError>) => (options.client ?? client).get<GetApiV1UsersByUserIdResponses, unknown, ThrowOnError>({ url: '/api/v1/users/{userId}', ...options });
+
+/**
+ * Get current user profile
+ */
+export const getApiV1UsersMe = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1UsersMeData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1UsersMeResponses, unknown, ThrowOnError>({ url: '/api/v1/users/me', ...options });
+
+/**
+ * Update current user profile
+ */
+export const patchApiV1UsersMe = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1UsersMeData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1UsersMeResponses, unknown, ThrowOnError>({
+    url: '/api/v1/users/me',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Update current user password
+ */
+export const patchApiV1UsersMePassword = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1UsersMePasswordData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1UsersMePasswordResponses, unknown, ThrowOnError>({
+    url: '/api/v1/users/me/password',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get stats for current user
+ */
+export const getApiV1Stats = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1StatsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1StatsResponses, unknown, ThrowOnError>({ url: '/api/v1/stats/', ...options });

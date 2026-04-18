@@ -25,6 +25,6 @@ export const statsRoutes = new Elysia({ prefix: "/stats", tags: ["Stats"] })
         200: userStatsResponseSchema,
         400: errorSchema,
       },
-      detail: { summary: "Get stats for current user" },
+      detail: { summary: "Get stats for current user", operationId: "getMyStats" },
     },
   );

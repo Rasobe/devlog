@@ -4,4 +4,5 @@ export type AuthUser = {
   displayName: string;
   role: "AUTHOR" | "ADMIN";
   createdAt: Date;
+  updatedAt: Date;
 };

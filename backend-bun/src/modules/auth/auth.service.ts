@@ -31,6 +31,7 @@ export const authService = {
         displayName: users.displayName,
         role: users.role,
         createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
       });
 
     if (!user) throw new Error("Failed to create user");
@@ -59,6 +60,7 @@ export const authService = {
       displayName: user.displayName,
       role: user.role,
       createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
   },
 };

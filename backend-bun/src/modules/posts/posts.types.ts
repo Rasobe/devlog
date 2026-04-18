@@ -24,7 +24,8 @@ export interface CreatePostInput {
   categoryId?: string | null;
 }
 
-export type PostWithRelations = Omit<Post, "authorId" | "categoryId"> & {
+export type PostWithRelations = Omit<Post, "authorId" | "categoryId" | "published"> & {
+  published: boolean;
   author: {
     displayName: string;
     email: string;

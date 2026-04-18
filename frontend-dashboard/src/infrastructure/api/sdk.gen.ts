@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { DeleteApiV1CategoriesBySlugData, DeleteApiV1CategoriesBySlugErrors, DeleteApiV1CategoriesBySlugResponses, DeleteApiV1PostsSlugBySlugData, DeleteApiV1PostsSlugBySlugErrors, DeleteApiV1PostsSlugBySlugResponses, DeleteApiV1PostsSlugBySlugTagsByTagSlugData, DeleteApiV1PostsSlugBySlugTagsByTagSlugErrors, DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses, DeleteApiV1TagsBySlugData, DeleteApiV1TagsBySlugErrors, DeleteApiV1TagsBySlugResponses, GetApiV1CategoriesBySlugData, GetApiV1CategoriesBySlugErrors, GetApiV1CategoriesBySlugResponses, GetApiV1CategoriesData, GetApiV1CategoriesErrors, GetApiV1CategoriesResponses, GetApiV1PostsData, GetApiV1PostsResponses, GetApiV1PostsSlugBySlugData, GetApiV1PostsSlugBySlugErrors, GetApiV1PostsSlugBySlugResponses, GetApiV1StatsData, GetApiV1StatsErrors, GetApiV1StatsResponses, GetApiV1TagsBySlugData, GetApiV1TagsBySlugErrors, GetApiV1TagsBySlugResponses, GetApiV1TagsData, GetApiV1TagsResponses, GetApiV1UsersByUserIdData, GetApiV1UsersByUserIdErrors, GetApiV1UsersByUserIdResponses, GetApiV1UsersMeData, GetApiV1UsersMeErrors, GetApiV1UsersMeResponses, GetHealthData, GetHealthResponses, PatchApiV1CategoriesBySlugData, PatchApiV1CategoriesBySlugErrors, PatchApiV1CategoriesBySlugResponses, PatchApiV1PostsSlugBySlugData, PatchApiV1PostsSlugBySlugErrors, PatchApiV1PostsSlugBySlugResponses, PatchApiV1TagsBySlugData, PatchApiV1TagsBySlugErrors, PatchApiV1TagsBySlugResponses, PatchApiV1UsersMeData, PatchApiV1UsersMeErrors, PatchApiV1UsersMePasswordData, PatchApiV1UsersMePasswordErrors, PatchApiV1UsersMePasswordResponses, PatchApiV1UsersMeResponses, PostApiV1AuthLoginData, PostApiV1AuthLoginErrors, PostApiV1AuthLoginResponses, PostApiV1AuthRegisterData, PostApiV1AuthRegisterErrors, PostApiV1AuthRegisterResponses, PostApiV1CategoriesData, PostApiV1CategoriesErrors, PostApiV1CategoriesResponses, PostApiV1PostsData, PostApiV1PostsErrors, PostApiV1PostsResponses, PostApiV1TagsData, PostApiV1TagsErrors, PostApiV1TagsResponses, PutApiV1PostsSlugBySlugTagsByTagSlugData, PutApiV1PostsSlugBySlugTagsByTagSlugErrors, PutApiV1PostsSlugBySlugTagsByTagSlugResponses } from './types.gen';
+import type { AddTagToPostData, AddTagToPostErrors, AddTagToPostResponses, CreateCategoryData, CreateCategoryErrors, CreateCategoryResponses, CreatePostData, CreatePostErrors, CreatePostResponses, CreateTagData, CreateTagErrors, CreateTagResponses, DeleteCategoryData, DeleteCategoryErrors, DeleteCategoryResponses, DeletePostData, DeletePostErrors, DeletePostResponses, DeleteTagData, DeleteTagErrors, DeleteTagResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryBySlugData, GetCategoryBySlugErrors, GetCategoryBySlugResponses, GetHealthData, GetHealthResponses, GetMeData, GetMeErrors, GetMeResponses, GetMyStatsData, GetMyStatsErrors, GetMyStatsResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, GetPublicUserByIdData, GetPublicUserByIdErrors, GetPublicUserByIdResponses, GetTagBySlugData, GetTagBySlugErrors, GetTagBySlugResponses, GetTagsData, GetTagsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveTagFromPostData, RemoveTagFromPostErrors, RemoveTagFromPostResponses, UpdateCategoryData, UpdateCategoryErrors, UpdateCategoryResponses, UpdateMeData, UpdateMeErrors, UpdateMePasswordData, UpdateMePasswordErrors, UpdateMePasswordResponses, UpdateMeResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses, UpdateTagData, UpdateTagErrors, UpdateTagResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -23,7 +23,7 @@ export const getHealth = <ThrowOnError extends boolean = false>(options?: Option
 /**
  * Register a new user
  */
-export const postApiV1AuthRegister = <ThrowOnError extends boolean = false>(options: Options<PostApiV1AuthRegisterData, ThrowOnError>) => (options.client ?? client).post<PostApiV1AuthRegisterResponses, PostApiV1AuthRegisterErrors, ThrowOnError>({
+export const register = <ThrowOnError extends boolean = false>(options: Options<RegisterData, ThrowOnError>) => (options.client ?? client).post<RegisterResponses, RegisterErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/auth/register',
     ...options,
@@ -36,7 +36,7 @@ export const postApiV1AuthRegister = <ThrowOnError extends boolean = false>(opti
 /**
  * Login with email and password
  */
-export const postApiV1AuthLogin = <ThrowOnError extends boolean = false>(options: Options<PostApiV1AuthLoginData, ThrowOnError>) => (options.client ?? client).post<PostApiV1AuthLoginResponses, PostApiV1AuthLoginErrors, ThrowOnError>({
+export const login = <ThrowOnError extends boolean = false>(options: Options<LoginData, ThrowOnError>) => (options.client ?? client).post<LoginResponses, LoginErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/auth/login',
     ...options,
@@ -49,7 +49,7 @@ export const postApiV1AuthLogin = <ThrowOnError extends boolean = false>(options
 /**
  * Get posts paginated
  */
-export const getApiV1Posts = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1PostsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1PostsResponses, unknown, ThrowOnError>({
+export const getPosts = <ThrowOnError extends boolean = false>(options?: Options<GetPostsData, ThrowOnError>) => (options?.client ?? client).get<GetPostsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/',
     ...options
@@ -58,7 +58,7 @@ export const getApiV1Posts = <ThrowOnError extends boolean = false>(options?: Op
 /**
  * Create a new post
  */
-export const postApiV1Posts = <ThrowOnError extends boolean = false>(options: Options<PostApiV1PostsData, ThrowOnError>) => (options.client ?? client).post<PostApiV1PostsResponses, PostApiV1PostsErrors, ThrowOnError>({
+export const createPost = <ThrowOnError extends boolean = false>(options: Options<CreatePostData, ThrowOnError>) => (options.client ?? client).post<CreatePostResponses, CreatePostErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/',
     ...options,
@@ -71,7 +71,7 @@ export const postApiV1Posts = <ThrowOnError extends boolean = false>(options: Op
 /**
  * Delete a post
  */
-export const deleteApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1PostsSlugBySlugResponses, DeleteApiV1PostsSlugBySlugErrors, ThrowOnError>({
+export const deletePost = <ThrowOnError extends boolean = false>(options: Options<DeletePostData, ThrowOnError>) => (options.client ?? client).delete<DeletePostResponses, DeletePostErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/slug/{slug}',
     ...options
@@ -80,7 +80,7 @@ export const deleteApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>
 /**
  * Get post by slug
  */
-export const getApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1PostsSlugBySlugResponses, GetApiV1PostsSlugBySlugErrors, ThrowOnError>({
+export const getPostBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPostBySlugData, ThrowOnError>) => (options.client ?? client).get<GetPostBySlugResponses, GetPostBySlugErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/slug/{slug}',
     ...options
@@ -89,7 +89,7 @@ export const getApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(op
 /**
  * Update a post
  */
-export const patchApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1PostsSlugBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1PostsSlugBySlugResponses, PatchApiV1PostsSlugBySlugErrors, ThrowOnError>({
+export const updatePostBySlug = <ThrowOnError extends boolean = false>(options: Options<UpdatePostBySlugData, ThrowOnError>) => (options.client ?? client).patch<UpdatePostBySlugResponses, UpdatePostBySlugErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/slug/{slug}',
     ...options,
@@ -102,7 +102,7 @@ export const patchApiV1PostsSlugBySlug = <ThrowOnError extends boolean = false>(
 /**
  * Remove a tag from a post
  */
-export const deleteApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1PostsSlugBySlugTagsByTagSlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses, DeleteApiV1PostsSlugBySlugTagsByTagSlugErrors, ThrowOnError>({
+export const removeTagFromPost = <ThrowOnError extends boolean = false>(options: Options<RemoveTagFromPostData, ThrowOnError>) => (options.client ?? client).delete<RemoveTagFromPostResponses, RemoveTagFromPostErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}',
     ...options
@@ -111,7 +111,7 @@ export const deleteApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boo
 /**
  * Add a tag to a post
  */
-export const putApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boolean = false>(options: Options<PutApiV1PostsSlugBySlugTagsByTagSlugData, ThrowOnError>) => (options.client ?? client).put<PutApiV1PostsSlugBySlugTagsByTagSlugResponses, PutApiV1PostsSlugBySlugTagsByTagSlugErrors, ThrowOnError>({
+export const addTagToPost = <ThrowOnError extends boolean = false>(options: Options<AddTagToPostData, ThrowOnError>) => (options.client ?? client).put<AddTagToPostResponses, AddTagToPostErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}',
     ...options
@@ -120,7 +120,7 @@ export const putApiV1PostsSlugBySlugTagsByTagSlug = <ThrowOnError extends boolea
 /**
  * Get all categories
  */
-export const getApiV1Categories = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1CategoriesData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1CategoriesResponses, GetApiV1CategoriesErrors, ThrowOnError>({
+export const getCategories = <ThrowOnError extends boolean = false>(options?: Options<GetCategoriesData, ThrowOnError>) => (options?.client ?? client).get<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/categories/',
     ...options
@@ -129,7 +129,7 @@ export const getApiV1Categories = <ThrowOnError extends boolean = false>(options
 /**
  * Create a new category (admin)
  */
-export const postApiV1Categories = <ThrowOnError extends boolean = false>(options: Options<PostApiV1CategoriesData, ThrowOnError>) => (options.client ?? client).post<PostApiV1CategoriesResponses, PostApiV1CategoriesErrors, ThrowOnError>({
+export const createCategory = <ThrowOnError extends boolean = false>(options: Options<CreateCategoryData, ThrowOnError>) => (options.client ?? client).post<CreateCategoryResponses, CreateCategoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/categories/',
     ...options,
@@ -142,7 +142,7 @@ export const postApiV1Categories = <ThrowOnError extends boolean = false>(option
 /**
  * Delete a category (admin)
  */
-export const deleteApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1CategoriesBySlugResponses, DeleteApiV1CategoriesBySlugErrors, ThrowOnError>({
+export const deleteCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteCategoryData, ThrowOnError>) => (options.client ?? client).delete<DeleteCategoryResponses, DeleteCategoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/categories/{slug}',
     ...options
@@ -151,7 +151,7 @@ export const deleteApiV1CategoriesBySlug = <ThrowOnError extends boolean = false
 /**
  * Get category by slug
  */
-export const getApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1CategoriesBySlugResponses, GetApiV1CategoriesBySlugErrors, ThrowOnError>({
+export const getCategoryBySlug = <ThrowOnError extends boolean = false>(options: Options<GetCategoryBySlugData, ThrowOnError>) => (options.client ?? client).get<GetCategoryBySlugResponses, GetCategoryBySlugErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/categories/{slug}',
     ...options
@@ -160,7 +160,7 @@ export const getApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(o
 /**
  * Update a category (admin)
  */
-export const patchApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1CategoriesBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1CategoriesBySlugResponses, PatchApiV1CategoriesBySlugErrors, ThrowOnError>({
+export const updateCategory = <ThrowOnError extends boolean = false>(options: Options<UpdateCategoryData, ThrowOnError>) => (options.client ?? client).patch<UpdateCategoryResponses, UpdateCategoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/categories/{slug}',
     ...options,
@@ -173,7 +173,7 @@ export const patchApiV1CategoriesBySlug = <ThrowOnError extends boolean = false>
 /**
  * Get all tags
  */
-export const getApiV1Tags = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1TagsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1TagsResponses, unknown, ThrowOnError>({
+export const getTags = <ThrowOnError extends boolean = false>(options?: Options<GetTagsData, ThrowOnError>) => (options?.client ?? client).get<GetTagsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/tags/',
     ...options
@@ -182,7 +182,7 @@ export const getApiV1Tags = <ThrowOnError extends boolean = false>(options?: Opt
 /**
  * Create a new tag (admin)
  */
-export const postApiV1Tags = <ThrowOnError extends boolean = false>(options: Options<PostApiV1TagsData, ThrowOnError>) => (options.client ?? client).post<PostApiV1TagsResponses, PostApiV1TagsErrors, ThrowOnError>({
+export const createTag = <ThrowOnError extends boolean = false>(options: Options<CreateTagData, ThrowOnError>) => (options.client ?? client).post<CreateTagResponses, CreateTagErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/tags/',
     ...options,
@@ -195,7 +195,7 @@ export const postApiV1Tags = <ThrowOnError extends boolean = false>(options: Opt
 /**
  * Delete a tag (admin)
  */
-export const deleteApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteApiV1TagsBySlugResponses, DeleteApiV1TagsBySlugErrors, ThrowOnError>({
+export const deleteTag = <ThrowOnError extends boolean = false>(options: Options<DeleteTagData, ThrowOnError>) => (options.client ?? client).delete<DeleteTagResponses, DeleteTagErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/tags/{slug}',
     ...options
@@ -204,7 +204,7 @@ export const deleteApiV1TagsBySlug = <ThrowOnError extends boolean = false>(opti
 /**
  * Get tag by slug
  */
-export const getApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<GetApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).get<GetApiV1TagsBySlugResponses, GetApiV1TagsBySlugErrors, ThrowOnError>({
+export const getTagBySlug = <ThrowOnError extends boolean = false>(options: Options<GetTagBySlugData, ThrowOnError>) => (options.client ?? client).get<GetTagBySlugResponses, GetTagBySlugErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/tags/{slug}',
     ...options
@@ -213,7 +213,7 @@ export const getApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options
 /**
  * Update a tag (admin)
  */
-export const patchApiV1TagsBySlug = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1TagsBySlugData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1TagsBySlugResponses, PatchApiV1TagsBySlugErrors, ThrowOnError>({
+export const updateTag = <ThrowOnError extends boolean = false>(options: Options<UpdateTagData, ThrowOnError>) => (options.client ?? client).patch<UpdateTagResponses, UpdateTagErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/tags/{slug}',
     ...options,
@@ -226,7 +226,7 @@ export const patchApiV1TagsBySlug = <ThrowOnError extends boolean = false>(optio
 /**
  * Get public user profile
  */
-export const getApiV1UsersByUserId = <ThrowOnError extends boolean = false>(options: Options<GetApiV1UsersByUserIdData, ThrowOnError>) => (options.client ?? client).get<GetApiV1UsersByUserIdResponses, GetApiV1UsersByUserIdErrors, ThrowOnError>({
+export const getPublicUserById = <ThrowOnError extends boolean = false>(options: Options<GetPublicUserByIdData, ThrowOnError>) => (options.client ?? client).get<GetPublicUserByIdResponses, GetPublicUserByIdErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/users/{userId}',
     ...options
@@ -235,7 +235,7 @@ export const getApiV1UsersByUserId = <ThrowOnError extends boolean = false>(opti
 /**
  * Get current user profile
  */
-export const getApiV1UsersMe = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1UsersMeData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1UsersMeResponses, GetApiV1UsersMeErrors, ThrowOnError>({
+export const getMe = <ThrowOnError extends boolean = false>(options?: Options<GetMeData, ThrowOnError>) => (options?.client ?? client).get<GetMeResponses, GetMeErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/users/me',
     ...options
@@ -244,7 +244,7 @@ export const getApiV1UsersMe = <ThrowOnError extends boolean = false>(options?: 
 /**
  * Update current user profile
  */
-export const patchApiV1UsersMe = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1UsersMeData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1UsersMeResponses, PatchApiV1UsersMeErrors, ThrowOnError>({
+export const updateMe = <ThrowOnError extends boolean = false>(options: Options<UpdateMeData, ThrowOnError>) => (options.client ?? client).patch<UpdateMeResponses, UpdateMeErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/users/me',
     ...options,
@@ -257,7 +257,7 @@ export const patchApiV1UsersMe = <ThrowOnError extends boolean = false>(options:
 /**
  * Update current user password
  */
-export const patchApiV1UsersMePassword = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1UsersMePasswordData, ThrowOnError>) => (options.client ?? client).patch<PatchApiV1UsersMePasswordResponses, PatchApiV1UsersMePasswordErrors, ThrowOnError>({
+export const updateMePassword = <ThrowOnError extends boolean = false>(options: Options<UpdateMePasswordData, ThrowOnError>) => (options.client ?? client).patch<UpdateMePasswordResponses, UpdateMePasswordErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/users/me/password',
     ...options,
@@ -270,7 +270,7 @@ export const patchApiV1UsersMePassword = <ThrowOnError extends boolean = false>(
 /**
  * Get stats for current user
  */
-export const getApiV1Stats = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1StatsData, ThrowOnError>) => (options?.client ?? client).get<GetApiV1StatsResponses, GetApiV1StatsErrors, ThrowOnError>({
+export const getMyStats = <ThrowOnError extends boolean = false>(options?: Options<GetMyStatsData, ThrowOnError>) => (options?.client ?? client).get<GetMyStatsResponses, GetMyStatsErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/stats/',
     ...options

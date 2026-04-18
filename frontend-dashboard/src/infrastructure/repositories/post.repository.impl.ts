@@ -83,21 +83,24 @@ export class PostRepositoryImpl implements IPostRepository {
     status?: PostStatus,
   ): Promise<PagedResult<Post>> {
     try {
+      let published: boolean | undefined;
+      if (status === "PUBLISHED") {
+        published = true;
+      } else if (status === "DRAFT") {
+        published = false;
+      }
+
       const { data, error } = await getPosts({
         query: {
-          page,
-          size,
+          page: String(page),
+          limit: String(size),
           search,
-          status,
+          published,
         },
       });
 
       if (error || !data) {
-        console.error("API Error fetching posts:", error);
-        throw new Error(
-          (error as { message?: string })?.message ||
-            "Ocurrió un error inesperado al obtener los posts",
-        );
+        throw new Error("Ocurrió un error inesperado al obtener los posts");
       }
 
       return PostMapper.toPagedDomain(data);

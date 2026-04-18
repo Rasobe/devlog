@@ -30,7 +30,7 @@ export const userRoutes = new Elysia({
         200: userPublicSchema,
         404: errorSchema,
       },
-      detail: { summary: "Get public user profile" },
+      detail: { summary: "Get public user profile", operationId: "getPublicUserById" },
     },
   )
   // --- Protected ---
@@ -53,7 +53,7 @@ export const userRoutes = new Elysia({
         200: userPrivateSchema,
         404: errorSchema,
       },
-      detail: { summary: "Get current user profile" },
+      detail: { summary: "Get current user profile", operationId: "getMe" },
     },
   )
   .patch(
@@ -75,7 +75,7 @@ export const userRoutes = new Elysia({
         200: userPrivateSchema,
         400: errorSchema,
       },
-      detail: { summary: "Update current user profile" },
+      detail: { summary: "Update current user profile", operationId: "updateMe" },
     },
   )
   .patch(
@@ -97,6 +97,6 @@ export const userRoutes = new Elysia({
         200: userPrivateSchema,
         400: errorSchema,
       },
-      detail: { summary: "Update current user password" },
+      detail: { summary: "Update current user password", operationId: "updateMePassword" },
     },
   );

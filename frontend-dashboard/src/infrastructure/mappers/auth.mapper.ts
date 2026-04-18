@@ -1,17 +1,17 @@
 import { AuthResult } from "@/domain/models/auth.model";
-import type { AuthResponse, UserResponse } from "../api/types.gen";
+import { GetMeResponse, LoginResponse } from "../api";
 
 export const AuthMapper = {
   /** API → Domain (lo que lees del backend → lo que usas en tu app) */
-  toDomain(response: AuthResponse): AuthResult {
+  toDomain(response: LoginResponse): AuthResult {
     return {
       token: response.token,
-      email: response.email,
-      displayName: response.displayName,
+      email: response.user.email,
+      displayName: response.user.displayName,
     };
   },
 
-  toDomainMe(response: UserResponse): AuthResult {
+  toDomainMe(response: GetMeResponse): AuthResult {
     return {
       token: "",
       email: response.email,

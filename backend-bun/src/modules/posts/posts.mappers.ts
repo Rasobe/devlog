@@ -38,7 +38,7 @@ export const mapToDomainPost = (
     slug: dbPost.slug,
     content: dbPost.content,
     excerpt: dbPost.excerpt,
-    published: dbPost.published,
+    published: dbPost.published ?? false,
     views: dbPost.views,
     createdAt: dbPost.createdAt,
     updatedAt: dbPost.updatedAt,

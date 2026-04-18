@@ -44,7 +44,7 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
         201: authResponseSchema,
         400: errorSchema,
       },
-      detail: { summary: "Register a new user" },
+      detail: { summary: "Register a new user", operationId: "register" },
     },
   )
   .post(
@@ -70,6 +70,9 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
         200: authResponseSchema,
         401: errorSchema,
       },
-      detail: { summary: "Login with email and password" },
+      detail: {
+        summary: "Login with email and password",
+        operationId: "login",
+      },
     },
   );

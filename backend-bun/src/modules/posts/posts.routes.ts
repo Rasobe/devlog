@@ -18,8 +18,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     async ({ query, set }) => {
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
-      const published =
-        query.published === undefined ? undefined : query.published === "true";
+      const published = query.published;
 
       set.status = 200;
 
@@ -37,7 +36,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       response: {
         200: paginatedPostsSchema,
       },
-      detail: { summary: "Get posts paginated" },
+      detail: { summary: "Get posts paginated", operationId: "getPosts" },
     },
   )
   .get(
@@ -56,7 +55,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         200: postSchema,
         404: errorSchema,
       },
-      detail: { summary: "Get post by slug" },
+      detail: { summary: "Get post by slug", operationId: "getPostBySlug" },
     },
   )
   // --- Protected (authenticated users) ---
@@ -81,7 +80,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         201: postSchema,
         400: errorSchema,
       },
-      detail: { summary: "Create a new post" },
+      detail: { summary: "Create a new post", operationId: "createPost" },
     },
   )
   .patch(
@@ -101,7 +100,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         200: postSchema,
         404: errorSchema,
       },
-      detail: { summary: "Update a post" },
+      detail: { summary: "Update a post", operationId: "updatePostBySlug" },
     },
   )
   .delete(
@@ -119,7 +118,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         200: t.Object({ slug: t.String() }),
         404: errorSchema,
       },
-      detail: { summary: "Delete a post" },
+      detail: { summary: "Delete a post", operationId: "deletePost" },
     },
   )
   .put(
@@ -148,7 +147,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Add a tag to a post" },
+      detail: { summary: "Add a tag to a post", operationId: "addTagToPost" },
     },
   )
   .delete(
@@ -178,6 +177,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Remove a tag from a post" },
+      detail: { summary: "Remove a tag from a post", operationId: "removeTagFromPost" },
     },
   );

@@ -1,5 +1,5 @@
 import { UserStats } from "@/domain/models/user.model";
-import type { UserStatsResponse } from "../api/types.gen";
+import { UserStatsResponse } from "../api/types";
 
 export const UserMapper = {
   /** API → Domain (lo que lees del backend → lo que usas en tu app) */

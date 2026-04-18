@@ -13,15 +13,8 @@ export class AuthRepositoryImpl implements IAuthRepository {
       },
     });
 
-    if (error) {
-      throw error;
-    }
-
-    if (!data) {
-      throw new Error(
-        "Error inesperado: no hay datos en la respuesta del login",
-      );
-    }
+    if (error) throw error;
+    if (!data) throw new Error("Error inesperado: no hay datos");
 
     return AuthMapper.toDomainMe(data);
   }
@@ -31,15 +24,11 @@ export class AuthRepositoryImpl implements IAuthRepository {
       body: { email, password },
     });
 
-    if (error) {
-      throw error;
-    }
+    console.log("login data:", data);
+    console.log("login error:", error);
 
-    if (!data) {
-      throw new Error(
-        "Error inesperado: no hay datos en la respuesta del login",
-      );
-    }
+    if (error) throw error;
+    if (!data) throw new Error("Error inesperado: no hay datos");
 
     return AuthMapper.toDomain(data);
   }

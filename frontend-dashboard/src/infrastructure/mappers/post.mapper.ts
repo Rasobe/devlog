@@ -3,16 +3,15 @@ import {
   Post,
   UpdatePostInput,
 } from "@/domain/models/post.model";
-import {
-  CreatePostRequest,
-  PagedResultPostResponse,
-  PostResponse,
-  UpdatePostRequest,
-} from "../api";
 import { PagedResult } from "@/domain/models/paged-result.model";
+import type {
+  PostResponse,
+  PostsPagedResponse,
+  CreatePostRequest,
+  UpdatePostRequest,
+} from "../api/types";
 
 export const PostMapper = {
-  /**  API → Domain (lo que lees del backend → lo que usas en tu app) */
   toDomain(response: PostResponse): Post {
     return {
       title: response.title,
@@ -26,16 +25,15 @@ export const PostMapper = {
     };
   },
 
-  toPagedDomain(response: PagedResultPostResponse): PagedResult<Post> {
+  toPagedDomain(response: PostsPagedResponse): PagedResult<Post> {
     return {
-      content: response.content?.map(this.toDomain) ?? [],
-      totalElements: response.totalElements,
-      totalPages: response.totalPages,
-      currentPage: response.currentPage,
+      content: response.data.map(this.toDomain),
+      totalElements: response.meta.total,
+      totalPages: response.meta.totalPages,
+      currentPage: response.meta.page,
     };
   },
 
-  /** Domain → API (lo que envías desde tu app → lo que espera el backend) */
   toApiCreate(input: CreatePostInput): CreatePostRequest {
     return {
       title: input.title,

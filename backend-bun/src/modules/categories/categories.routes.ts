@@ -15,7 +15,7 @@ export const categoriesRoutes = new Elysia({
 })
   // --- Public ---
   .get("/", () => categoriesService.findAll(), {
-    detail: { summary: "Get all categories" },
+    detail: { summary: "Get all categories", operationId: "getCategories" },
     response: {
       200: categoriesResponseSchema,
       404: errorSchema,
@@ -37,7 +37,7 @@ export const categoriesRoutes = new Elysia({
         200: categoryResponseSchema,
         404: errorSchema,
       },
-      detail: { summary: "Get category by slug" },
+      detail: { summary: "Get category by slug", operationId: "getCategoryBySlug" },
     },
   )
 
@@ -63,7 +63,7 @@ export const categoriesRoutes = new Elysia({
         201: categoryResponseSchema,
         400: errorSchema,
       },
-      detail: { summary: "Create a new category (admin)" },
+      detail: { summary: "Create a new category (admin)", operationId: "createCategory" },
     },
   )
   .patch(
@@ -92,7 +92,7 @@ export const categoriesRoutes = new Elysia({
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Update a category (admin)" },
+      detail: { summary: "Update a category (admin)", operationId: "updateCategory" },
     },
   )
   .delete(
@@ -115,7 +115,7 @@ export const categoriesRoutes = new Elysia({
       }
     },
     {
-      detail: { summary: "Delete a category (admin)" },
+      detail: { summary: "Delete a category (admin)", operationId: "deleteCategory" },
       response: {
         200: categoryResponseSchema,
         400: errorSchema,

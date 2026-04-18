@@ -7,7 +7,10 @@ export default defineConfig({
   },
   plugins: [
     "@hey-api/client-axios",
-    "@hey-api/sdk",
+    {
+      name: "@hey-api/sdk",
+      operationId: true,
+    },
     "@hey-api/typescript",
     "@tanstack/react-query",
   ],

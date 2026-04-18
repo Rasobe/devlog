@@ -4,8 +4,8 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { deleteApiV1CategoriesBySlug, deleteApiV1PostsSlugBySlug, deleteApiV1PostsSlugBySlugTagsByTagSlug, deleteApiV1TagsBySlug, getApiV1Categories, getApiV1CategoriesBySlug, getApiV1Posts, getApiV1PostsSlugBySlug, getApiV1Stats, getApiV1Tags, getApiV1TagsBySlug, getApiV1UsersByUserId, getApiV1UsersMe, getHealth, type Options, patchApiV1CategoriesBySlug, patchApiV1PostsSlugBySlug, patchApiV1TagsBySlug, patchApiV1UsersMe, patchApiV1UsersMePassword, postApiV1AuthLogin, postApiV1AuthRegister, postApiV1Categories, postApiV1Posts, postApiV1Tags, putApiV1PostsSlugBySlugTagsByTagSlug } from '../sdk.gen';
-import type { DeleteApiV1CategoriesBySlugData, DeleteApiV1CategoriesBySlugError, DeleteApiV1CategoriesBySlugResponse, DeleteApiV1PostsSlugBySlugData, DeleteApiV1PostsSlugBySlugError, DeleteApiV1PostsSlugBySlugResponse, DeleteApiV1PostsSlugBySlugTagsByTagSlugData, DeleteApiV1PostsSlugBySlugTagsByTagSlugError, DeleteApiV1PostsSlugBySlugTagsByTagSlugResponse, DeleteApiV1TagsBySlugData, DeleteApiV1TagsBySlugError, DeleteApiV1TagsBySlugResponse, GetApiV1CategoriesBySlugData, GetApiV1CategoriesBySlugError, GetApiV1CategoriesBySlugResponse, GetApiV1CategoriesData, GetApiV1CategoriesError, GetApiV1CategoriesResponse, GetApiV1PostsData, GetApiV1PostsResponse, GetApiV1PostsSlugBySlugData, GetApiV1PostsSlugBySlugError, GetApiV1PostsSlugBySlugResponse, GetApiV1StatsData, GetApiV1StatsError, GetApiV1StatsResponse, GetApiV1TagsBySlugData, GetApiV1TagsBySlugError, GetApiV1TagsBySlugResponse, GetApiV1TagsData, GetApiV1TagsResponse, GetApiV1UsersByUserIdData, GetApiV1UsersByUserIdError, GetApiV1UsersByUserIdResponse, GetApiV1UsersMeData, GetApiV1UsersMeError, GetApiV1UsersMeResponse, GetHealthData, PatchApiV1CategoriesBySlugData, PatchApiV1CategoriesBySlugError, PatchApiV1CategoriesBySlugResponse, PatchApiV1PostsSlugBySlugData, PatchApiV1PostsSlugBySlugError, PatchApiV1PostsSlugBySlugResponse, PatchApiV1TagsBySlugData, PatchApiV1TagsBySlugError, PatchApiV1TagsBySlugResponse, PatchApiV1UsersMeData, PatchApiV1UsersMeError, PatchApiV1UsersMePasswordData, PatchApiV1UsersMePasswordError, PatchApiV1UsersMePasswordResponse, PatchApiV1UsersMeResponse, PostApiV1AuthLoginData, PostApiV1AuthLoginError, PostApiV1AuthLoginResponse, PostApiV1AuthRegisterData, PostApiV1AuthRegisterError, PostApiV1AuthRegisterResponse, PostApiV1CategoriesData, PostApiV1CategoriesError, PostApiV1CategoriesResponse, PostApiV1PostsData, PostApiV1PostsError, PostApiV1PostsResponse, PostApiV1TagsData, PostApiV1TagsError, PostApiV1TagsResponse, PutApiV1PostsSlugBySlugTagsByTagSlugData, PutApiV1PostsSlugBySlugTagsByTagSlugError, PutApiV1PostsSlugBySlugTagsByTagSlugResponse } from '../types.gen';
+import { addTagToPost, createCategory, createPost, createTag, deleteCategory, deletePost, deleteTag, getCategories, getCategoryBySlug, getHealth, getMe, getMyStats, getPostBySlug, getPosts, getPublicUserById, getTagBySlug, getTags, login, type Options, register, removeTagFromPost, updateCategory, updateMe, updateMePassword, updatePostBySlug, updateTag } from '../sdk.gen';
+import type { AddTagToPostData, AddTagToPostError, AddTagToPostResponse, CreateCategoryData, CreateCategoryError, CreateCategoryResponse, CreatePostData, CreatePostError, CreatePostResponse, CreateTagData, CreateTagError, CreateTagResponse, DeleteCategoryData, DeleteCategoryError, DeleteCategoryResponse, DeletePostData, DeletePostError, DeletePostResponse, DeleteTagData, DeleteTagError, DeleteTagResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryBySlugData, GetCategoryBySlugError, GetCategoryBySlugResponse, GetHealthData, GetMeData, GetMeError, GetMeResponse, GetMyStatsData, GetMyStatsError, GetMyStatsResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, GetPublicUserByIdData, GetPublicUserByIdError, GetPublicUserByIdResponse, GetTagBySlugData, GetTagBySlugError, GetTagBySlugResponse, GetTagsData, GetTagsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, RemoveTagFromPostData, RemoveTagFromPostError, RemoveTagFromPostResponse, UpdateCategoryData, UpdateCategoryError, UpdateCategoryResponse, UpdateMeData, UpdateMeError, UpdateMePasswordData, UpdateMePasswordError, UpdateMePasswordResponse, UpdateMeResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse, UpdateTagData, UpdateTagError, UpdateTagResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseURL' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -58,10 +58,10 @@ export const getHealthOptions = (options?: Options<GetHealthData>) => queryOptio
 /**
  * Register a new user
  */
-export const postApiV1AuthRegisterMutation = (options?: Partial<Options<PostApiV1AuthRegisterData>>): UseMutationOptions<PostApiV1AuthRegisterResponse, AxiosError<PostApiV1AuthRegisterError>, Options<PostApiV1AuthRegisterData>> => {
-    const mutationOptions: UseMutationOptions<PostApiV1AuthRegisterResponse, AxiosError<PostApiV1AuthRegisterError>, Options<PostApiV1AuthRegisterData>> = {
+export const registerMutation = (options?: Partial<Options<RegisterData>>): UseMutationOptions<RegisterResponse, AxiosError<RegisterError>, Options<RegisterData>> => {
+    const mutationOptions: UseMutationOptions<RegisterResponse, AxiosError<RegisterError>, Options<RegisterData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiV1AuthRegister({
+            const { data } = await register({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -75,10 +75,10 @@ export const postApiV1AuthRegisterMutation = (options?: Partial<Options<PostApiV
 /**
  * Login with email and password
  */
-export const postApiV1AuthLoginMutation = (options?: Partial<Options<PostApiV1AuthLoginData>>): UseMutationOptions<PostApiV1AuthLoginResponse, AxiosError<PostApiV1AuthLoginError>, Options<PostApiV1AuthLoginData>> => {
-    const mutationOptions: UseMutationOptions<PostApiV1AuthLoginResponse, AxiosError<PostApiV1AuthLoginError>, Options<PostApiV1AuthLoginData>> = {
+export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutationOptions<LoginResponse, AxiosError<LoginError>, Options<LoginData>> => {
+    const mutationOptions: UseMutationOptions<LoginResponse, AxiosError<LoginError>, Options<LoginData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiV1AuthLogin({
+            const { data } = await login({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -89,14 +89,14 @@ export const postApiV1AuthLoginMutation = (options?: Partial<Options<PostApiV1Au
     return mutationOptions;
 };
 
-export const getApiV1PostsQueryKey = (options?: Options<GetApiV1PostsData>) => createQueryKey('getApiV1Posts', options);
+export const getPostsQueryKey = (options?: Options<GetPostsData>) => createQueryKey('getPosts', options);
 
 /**
  * Get posts paginated
  */
-export const getApiV1PostsOptions = (options?: Options<GetApiV1PostsData>) => queryOptions<GetApiV1PostsResponse, AxiosError<DefaultError>, GetApiV1PostsResponse, ReturnType<typeof getApiV1PostsQueryKey>>({
+export const getPostsOptions = (options?: Options<GetPostsData>) => queryOptions<GetPostsResponse, AxiosError<DefaultError>, GetPostsResponse, ReturnType<typeof getPostsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1Posts({
+        const { data } = await getPosts({
             ...options,
             ...queryKey[0],
             signal,
@@ -104,7 +104,7 @@ export const getApiV1PostsOptions = (options?: Options<GetApiV1PostsData>) => qu
         });
         return data;
     },
-    queryKey: getApiV1PostsQueryKey(options)
+    queryKey: getPostsQueryKey(options)
 });
 
 const createInfiniteParams = <K extends Pick<QueryKey<Options>[0], 'body' | 'headers' | 'path' | 'query'>>(queryKey: QueryKey<Options>, page: K) => {
@@ -136,23 +136,23 @@ const createInfiniteParams = <K extends Pick<QueryKey<Options>[0], 'body' | 'hea
     return params as unknown as typeof page;
 };
 
-export const getApiV1PostsInfiniteQueryKey = (options?: Options<GetApiV1PostsData>): QueryKey<Options<GetApiV1PostsData>> => createQueryKey('getApiV1Posts', options, true);
+export const getPostsInfiniteQueryKey = (options?: Options<GetPostsData>): QueryKey<Options<GetPostsData>> => createQueryKey('getPosts', options, true);
 
 /**
  * Get posts paginated
  */
-export const getApiV1PostsInfiniteOptions = (options?: Options<GetApiV1PostsData>) => infiniteQueryOptions<GetApiV1PostsResponse, AxiosError<DefaultError>, InfiniteData<GetApiV1PostsResponse>, QueryKey<Options<GetApiV1PostsData>>, string | Pick<QueryKey<Options<GetApiV1PostsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+export const getPostsInfiniteOptions = (options?: Options<GetPostsData>) => infiniteQueryOptions<GetPostsResponse, AxiosError<DefaultError>, InfiniteData<GetPostsResponse>, QueryKey<Options<GetPostsData>>, string | Pick<QueryKey<Options<GetPostsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
 // @ts-ignore
 {
     queryFn: async ({ pageParam, queryKey, signal }) => {
         // @ts-ignore
-        const page: Pick<QueryKey<Options<GetApiV1PostsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+        const page: Pick<QueryKey<Options<GetPostsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
             query: {
                 page: pageParam
             }
         };
         const params = createInfiniteParams(queryKey, page);
-        const { data } = await getApiV1Posts({
+        const { data } = await getPosts({
             ...options,
             ...params,
             signal,
@@ -160,16 +160,16 @@ export const getApiV1PostsInfiniteOptions = (options?: Options<GetApiV1PostsData
         });
         return data;
     },
-    queryKey: getApiV1PostsInfiniteQueryKey(options)
+    queryKey: getPostsInfiniteQueryKey(options)
 });
 
 /**
  * Create a new post
  */
-export const postApiV1PostsMutation = (options?: Partial<Options<PostApiV1PostsData>>): UseMutationOptions<PostApiV1PostsResponse, AxiosError<PostApiV1PostsError>, Options<PostApiV1PostsData>> => {
-    const mutationOptions: UseMutationOptions<PostApiV1PostsResponse, AxiosError<PostApiV1PostsError>, Options<PostApiV1PostsData>> = {
+export const createPostMutation = (options?: Partial<Options<CreatePostData>>): UseMutationOptions<CreatePostResponse, AxiosError<CreatePostError>, Options<CreatePostData>> => {
+    const mutationOptions: UseMutationOptions<CreatePostResponse, AxiosError<CreatePostError>, Options<CreatePostData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiV1Posts({
+            const { data } = await createPost({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -183,10 +183,10 @@ export const postApiV1PostsMutation = (options?: Partial<Options<PostApiV1PostsD
 /**
  * Delete a post
  */
-export const deleteApiV1PostsSlugBySlugMutation = (options?: Partial<Options<DeleteApiV1PostsSlugBySlugData>>): UseMutationOptions<DeleteApiV1PostsSlugBySlugResponse, AxiosError<DeleteApiV1PostsSlugBySlugError>, Options<DeleteApiV1PostsSlugBySlugData>> => {
-    const mutationOptions: UseMutationOptions<DeleteApiV1PostsSlugBySlugResponse, AxiosError<DeleteApiV1PostsSlugBySlugError>, Options<DeleteApiV1PostsSlugBySlugData>> = {
+export const deletePostMutation = (options?: Partial<Options<DeletePostData>>): UseMutationOptions<DeletePostResponse, AxiosError<DeletePostError>, Options<DeletePostData>> => {
+    const mutationOptions: UseMutationOptions<DeletePostResponse, AxiosError<DeletePostError>, Options<DeletePostData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiV1PostsSlugBySlug({
+            const { data } = await deletePost({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -197,14 +197,14 @@ export const deleteApiV1PostsSlugBySlugMutation = (options?: Partial<Options<Del
     return mutationOptions;
 };
 
-export const getApiV1PostsSlugBySlugQueryKey = (options: Options<GetApiV1PostsSlugBySlugData>) => createQueryKey('getApiV1PostsSlugBySlug', options);
+export const getPostBySlugQueryKey = (options: Options<GetPostBySlugData>) => createQueryKey('getPostBySlug', options);
 
 /**
  * Get post by slug
  */
-export const getApiV1PostsSlugBySlugOptions = (options: Options<GetApiV1PostsSlugBySlugData>) => queryOptions<GetApiV1PostsSlugBySlugResponse, AxiosError<GetApiV1PostsSlugBySlugError>, GetApiV1PostsSlugBySlugResponse, ReturnType<typeof getApiV1PostsSlugBySlugQueryKey>>({
+export const getPostBySlugOptions = (options: Options<GetPostBySlugData>) => queryOptions<GetPostBySlugResponse, AxiosError<GetPostBySlugError>, GetPostBySlugResponse, ReturnType<typeof getPostBySlugQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1PostsSlugBySlug({
+        const { data } = await getPostBySlug({
             ...options,
             ...queryKey[0],
             signal,
@@ -212,16 +212,16 @@ export const getApiV1PostsSlugBySlugOptions = (options: Options<GetApiV1PostsSlu
         });
         return data;
     },
-    queryKey: getApiV1PostsSlugBySlugQueryKey(options)
+    queryKey: getPostBySlugQueryKey(options)
 });
 
 /**
  * Update a post
  */
-export const patchApiV1PostsSlugBySlugMutation = (options?: Partial<Options<PatchApiV1PostsSlugBySlugData>>): UseMutationOptions<PatchApiV1PostsSlugBySlugResponse, AxiosError<PatchApiV1PostsSlugBySlugError>, Options<PatchApiV1PostsSlugBySlugData>> => {
-    const mutationOptions: UseMutationOptions<PatchApiV1PostsSlugBySlugResponse, AxiosError<PatchApiV1PostsSlugBySlugError>, Options<PatchApiV1PostsSlugBySlugData>> = {
+export const updatePostBySlugMutation = (options?: Partial<Options<UpdatePostBySlugData>>): UseMutationOptions<UpdatePostBySlugResponse, AxiosError<UpdatePostBySlugError>, Options<UpdatePostBySlugData>> => {
+    const mutationOptions: UseMutationOptions<UpdatePostBySlugResponse, AxiosError<UpdatePostBySlugError>, Options<UpdatePostBySlugData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiV1PostsSlugBySlug({
+            const { data } = await updatePostBySlug({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -235,10 +235,10 @@ export const patchApiV1PostsSlugBySlugMutation = (options?: Partial<Options<Patc
 /**
  * Remove a tag from a post
  */
-export const deleteApiV1PostsSlugBySlugTagsByTagSlugMutation = (options?: Partial<Options<DeleteApiV1PostsSlugBySlugTagsByTagSlugData>>): UseMutationOptions<DeleteApiV1PostsSlugBySlugTagsByTagSlugResponse, AxiosError<DeleteApiV1PostsSlugBySlugTagsByTagSlugError>, Options<DeleteApiV1PostsSlugBySlugTagsByTagSlugData>> => {
-    const mutationOptions: UseMutationOptions<DeleteApiV1PostsSlugBySlugTagsByTagSlugResponse, AxiosError<DeleteApiV1PostsSlugBySlugTagsByTagSlugError>, Options<DeleteApiV1PostsSlugBySlugTagsByTagSlugData>> = {
+export const removeTagFromPostMutation = (options?: Partial<Options<RemoveTagFromPostData>>): UseMutationOptions<RemoveTagFromPostResponse, AxiosError<RemoveTagFromPostError>, Options<RemoveTagFromPostData>> => {
+    const mutationOptions: UseMutationOptions<RemoveTagFromPostResponse, AxiosError<RemoveTagFromPostError>, Options<RemoveTagFromPostData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiV1PostsSlugBySlugTagsByTagSlug({
+            const { data } = await removeTagFromPost({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -252,10 +252,10 @@ export const deleteApiV1PostsSlugBySlugTagsByTagSlugMutation = (options?: Partia
 /**
  * Add a tag to a post
  */
-export const putApiV1PostsSlugBySlugTagsByTagSlugMutation = (options?: Partial<Options<PutApiV1PostsSlugBySlugTagsByTagSlugData>>): UseMutationOptions<PutApiV1PostsSlugBySlugTagsByTagSlugResponse, AxiosError<PutApiV1PostsSlugBySlugTagsByTagSlugError>, Options<PutApiV1PostsSlugBySlugTagsByTagSlugData>> => {
-    const mutationOptions: UseMutationOptions<PutApiV1PostsSlugBySlugTagsByTagSlugResponse, AxiosError<PutApiV1PostsSlugBySlugTagsByTagSlugError>, Options<PutApiV1PostsSlugBySlugTagsByTagSlugData>> = {
+export const addTagToPostMutation = (options?: Partial<Options<AddTagToPostData>>): UseMutationOptions<AddTagToPostResponse, AxiosError<AddTagToPostError>, Options<AddTagToPostData>> => {
+    const mutationOptions: UseMutationOptions<AddTagToPostResponse, AxiosError<AddTagToPostError>, Options<AddTagToPostData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await putApiV1PostsSlugBySlugTagsByTagSlug({
+            const { data } = await addTagToPost({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -266,14 +266,14 @@ export const putApiV1PostsSlugBySlugTagsByTagSlugMutation = (options?: Partial<O
     return mutationOptions;
 };
 
-export const getApiV1CategoriesQueryKey = (options?: Options<GetApiV1CategoriesData>) => createQueryKey('getApiV1Categories', options);
+export const getCategoriesQueryKey = (options?: Options<GetCategoriesData>) => createQueryKey('getCategories', options);
 
 /**
  * Get all categories
  */
-export const getApiV1CategoriesOptions = (options?: Options<GetApiV1CategoriesData>) => queryOptions<GetApiV1CategoriesResponse, AxiosError<GetApiV1CategoriesError>, GetApiV1CategoriesResponse, ReturnType<typeof getApiV1CategoriesQueryKey>>({
+export const getCategoriesOptions = (options?: Options<GetCategoriesData>) => queryOptions<GetCategoriesResponse, AxiosError<GetCategoriesError>, GetCategoriesResponse, ReturnType<typeof getCategoriesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1Categories({
+        const { data } = await getCategories({
             ...options,
             ...queryKey[0],
             signal,
@@ -281,16 +281,16 @@ export const getApiV1CategoriesOptions = (options?: Options<GetApiV1CategoriesDa
         });
         return data;
     },
-    queryKey: getApiV1CategoriesQueryKey(options)
+    queryKey: getCategoriesQueryKey(options)
 });
 
 /**
  * Create a new category (admin)
  */
-export const postApiV1CategoriesMutation = (options?: Partial<Options<PostApiV1CategoriesData>>): UseMutationOptions<PostApiV1CategoriesResponse, AxiosError<PostApiV1CategoriesError>, Options<PostApiV1CategoriesData>> => {
-    const mutationOptions: UseMutationOptions<PostApiV1CategoriesResponse, AxiosError<PostApiV1CategoriesError>, Options<PostApiV1CategoriesData>> = {
+export const createCategoryMutation = (options?: Partial<Options<CreateCategoryData>>): UseMutationOptions<CreateCategoryResponse, AxiosError<CreateCategoryError>, Options<CreateCategoryData>> => {
+    const mutationOptions: UseMutationOptions<CreateCategoryResponse, AxiosError<CreateCategoryError>, Options<CreateCategoryData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiV1Categories({
+            const { data } = await createCategory({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -304,10 +304,10 @@ export const postApiV1CategoriesMutation = (options?: Partial<Options<PostApiV1C
 /**
  * Delete a category (admin)
  */
-export const deleteApiV1CategoriesBySlugMutation = (options?: Partial<Options<DeleteApiV1CategoriesBySlugData>>): UseMutationOptions<DeleteApiV1CategoriesBySlugResponse, AxiosError<DeleteApiV1CategoriesBySlugError>, Options<DeleteApiV1CategoriesBySlugData>> => {
-    const mutationOptions: UseMutationOptions<DeleteApiV1CategoriesBySlugResponse, AxiosError<DeleteApiV1CategoriesBySlugError>, Options<DeleteApiV1CategoriesBySlugData>> = {
+export const deleteCategoryMutation = (options?: Partial<Options<DeleteCategoryData>>): UseMutationOptions<DeleteCategoryResponse, AxiosError<DeleteCategoryError>, Options<DeleteCategoryData>> => {
+    const mutationOptions: UseMutationOptions<DeleteCategoryResponse, AxiosError<DeleteCategoryError>, Options<DeleteCategoryData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiV1CategoriesBySlug({
+            const { data } = await deleteCategory({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -318,14 +318,14 @@ export const deleteApiV1CategoriesBySlugMutation = (options?: Partial<Options<De
     return mutationOptions;
 };
 
-export const getApiV1CategoriesBySlugQueryKey = (options: Options<GetApiV1CategoriesBySlugData>) => createQueryKey('getApiV1CategoriesBySlug', options);
+export const getCategoryBySlugQueryKey = (options: Options<GetCategoryBySlugData>) => createQueryKey('getCategoryBySlug', options);
 
 /**
  * Get category by slug
  */
-export const getApiV1CategoriesBySlugOptions = (options: Options<GetApiV1CategoriesBySlugData>) => queryOptions<GetApiV1CategoriesBySlugResponse, AxiosError<GetApiV1CategoriesBySlugError>, GetApiV1CategoriesBySlugResponse, ReturnType<typeof getApiV1CategoriesBySlugQueryKey>>({
+export const getCategoryBySlugOptions = (options: Options<GetCategoryBySlugData>) => queryOptions<GetCategoryBySlugResponse, AxiosError<GetCategoryBySlugError>, GetCategoryBySlugResponse, ReturnType<typeof getCategoryBySlugQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1CategoriesBySlug({
+        const { data } = await getCategoryBySlug({
             ...options,
             ...queryKey[0],
             signal,
@@ -333,16 +333,16 @@ export const getApiV1CategoriesBySlugOptions = (options: Options<GetApiV1Categor
         });
         return data;
     },
-    queryKey: getApiV1CategoriesBySlugQueryKey(options)
+    queryKey: getCategoryBySlugQueryKey(options)
 });
 
 /**
  * Update a category (admin)
  */
-export const patchApiV1CategoriesBySlugMutation = (options?: Partial<Options<PatchApiV1CategoriesBySlugData>>): UseMutationOptions<PatchApiV1CategoriesBySlugResponse, AxiosError<PatchApiV1CategoriesBySlugError>, Options<PatchApiV1CategoriesBySlugData>> => {
-    const mutationOptions: UseMutationOptions<PatchApiV1CategoriesBySlugResponse, AxiosError<PatchApiV1CategoriesBySlugError>, Options<PatchApiV1CategoriesBySlugData>> = {
+export const updateCategoryMutation = (options?: Partial<Options<UpdateCategoryData>>): UseMutationOptions<UpdateCategoryResponse, AxiosError<UpdateCategoryError>, Options<UpdateCategoryData>> => {
+    const mutationOptions: UseMutationOptions<UpdateCategoryResponse, AxiosError<UpdateCategoryError>, Options<UpdateCategoryData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiV1CategoriesBySlug({
+            const { data } = await updateCategory({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -353,14 +353,14 @@ export const patchApiV1CategoriesBySlugMutation = (options?: Partial<Options<Pat
     return mutationOptions;
 };
 
-export const getApiV1TagsQueryKey = (options?: Options<GetApiV1TagsData>) => createQueryKey('getApiV1Tags', options);
+export const getTagsQueryKey = (options?: Options<GetTagsData>) => createQueryKey('getTags', options);
 
 /**
  * Get all tags
  */
-export const getApiV1TagsOptions = (options?: Options<GetApiV1TagsData>) => queryOptions<GetApiV1TagsResponse, AxiosError<DefaultError>, GetApiV1TagsResponse, ReturnType<typeof getApiV1TagsQueryKey>>({
+export const getTagsOptions = (options?: Options<GetTagsData>) => queryOptions<GetTagsResponse, AxiosError<DefaultError>, GetTagsResponse, ReturnType<typeof getTagsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1Tags({
+        const { data } = await getTags({
             ...options,
             ...queryKey[0],
             signal,
@@ -368,16 +368,16 @@ export const getApiV1TagsOptions = (options?: Options<GetApiV1TagsData>) => quer
         });
         return data;
     },
-    queryKey: getApiV1TagsQueryKey(options)
+    queryKey: getTagsQueryKey(options)
 });
 
 /**
  * Create a new tag (admin)
  */
-export const postApiV1TagsMutation = (options?: Partial<Options<PostApiV1TagsData>>): UseMutationOptions<PostApiV1TagsResponse, AxiosError<PostApiV1TagsError>, Options<PostApiV1TagsData>> => {
-    const mutationOptions: UseMutationOptions<PostApiV1TagsResponse, AxiosError<PostApiV1TagsError>, Options<PostApiV1TagsData>> = {
+export const createTagMutation = (options?: Partial<Options<CreateTagData>>): UseMutationOptions<CreateTagResponse, AxiosError<CreateTagError>, Options<CreateTagData>> => {
+    const mutationOptions: UseMutationOptions<CreateTagResponse, AxiosError<CreateTagError>, Options<CreateTagData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiV1Tags({
+            const { data } = await createTag({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -391,10 +391,10 @@ export const postApiV1TagsMutation = (options?: Partial<Options<PostApiV1TagsDat
 /**
  * Delete a tag (admin)
  */
-export const deleteApiV1TagsBySlugMutation = (options?: Partial<Options<DeleteApiV1TagsBySlugData>>): UseMutationOptions<DeleteApiV1TagsBySlugResponse, AxiosError<DeleteApiV1TagsBySlugError>, Options<DeleteApiV1TagsBySlugData>> => {
-    const mutationOptions: UseMutationOptions<DeleteApiV1TagsBySlugResponse, AxiosError<DeleteApiV1TagsBySlugError>, Options<DeleteApiV1TagsBySlugData>> = {
+export const deleteTagMutation = (options?: Partial<Options<DeleteTagData>>): UseMutationOptions<DeleteTagResponse, AxiosError<DeleteTagError>, Options<DeleteTagData>> => {
+    const mutationOptions: UseMutationOptions<DeleteTagResponse, AxiosError<DeleteTagError>, Options<DeleteTagData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiV1TagsBySlug({
+            const { data } = await deleteTag({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -405,14 +405,14 @@ export const deleteApiV1TagsBySlugMutation = (options?: Partial<Options<DeleteAp
     return mutationOptions;
 };
 
-export const getApiV1TagsBySlugQueryKey = (options: Options<GetApiV1TagsBySlugData>) => createQueryKey('getApiV1TagsBySlug', options);
+export const getTagBySlugQueryKey = (options: Options<GetTagBySlugData>) => createQueryKey('getTagBySlug', options);
 
 /**
  * Get tag by slug
  */
-export const getApiV1TagsBySlugOptions = (options: Options<GetApiV1TagsBySlugData>) => queryOptions<GetApiV1TagsBySlugResponse, AxiosError<GetApiV1TagsBySlugError>, GetApiV1TagsBySlugResponse, ReturnType<typeof getApiV1TagsBySlugQueryKey>>({
+export const getTagBySlugOptions = (options: Options<GetTagBySlugData>) => queryOptions<GetTagBySlugResponse, AxiosError<GetTagBySlugError>, GetTagBySlugResponse, ReturnType<typeof getTagBySlugQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1TagsBySlug({
+        const { data } = await getTagBySlug({
             ...options,
             ...queryKey[0],
             signal,
@@ -420,16 +420,16 @@ export const getApiV1TagsBySlugOptions = (options: Options<GetApiV1TagsBySlugDat
         });
         return data;
     },
-    queryKey: getApiV1TagsBySlugQueryKey(options)
+    queryKey: getTagBySlugQueryKey(options)
 });
 
 /**
  * Update a tag (admin)
  */
-export const patchApiV1TagsBySlugMutation = (options?: Partial<Options<PatchApiV1TagsBySlugData>>): UseMutationOptions<PatchApiV1TagsBySlugResponse, AxiosError<PatchApiV1TagsBySlugError>, Options<PatchApiV1TagsBySlugData>> => {
-    const mutationOptions: UseMutationOptions<PatchApiV1TagsBySlugResponse, AxiosError<PatchApiV1TagsBySlugError>, Options<PatchApiV1TagsBySlugData>> = {
+export const updateTagMutation = (options?: Partial<Options<UpdateTagData>>): UseMutationOptions<UpdateTagResponse, AxiosError<UpdateTagError>, Options<UpdateTagData>> => {
+    const mutationOptions: UseMutationOptions<UpdateTagResponse, AxiosError<UpdateTagError>, Options<UpdateTagData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiV1TagsBySlug({
+            const { data } = await updateTag({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -440,14 +440,14 @@ export const patchApiV1TagsBySlugMutation = (options?: Partial<Options<PatchApiV
     return mutationOptions;
 };
 
-export const getApiV1UsersByUserIdQueryKey = (options: Options<GetApiV1UsersByUserIdData>) => createQueryKey('getApiV1UsersByUserId', options);
+export const getPublicUserByIdQueryKey = (options: Options<GetPublicUserByIdData>) => createQueryKey('getPublicUserById', options);
 
 /**
  * Get public user profile
  */
-export const getApiV1UsersByUserIdOptions = (options: Options<GetApiV1UsersByUserIdData>) => queryOptions<GetApiV1UsersByUserIdResponse, AxiosError<GetApiV1UsersByUserIdError>, GetApiV1UsersByUserIdResponse, ReturnType<typeof getApiV1UsersByUserIdQueryKey>>({
+export const getPublicUserByIdOptions = (options: Options<GetPublicUserByIdData>) => queryOptions<GetPublicUserByIdResponse, AxiosError<GetPublicUserByIdError>, GetPublicUserByIdResponse, ReturnType<typeof getPublicUserByIdQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1UsersByUserId({
+        const { data } = await getPublicUserById({
             ...options,
             ...queryKey[0],
             signal,
@@ -455,17 +455,17 @@ export const getApiV1UsersByUserIdOptions = (options: Options<GetApiV1UsersByUse
         });
         return data;
     },
-    queryKey: getApiV1UsersByUserIdQueryKey(options)
+    queryKey: getPublicUserByIdQueryKey(options)
 });
 
-export const getApiV1UsersMeQueryKey = (options?: Options<GetApiV1UsersMeData>) => createQueryKey('getApiV1UsersMe', options);
+export const getMeQueryKey = (options?: Options<GetMeData>) => createQueryKey('getMe', options);
 
 /**
  * Get current user profile
  */
-export const getApiV1UsersMeOptions = (options?: Options<GetApiV1UsersMeData>) => queryOptions<GetApiV1UsersMeResponse, AxiosError<GetApiV1UsersMeError>, GetApiV1UsersMeResponse, ReturnType<typeof getApiV1UsersMeQueryKey>>({
+export const getMeOptions = (options?: Options<GetMeData>) => queryOptions<GetMeResponse, AxiosError<GetMeError>, GetMeResponse, ReturnType<typeof getMeQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1UsersMe({
+        const { data } = await getMe({
             ...options,
             ...queryKey[0],
             signal,
@@ -473,16 +473,16 @@ export const getApiV1UsersMeOptions = (options?: Options<GetApiV1UsersMeData>) =
         });
         return data;
     },
-    queryKey: getApiV1UsersMeQueryKey(options)
+    queryKey: getMeQueryKey(options)
 });
 
 /**
  * Update current user profile
  */
-export const patchApiV1UsersMeMutation = (options?: Partial<Options<PatchApiV1UsersMeData>>): UseMutationOptions<PatchApiV1UsersMeResponse, AxiosError<PatchApiV1UsersMeError>, Options<PatchApiV1UsersMeData>> => {
-    const mutationOptions: UseMutationOptions<PatchApiV1UsersMeResponse, AxiosError<PatchApiV1UsersMeError>, Options<PatchApiV1UsersMeData>> = {
+export const updateMeMutation = (options?: Partial<Options<UpdateMeData>>): UseMutationOptions<UpdateMeResponse, AxiosError<UpdateMeError>, Options<UpdateMeData>> => {
+    const mutationOptions: UseMutationOptions<UpdateMeResponse, AxiosError<UpdateMeError>, Options<UpdateMeData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiV1UsersMe({
+            const { data } = await updateMe({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -496,10 +496,10 @@ export const patchApiV1UsersMeMutation = (options?: Partial<Options<PatchApiV1Us
 /**
  * Update current user password
  */
-export const patchApiV1UsersMePasswordMutation = (options?: Partial<Options<PatchApiV1UsersMePasswordData>>): UseMutationOptions<PatchApiV1UsersMePasswordResponse, AxiosError<PatchApiV1UsersMePasswordError>, Options<PatchApiV1UsersMePasswordData>> => {
-    const mutationOptions: UseMutationOptions<PatchApiV1UsersMePasswordResponse, AxiosError<PatchApiV1UsersMePasswordError>, Options<PatchApiV1UsersMePasswordData>> = {
+export const updateMePasswordMutation = (options?: Partial<Options<UpdateMePasswordData>>): UseMutationOptions<UpdateMePasswordResponse, AxiosError<UpdateMePasswordError>, Options<UpdateMePasswordData>> => {
+    const mutationOptions: UseMutationOptions<UpdateMePasswordResponse, AxiosError<UpdateMePasswordError>, Options<UpdateMePasswordData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiV1UsersMePassword({
+            const { data } = await updateMePassword({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -510,14 +510,14 @@ export const patchApiV1UsersMePasswordMutation = (options?: Partial<Options<Patc
     return mutationOptions;
 };
 
-export const getApiV1StatsQueryKey = (options?: Options<GetApiV1StatsData>) => createQueryKey('getApiV1Stats', options);
+export const getMyStatsQueryKey = (options?: Options<GetMyStatsData>) => createQueryKey('getMyStats', options);
 
 /**
  * Get stats for current user
  */
-export const getApiV1StatsOptions = (options?: Options<GetApiV1StatsData>) => queryOptions<GetApiV1StatsResponse, AxiosError<GetApiV1StatsError>, GetApiV1StatsResponse, ReturnType<typeof getApiV1StatsQueryKey>>({
+export const getMyStatsOptions = (options?: Options<GetMyStatsData>) => queryOptions<GetMyStatsResponse, AxiosError<GetMyStatsError>, GetMyStatsResponse, ReturnType<typeof getMyStatsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiV1Stats({
+        const { data } = await getMyStats({
             ...options,
             ...queryKey[0],
             signal,
@@ -525,5 +525,5 @@ export const getApiV1StatsOptions = (options?: Options<GetApiV1StatsData>) => qu
         });
         return data;
     },
-    queryKey: getApiV1StatsQueryKey(options)
+    queryKey: getMyStatsQueryKey(options)
 });

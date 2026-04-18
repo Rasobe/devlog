@@ -18,7 +18,7 @@ export const tagsRoutes = new Elysia({
     response: {
       200: tagsResponseSchema,
     },
-    detail: { summary: "Get all tags" },
+    detail: { summary: "Get all tags", operationId: "getTags" },
   })
   .get(
     "/:slug",
@@ -35,7 +35,7 @@ export const tagsRoutes = new Elysia({
         200: tagResponseSchema,
         404: errorSchema,
       },
-      detail: { summary: "Get tag by slug" },
+      detail: { summary: "Get tag by slug", operationId: "getTagBySlug" },
     },
   )
   // --- Admin only ---
@@ -60,7 +60,7 @@ export const tagsRoutes = new Elysia({
         201: tagResponseSchema,
         400: errorSchema,
       },
-      detail: { summary: "Create a new tag (admin)" },
+      detail: { summary: "Create a new tag (admin)", operationId: "createTag" },
     },
   )
   .patch(
@@ -88,7 +88,7 @@ export const tagsRoutes = new Elysia({
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Update a tag (admin)" },
+      detail: { summary: "Update a tag (admin)", operationId: "updateTag" },
     },
   )
   .delete(
@@ -115,6 +115,6 @@ export const tagsRoutes = new Elysia({
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Delete a tag (admin)" },
+      detail: { summary: "Delete a tag (admin)", operationId: "deleteTag" },
     },
   );

@@ -1,17 +1,24 @@
 import { db } from "@/db";
 import { tags } from "@/db/schema";
-import { generateSlug } from "@/lib/slug";
 import { eq } from "drizzle-orm";
 import type { CreateTagInput, UpdateTagInput } from "./tags.types";
+import { generateSlug } from "@/lib/strings";
 
 export const tagsService = {
   findAll: async () => {
-    return db.query.tags.findMany();
+    return db.query.tags.findMany({
+      columns: {
+        id: false,
+      },
+    });
   },
 
   findBySlug: async (slug: string) => {
     return db.query.tags.findFirst({
       where: eq(tags.slug, slug),
+      columns: {
+        id: false,
+      },
     });
   },
 
@@ -29,7 +36,7 @@ export const tagsService = {
     const [tag] = await db
       .insert(tags)
       .values({ name: data.name, slug })
-      .returning();
+      .returning({ name: tags.name, slug: tags.slug });
 
     if (!tag) throw new Error("Failed to create tag");
 
@@ -62,7 +69,7 @@ export const tagsService = {
       .update(tags)
       .set(updateData)
       .where(eq(tags.slug, slug))
-      .returning();
+      .returning({ name: tags.name, slug: tags.slug });
 
     return updated;
   },
@@ -79,7 +86,7 @@ export const tagsService = {
     const [deleted] = await db
       .delete(tags)
       .where(eq(tags.slug, slug))
-      .returning();
+      .returning({ name: tags.name, slug: tags.slug });
 
     return deleted;
   },

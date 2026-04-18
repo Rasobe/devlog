@@ -1,15 +1,18 @@
 import Elysia from "elysia";
 import { isAdmin } from "@/plugins/auth.plugin";
 import { tagsService } from "./tags.service";
-import { createTagBody, updateTagBody } from "./tags.schemas";
-
-// --- Routes ---
+import {
+  createTagBody,
+  tagResponseSchema,
+  updateTagBody,
+} from "./tags.schemas";
+import { errorSchema } from "@/shared/schemas";
 
 export const tagsRoutes = new Elysia({
   prefix: "/tags",
   tags: ["Tags"],
 })
-  // ── Public ────────────────────────────────────────────────────────────────
+  // --- Public ---
   .get("/", () => tagsService.findAll(), {
     detail: { summary: "Get all tags" },
   })
@@ -23,15 +26,23 @@ export const tagsRoutes = new Elysia({
       }
       return tag;
     },
-    { detail: { summary: "Get tag by slug" } },
+    {
+      response: {
+        200: tagResponseSchema,
+        404: errorSchema,
+      },
+      detail: { summary: "Get tag by slug" },
+    },
   )
-  // ── Admin only ────────────────────────────────────────────────────────────
+  // --- Admin only ---
   .use(isAdmin)
   .post(
     "/",
     async ({ body, set }) => {
       try {
-        return await tagsService.create(body);
+        const tag = await tagsService.create(body);
+        set.status = 201;
+        return tag;
       } catch (e: unknown) {
         set.status = 400;
         return {
@@ -41,6 +52,10 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: createTagBody,
+      response: {
+        201: tagResponseSchema,
+        400: errorSchema,
+      },
       detail: { summary: "Create a new tag (admin)" },
     },
   )
@@ -49,6 +64,11 @@ export const tagsRoutes = new Elysia({
     async ({ params: { slug }, body, set }) => {
       try {
         const updated = await tagsService.update(slug, body);
+        if (!updated) {
+          set.status = 404;
+          return { message: "Tag not found" };
+        }
+        set.status = 200;
         return updated;
       } catch (e: unknown) {
         set.status = 400;
@@ -59,6 +79,11 @@ export const tagsRoutes = new Elysia({
     },
     {
       body: updateTagBody,
+      response: {
+        200: tagResponseSchema,
+        400: errorSchema,
+        404: errorSchema,
+      },
       detail: { summary: "Update a tag (admin)" },
     },
   )
@@ -67,6 +92,11 @@ export const tagsRoutes = new Elysia({
     async ({ params: { slug }, set }) => {
       try {
         const deleted = await tagsService.delete(slug);
+        if (!deleted) {
+          set.status = 404;
+          return { message: "Tag not found" };
+        }
+        set.status = 200;
         return deleted;
       } catch (e: unknown) {
         set.status = 404;
@@ -76,6 +106,11 @@ export const tagsRoutes = new Elysia({
       }
     },
     {
+      response: {
+        200: tagResponseSchema,
+        400: errorSchema,
+        404: errorSchema,
+      },
       detail: { summary: "Delete a tag (admin)" },
     },
   );

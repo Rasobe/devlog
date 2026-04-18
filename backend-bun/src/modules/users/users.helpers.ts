@@ -6,6 +6,6 @@ export const toUserPrivate = (user: User): UserPrivate => {
 };
 
 export const toUserPublic = (user: User): UserPublic => {
-  const { passwordHash, email, role, ...rest } = user;
+  const { passwordHash, email, role, id, ...rest } = user;
   return rest;
 };

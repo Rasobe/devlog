@@ -1,13 +1,19 @@
 import Elysia from "elysia";
 import { userService } from "./users.service";
 import { isAuthenticated } from "@/plugins/auth.plugin";
-import { updateMeSchema, updateMePassword } from "./users.schemas";
+import {
+  updateMeSchema,
+  updateMePassword,
+  userPublicSchema,
+  userPrivateSchema,
+} from "./users.schemas";
+import { errorSchema } from "@/shared/schemas";
 
 export const userRoutes = new Elysia({
   prefix: "/users",
   tags: ["Users"],
 })
-  // ── Public ────────────────────────────────────────────────────────────────
+  // --- Public ---
   .get(
     "/:userId",
     async ({ params: { userId }, set }) => {
@@ -19,9 +25,15 @@ export const userRoutes = new Elysia({
         return { message: "User not found" };
       }
     },
-    { detail: { summary: "Get public user profile" } },
+    {
+      response: {
+        200: userPublicSchema,
+        404: errorSchema,
+      },
+      detail: { summary: "Get public user profile" },
+    },
   )
-  // ── Protected ─────────────────────────────────────────────────────────────
+  // --- Protected ---
   .use(isAuthenticated)
   .get(
     "/me",
@@ -36,7 +48,13 @@ export const userRoutes = new Elysia({
         };
       }
     },
-    { detail: { summary: "Get current user profile" } },
+    {
+      response: {
+        200: userPrivateSchema,
+        404: errorSchema,
+      },
+      detail: { summary: "Get current user profile" },
+    },
   )
   .patch(
     "/me",
@@ -53,6 +71,10 @@ export const userRoutes = new Elysia({
     },
     {
       body: updateMeSchema,
+      response: {
+        200: userPrivateSchema,
+        400: errorSchema,
+      },
       detail: { summary: "Update current user profile" },
     },
   )
@@ -71,6 +93,10 @@ export const userRoutes = new Elysia({
     },
     {
       body: updateMePassword,
+      response: {
+        200: userPrivateSchema,
+        400: errorSchema,
+      },
       detail: { summary: "Update current user password" },
     },
   );

@@ -14,6 +14,7 @@ export const userService = {
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
       columns: {
+        id: false,
         passwordHash: false,
       },
     });

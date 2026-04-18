@@ -2,9 +2,9 @@ import { users } from "@/db/schema";
 
 export type User = typeof users.$inferSelect;
 
-export type UserPrivate = Omit<User, "passwordHash">;
+export type UserPrivate = Omit<User, "passwordHash" | "id">;
 
-export type UserPublic = Omit<User, "passwordHash" | "email" | "role">;
+export type UserPublic = Omit<UserPrivate, "email" | "role">;
 
 export interface UpdateUserInput {
   displayName?: string;

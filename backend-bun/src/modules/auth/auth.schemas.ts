@@ -1,7 +1,6 @@
 import { t } from "elysia";
 
 // --- Inputs ---
-
 export const registerBody = t.Object({
   email: t.String({ format: "email" }),
   password: t.String({ minLength: 6 }),
@@ -14,7 +13,6 @@ export const loginBody = t.Object({
 });
 
 // --- Outputs ---
-
 export const authUserSchema = t.Object({
   id: t.String(),
   email: t.String(),

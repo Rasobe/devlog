@@ -42,14 +42,12 @@ const categorySchema = t.Nullable(
 
 const tagSchema = t.Object({
   tag: t.Object({
-    id: t.String(),
     name: t.String(),
     slug: t.String(),
   }),
 });
 
 export const postSchema = t.Object({
-  id: t.String(),
   title: t.String(),
   slug: t.String(),
   content: t.String(),
@@ -71,4 +69,9 @@ export const paginatedPostsSchema = t.Object({
     limit: t.Number(),
     totalPages: t.Number(),
   }),
+});
+
+export const postTagResponseSchema = t.Object({
+  postSlug: t.String(),
+  tagSlug: t.String(),
 });

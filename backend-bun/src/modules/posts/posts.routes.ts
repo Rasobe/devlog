@@ -7,19 +7,21 @@ import {
   postsQuery,
   paginatedPostsSchema,
   postSchema,
+  postTagResponseSchema,
 } from "./posts.schemas";
-
-// --- Routes ---
+import { errorSchema } from "@/shared/schemas";
 
 export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
-  // ── Public ────────────────────────────────────────────────────────────────
+  // --- Public ---
   .get(
     "/",
-    async ({ query }) => {
+    async ({ query, set }) => {
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
       const published =
         query.published === undefined ? undefined : query.published === "true";
+
+      set.status = 200;
 
       return postsService.findAll({
         page,
@@ -46,24 +48,26 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         set.status = 404;
         return { message: "Post not found" };
       }
+      set.status = 200;
       return post;
     },
     {
       response: {
         200: postSchema,
-        404: t.Object({ message: t.String() }),
+        404: errorSchema,
       },
       detail: { summary: "Get post by slug" },
     },
   )
-  // ── Protected (authenticated users) ───────────────────────────────────────
+  // --- Protected (authenticated users) ---
   .use(isAuthenticated)
   .post(
     "/",
     async ({ body, user, set }) => {
       try {
+        const post = await postsService.create({ ...body, authorId: user.id });
         set.status = 201;
-        return await postsService.create({ ...body, authorId: user.id });
+        return post;
       } catch (e: unknown) {
         set.status = 400;
         return {
@@ -75,7 +79,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       body: createPostBody,
       response: {
         201: postSchema,
-        400: t.Object({ message: t.String() }),
+        400: errorSchema,
       },
       detail: { summary: "Create a new post" },
     },
@@ -88,13 +92,14 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         set.status = 404;
         return { message: "Post not found" };
       }
+      set.status = 200;
       return updated;
     },
     {
       body: updatePostBody,
       response: {
         200: postSchema,
-        404: t.Object({ message: t.String() }),
+        404: errorSchema,
       },
       detail: { summary: "Update a post" },
     },
@@ -107,9 +112,13 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         set.status = 404;
         return { message: "Post not found" };
       }
-      return deleted;
+      return { slug };
     },
     {
+      response: {
+        200: t.Object({ slug: t.String() }),
+        404: errorSchema,
+      },
       detail: { summary: "Delete a post" },
     },
   )
@@ -117,7 +126,15 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     "/slug/:slug/tags/:tagSlug",
     async ({ params: { slug: postSlug, tagSlug }, set }) => {
       try {
-        return await postsService.addTag(postSlug, tagSlug);
+        const updated = await postsService.addTag(postSlug, tagSlug);
+
+        if (!updated) {
+          set.status = 404;
+          return { message: "Post not found" };
+        }
+
+        set.status = 200;
+        return { postSlug, tagSlug };
       } catch (e: unknown) {
         set.status = 400;
         return {
@@ -126,6 +143,11 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
     },
     {
+      response: {
+        200: postTagResponseSchema,
+        400: errorSchema,
+        404: errorSchema,
+      },
       detail: { summary: "Add a tag to a post" },
     },
   )
@@ -133,7 +155,15 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     "/slug/:slug/tags/:tagSlug",
     async ({ params: { slug: postSlug, tagSlug }, set }) => {
       try {
-        return await postsService.removeTag(postSlug, tagSlug);
+        const deleted = await postsService.removeTag(postSlug, tagSlug);
+
+        if (!deleted) {
+          set.status = 404;
+          return { message: "Post not found" };
+        }
+
+        set.status = 200;
+        return { postSlug, tagSlug };
       } catch (e: unknown) {
         set.status = 404;
         return {
@@ -143,6 +173,11 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
     },
     {
+      response: {
+        200: postTagResponseSchema,
+        400: errorSchema,
+        404: errorSchema,
+      },
       detail: { summary: "Remove a tag from a post" },
     },
   );

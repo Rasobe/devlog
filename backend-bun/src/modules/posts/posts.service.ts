@@ -171,12 +171,9 @@ export const postsService = {
       throw new Error("Tag already assigned to this post");
     }
 
-    const [created] = await db
-      .insert(postTags)
-      .values({ postId: post.id, tagId: tag.id })
-      .returning();
+    await db.insert(postTags).values({ postId: post.id, tagId: tag.id });
 
-    return created;
+    return { postSlug, tagSlug };
   },
 
   removeTag: async (postSlug: string, tagSlug: string) => {
@@ -196,11 +193,10 @@ export const postsService = {
       throw new Error("Tag not found");
     }
 
-    const [deleted] = await db
+    await db
       .delete(postTags)
-      .where(and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)))
-      .returning();
+      .where(and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)));
 
-    return deleted;
+    return { postSlug, tagSlug };
   },
 };

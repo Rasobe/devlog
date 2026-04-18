@@ -1,20 +1,23 @@
 import { db } from "@/db";
 import { categories } from "@/db/schema";
-import { generateSlug } from "@/lib/slug";
 import { eq } from "drizzle-orm";
 import type {
   CreateCategoryInput,
   UpdateCategoryInput,
 } from "./categories.types";
+import { generateSlug } from "@/lib/strings";
 
 export const categoriesService = {
   findAll: async () => {
-    return db.query.categories.findMany();
+    return db.query.categories.findMany({
+      columns: { id: false },
+    });
   },
 
   findBySlug: async (slug: string) => {
     return db.query.categories.findFirst({
       where: eq(categories.slug, slug),
+      columns: { id: false },
     });
   },
 
@@ -32,7 +35,10 @@ export const categoriesService = {
     const [category] = await db
       .insert(categories)
       .values({ name: data.name, slug })
-      .returning();
+      .returning({
+        name: categories.name,
+        slug: categories.slug,
+      });
 
     if (!category) throw new Error("Failed to create category");
 
@@ -65,7 +71,10 @@ export const categoriesService = {
       .update(categories)
       .set(updateData)
       .where(eq(categories.slug, slug))
-      .returning();
+      .returning({
+        name: categories.name,
+        slug: categories.slug,
+      });
 
     return updated;
   },
@@ -82,7 +91,10 @@ export const categoriesService = {
     const [deleted] = await db
       .delete(categories)
       .where(eq(categories.slug, slug))
-      .returning();
+      .returning({
+        name: categories.name,
+        slug: categories.slug,
+      });
 
     return deleted;
   },

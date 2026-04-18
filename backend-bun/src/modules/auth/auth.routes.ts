@@ -57,6 +57,7 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
           email: user.email,
           role: user.role,
         });
+        set.status = 200;
         return { user, token };
       } catch (e: unknown) {
         set.status = 401;

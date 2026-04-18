@@ -26,9 +26,28 @@ export type PostApiV1AuthRegisterData = {
     url: '/api/v1/auth/register';
 };
 
-export type PostApiV1AuthRegisterResponses = {
-    200: unknown;
+export type PostApiV1AuthRegisterErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PostApiV1AuthRegisterError = PostApiV1AuthRegisterErrors[keyof PostApiV1AuthRegisterErrors];
+
+export type PostApiV1AuthRegisterResponses = {
+    201: {
+        user: {
+            id: string;
+            email: string;
+            displayName: string;
+            role: string;
+            createdAt: unknown | string | string | number;
+        };
+        token: string;
+    };
+};
+
+export type PostApiV1AuthRegisterResponse = PostApiV1AuthRegisterResponses[keyof PostApiV1AuthRegisterResponses];
 
 export type PostApiV1AuthLoginData = {
     body: {
@@ -40,9 +59,28 @@ export type PostApiV1AuthLoginData = {
     url: '/api/v1/auth/login';
 };
 
-export type PostApiV1AuthLoginResponses = {
-    200: unknown;
+export type PostApiV1AuthLoginErrors = {
+    401: {
+        message: string;
+    };
 };
+
+export type PostApiV1AuthLoginError = PostApiV1AuthLoginErrors[keyof PostApiV1AuthLoginErrors];
+
+export type PostApiV1AuthLoginResponses = {
+    200: {
+        user: {
+            id: string;
+            email: string;
+            displayName: string;
+            role: string;
+            createdAt: unknown | string | string | number;
+        };
+        token: string;
+    };
+};
+
+export type PostApiV1AuthLoginResponse = PostApiV1AuthLoginResponses[keyof PostApiV1AuthLoginResponses];
 
 export type GetApiV1PostsData = {
     body?: never;
@@ -59,8 +97,41 @@ export type GetApiV1PostsData = {
 };
 
 export type GetApiV1PostsResponses = {
-    200: unknown;
+    200: {
+        data: Array<{
+            title: string;
+            slug: string;
+            content: string;
+            excerpt: string;
+            published: boolean | unknown | null;
+            views: number;
+            createdAt: unknown | string | string | number;
+            updatedAt: unknown | string | string | number;
+            author: {
+                displayName: string;
+                email: string;
+            };
+            category: {
+                name: string;
+                slug: string;
+            } | unknown | null;
+            postTags: Array<{
+                tag: {
+                    name: string;
+                    slug: string;
+                };
+            }>;
+        }>;
+        meta: {
+            total: number;
+            page: number;
+            limit: number;
+            totalPages: number;
+        };
+    };
 };
+
+export type GetApiV1PostsResponse = GetApiV1PostsResponses[keyof GetApiV1PostsResponses];
 
 export type PostApiV1PostsData = {
     body: {
@@ -75,9 +146,42 @@ export type PostApiV1PostsData = {
     url: '/api/v1/posts/';
 };
 
-export type PostApiV1PostsResponses = {
-    200: unknown;
+export type PostApiV1PostsErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PostApiV1PostsError = PostApiV1PostsErrors[keyof PostApiV1PostsErrors];
+
+export type PostApiV1PostsResponses = {
+    201: {
+        title: string;
+        slug: string;
+        content: string;
+        excerpt: string;
+        published: boolean | unknown | null;
+        views: number;
+        createdAt: unknown | string | string | number;
+        updatedAt: unknown | string | string | number;
+        author: {
+            displayName: string;
+            email: string;
+        };
+        category: {
+            name: string;
+            slug: string;
+        } | unknown | null;
+        postTags: Array<{
+            tag: {
+                name: string;
+                slug: string;
+            };
+        }>;
+    };
+};
+
+export type PostApiV1PostsResponse = PostApiV1PostsResponses[keyof PostApiV1PostsResponses];
 
 export type DeleteApiV1PostsSlugBySlugData = {
     body?: never;
@@ -88,9 +192,21 @@ export type DeleteApiV1PostsSlugBySlugData = {
     url: '/api/v1/posts/slug/{slug}';
 };
 
-export type DeleteApiV1PostsSlugBySlugResponses = {
-    200: unknown;
+export type DeleteApiV1PostsSlugBySlugErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type DeleteApiV1PostsSlugBySlugError = DeleteApiV1PostsSlugBySlugErrors[keyof DeleteApiV1PostsSlugBySlugErrors];
+
+export type DeleteApiV1PostsSlugBySlugResponses = {
+    200: {
+        slug: string;
+    };
+};
+
+export type DeleteApiV1PostsSlugBySlugResponse = DeleteApiV1PostsSlugBySlugResponses[keyof DeleteApiV1PostsSlugBySlugResponses];
 
 export type GetApiV1PostsSlugBySlugData = {
     body?: never;
@@ -101,9 +217,42 @@ export type GetApiV1PostsSlugBySlugData = {
     url: '/api/v1/posts/slug/{slug}';
 };
 
-export type GetApiV1PostsSlugBySlugResponses = {
-    200: unknown;
+export type GetApiV1PostsSlugBySlugErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1PostsSlugBySlugError = GetApiV1PostsSlugBySlugErrors[keyof GetApiV1PostsSlugBySlugErrors];
+
+export type GetApiV1PostsSlugBySlugResponses = {
+    200: {
+        title: string;
+        slug: string;
+        content: string;
+        excerpt: string;
+        published: boolean | unknown | null;
+        views: number;
+        createdAt: unknown | string | string | number;
+        updatedAt: unknown | string | string | number;
+        author: {
+            displayName: string;
+            email: string;
+        };
+        category: {
+            name: string;
+            slug: string;
+        } | unknown | null;
+        postTags: Array<{
+            tag: {
+                name: string;
+                slug: string;
+            };
+        }>;
+    };
+};
+
+export type GetApiV1PostsSlugBySlugResponse = GetApiV1PostsSlugBySlugResponses[keyof GetApiV1PostsSlugBySlugResponses];
 
 export type PatchApiV1PostsSlugBySlugData = {
     body: {
@@ -121,9 +270,42 @@ export type PatchApiV1PostsSlugBySlugData = {
     url: '/api/v1/posts/slug/{slug}';
 };
 
-export type PatchApiV1PostsSlugBySlugResponses = {
-    200: unknown;
+export type PatchApiV1PostsSlugBySlugErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type PatchApiV1PostsSlugBySlugError = PatchApiV1PostsSlugBySlugErrors[keyof PatchApiV1PostsSlugBySlugErrors];
+
+export type PatchApiV1PostsSlugBySlugResponses = {
+    200: {
+        title: string;
+        slug: string;
+        content: string;
+        excerpt: string;
+        published: boolean | unknown | null;
+        views: number;
+        createdAt: unknown | string | string | number;
+        updatedAt: unknown | string | string | number;
+        author: {
+            displayName: string;
+            email: string;
+        };
+        category: {
+            name: string;
+            slug: string;
+        } | unknown | null;
+        postTags: Array<{
+            tag: {
+                name: string;
+                slug: string;
+            };
+        }>;
+    };
+};
+
+export type PatchApiV1PostsSlugBySlugResponse = PatchApiV1PostsSlugBySlugResponses[keyof PatchApiV1PostsSlugBySlugResponses];
 
 export type DeleteApiV1PostsSlugBySlugTagsByTagSlugData = {
     body?: never;
@@ -135,9 +317,25 @@ export type DeleteApiV1PostsSlugBySlugTagsByTagSlugData = {
     url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}';
 };
 
-export type DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses = {
-    200: unknown;
+export type DeleteApiV1PostsSlugBySlugTagsByTagSlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type DeleteApiV1PostsSlugBySlugTagsByTagSlugError = DeleteApiV1PostsSlugBySlugTagsByTagSlugErrors[keyof DeleteApiV1PostsSlugBySlugTagsByTagSlugErrors];
+
+export type DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses = {
+    200: {
+        postSlug: string;
+        tagSlug: string;
+    };
+};
+
+export type DeleteApiV1PostsSlugBySlugTagsByTagSlugResponse = DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses[keyof DeleteApiV1PostsSlugBySlugTagsByTagSlugResponses];
 
 export type PutApiV1PostsSlugBySlugTagsByTagSlugData = {
     body?: never;
@@ -149,9 +347,25 @@ export type PutApiV1PostsSlugBySlugTagsByTagSlugData = {
     url: '/api/v1/posts/slug/{slug}/tags/{tagSlug}';
 };
 
-export type PutApiV1PostsSlugBySlugTagsByTagSlugResponses = {
-    200: unknown;
+export type PutApiV1PostsSlugBySlugTagsByTagSlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type PutApiV1PostsSlugBySlugTagsByTagSlugError = PutApiV1PostsSlugBySlugTagsByTagSlugErrors[keyof PutApiV1PostsSlugBySlugTagsByTagSlugErrors];
+
+export type PutApiV1PostsSlugBySlugTagsByTagSlugResponses = {
+    200: {
+        postSlug: string;
+        tagSlug: string;
+    };
+};
+
+export type PutApiV1PostsSlugBySlugTagsByTagSlugResponse = PutApiV1PostsSlugBySlugTagsByTagSlugResponses[keyof PutApiV1PostsSlugBySlugTagsByTagSlugResponses];
 
 export type GetApiV1CategoriesData = {
     body?: never;
@@ -160,9 +374,22 @@ export type GetApiV1CategoriesData = {
     url: '/api/v1/categories/';
 };
 
-export type GetApiV1CategoriesResponses = {
-    200: unknown;
+export type GetApiV1CategoriesErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1CategoriesError = GetApiV1CategoriesErrors[keyof GetApiV1CategoriesErrors];
+
+export type GetApiV1CategoriesResponses = {
+    200: Array<{
+        name: string;
+        slug: string;
+    }>;
+};
+
+export type GetApiV1CategoriesResponse = GetApiV1CategoriesResponses[keyof GetApiV1CategoriesResponses];
 
 export type PostApiV1CategoriesData = {
     body: {
@@ -173,9 +400,22 @@ export type PostApiV1CategoriesData = {
     url: '/api/v1/categories/';
 };
 
-export type PostApiV1CategoriesResponses = {
-    200: unknown;
+export type PostApiV1CategoriesErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PostApiV1CategoriesError = PostApiV1CategoriesErrors[keyof PostApiV1CategoriesErrors];
+
+export type PostApiV1CategoriesResponses = {
+    201: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type PostApiV1CategoriesResponse = PostApiV1CategoriesResponses[keyof PostApiV1CategoriesResponses];
 
 export type DeleteApiV1CategoriesBySlugData = {
     body?: never;
@@ -186,9 +426,25 @@ export type DeleteApiV1CategoriesBySlugData = {
     url: '/api/v1/categories/{slug}';
 };
 
-export type DeleteApiV1CategoriesBySlugResponses = {
-    200: unknown;
+export type DeleteApiV1CategoriesBySlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type DeleteApiV1CategoriesBySlugError = DeleteApiV1CategoriesBySlugErrors[keyof DeleteApiV1CategoriesBySlugErrors];
+
+export type DeleteApiV1CategoriesBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type DeleteApiV1CategoriesBySlugResponse = DeleteApiV1CategoriesBySlugResponses[keyof DeleteApiV1CategoriesBySlugResponses];
 
 export type GetApiV1CategoriesBySlugData = {
     body?: never;
@@ -199,9 +455,22 @@ export type GetApiV1CategoriesBySlugData = {
     url: '/api/v1/categories/{slug}';
 };
 
-export type GetApiV1CategoriesBySlugResponses = {
-    200: unknown;
+export type GetApiV1CategoriesBySlugErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1CategoriesBySlugError = GetApiV1CategoriesBySlugErrors[keyof GetApiV1CategoriesBySlugErrors];
+
+export type GetApiV1CategoriesBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type GetApiV1CategoriesBySlugResponse = GetApiV1CategoriesBySlugResponses[keyof GetApiV1CategoriesBySlugResponses];
 
 export type PatchApiV1CategoriesBySlugData = {
     body: {
@@ -214,9 +483,25 @@ export type PatchApiV1CategoriesBySlugData = {
     url: '/api/v1/categories/{slug}';
 };
 
-export type PatchApiV1CategoriesBySlugResponses = {
-    200: unknown;
+export type PatchApiV1CategoriesBySlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type PatchApiV1CategoriesBySlugError = PatchApiV1CategoriesBySlugErrors[keyof PatchApiV1CategoriesBySlugErrors];
+
+export type PatchApiV1CategoriesBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type PatchApiV1CategoriesBySlugResponse = PatchApiV1CategoriesBySlugResponses[keyof PatchApiV1CategoriesBySlugResponses];
 
 export type GetApiV1TagsData = {
     body?: never;
@@ -238,9 +523,22 @@ export type PostApiV1TagsData = {
     url: '/api/v1/tags/';
 };
 
-export type PostApiV1TagsResponses = {
-    200: unknown;
+export type PostApiV1TagsErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PostApiV1TagsError = PostApiV1TagsErrors[keyof PostApiV1TagsErrors];
+
+export type PostApiV1TagsResponses = {
+    201: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type PostApiV1TagsResponse = PostApiV1TagsResponses[keyof PostApiV1TagsResponses];
 
 export type DeleteApiV1TagsBySlugData = {
     body?: never;
@@ -251,9 +549,25 @@ export type DeleteApiV1TagsBySlugData = {
     url: '/api/v1/tags/{slug}';
 };
 
-export type DeleteApiV1TagsBySlugResponses = {
-    200: unknown;
+export type DeleteApiV1TagsBySlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type DeleteApiV1TagsBySlugError = DeleteApiV1TagsBySlugErrors[keyof DeleteApiV1TagsBySlugErrors];
+
+export type DeleteApiV1TagsBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type DeleteApiV1TagsBySlugResponse = DeleteApiV1TagsBySlugResponses[keyof DeleteApiV1TagsBySlugResponses];
 
 export type GetApiV1TagsBySlugData = {
     body?: never;
@@ -264,9 +578,22 @@ export type GetApiV1TagsBySlugData = {
     url: '/api/v1/tags/{slug}';
 };
 
-export type GetApiV1TagsBySlugResponses = {
-    200: unknown;
+export type GetApiV1TagsBySlugErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1TagsBySlugError = GetApiV1TagsBySlugErrors[keyof GetApiV1TagsBySlugErrors];
+
+export type GetApiV1TagsBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type GetApiV1TagsBySlugResponse = GetApiV1TagsBySlugResponses[keyof GetApiV1TagsBySlugResponses];
 
 export type PatchApiV1TagsBySlugData = {
     body: {
@@ -279,9 +606,25 @@ export type PatchApiV1TagsBySlugData = {
     url: '/api/v1/tags/{slug}';
 };
 
-export type PatchApiV1TagsBySlugResponses = {
-    200: unknown;
+export type PatchApiV1TagsBySlugErrors = {
+    400: {
+        message: string;
+    };
+    404: {
+        message: string;
+    };
 };
+
+export type PatchApiV1TagsBySlugError = PatchApiV1TagsBySlugErrors[keyof PatchApiV1TagsBySlugErrors];
+
+export type PatchApiV1TagsBySlugResponses = {
+    200: {
+        name: string;
+        slug: string;
+    };
+};
+
+export type PatchApiV1TagsBySlugResponse = PatchApiV1TagsBySlugResponses[keyof PatchApiV1TagsBySlugResponses];
 
 export type GetApiV1UsersByUserIdData = {
     body?: never;
@@ -292,9 +635,23 @@ export type GetApiV1UsersByUserIdData = {
     url: '/api/v1/users/{userId}';
 };
 
-export type GetApiV1UsersByUserIdResponses = {
-    200: unknown;
+export type GetApiV1UsersByUserIdErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1UsersByUserIdError = GetApiV1UsersByUserIdErrors[keyof GetApiV1UsersByUserIdErrors];
+
+export type GetApiV1UsersByUserIdResponses = {
+    200: {
+        username: string;
+        displayName: string;
+        createdAt: unknown | string | string | number;
+    };
+};
+
+export type GetApiV1UsersByUserIdResponse = GetApiV1UsersByUserIdResponses[keyof GetApiV1UsersByUserIdResponses];
 
 export type GetApiV1UsersMeData = {
     body?: never;
@@ -303,9 +660,25 @@ export type GetApiV1UsersMeData = {
     url: '/api/v1/users/me';
 };
 
-export type GetApiV1UsersMeResponses = {
-    200: unknown;
+export type GetApiV1UsersMeErrors = {
+    404: {
+        message: string;
+    };
 };
+
+export type GetApiV1UsersMeError = GetApiV1UsersMeErrors[keyof GetApiV1UsersMeErrors];
+
+export type GetApiV1UsersMeResponses = {
+    200: {
+        username: string;
+        displayName: string;
+        createdAt: unknown | string | string | number;
+        email: string;
+        role: string;
+    };
+};
+
+export type GetApiV1UsersMeResponse = GetApiV1UsersMeResponses[keyof GetApiV1UsersMeResponses];
 
 export type PatchApiV1UsersMeData = {
     body: {
@@ -317,9 +690,25 @@ export type PatchApiV1UsersMeData = {
     url: '/api/v1/users/me';
 };
 
-export type PatchApiV1UsersMeResponses = {
-    200: unknown;
+export type PatchApiV1UsersMeErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PatchApiV1UsersMeError = PatchApiV1UsersMeErrors[keyof PatchApiV1UsersMeErrors];
+
+export type PatchApiV1UsersMeResponses = {
+    200: {
+        username: string;
+        displayName: string;
+        createdAt: unknown | string | string | number;
+        email: string;
+        role: string;
+    };
+};
+
+export type PatchApiV1UsersMeResponse = PatchApiV1UsersMeResponses[keyof PatchApiV1UsersMeResponses];
 
 export type PatchApiV1UsersMePasswordData = {
     body: {
@@ -331,9 +720,25 @@ export type PatchApiV1UsersMePasswordData = {
     url: '/api/v1/users/me/password';
 };
 
-export type PatchApiV1UsersMePasswordResponses = {
-    200: unknown;
+export type PatchApiV1UsersMePasswordErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type PatchApiV1UsersMePasswordError = PatchApiV1UsersMePasswordErrors[keyof PatchApiV1UsersMePasswordErrors];
+
+export type PatchApiV1UsersMePasswordResponses = {
+    200: {
+        username: string;
+        displayName: string;
+        createdAt: unknown | string | string | number;
+        email: string;
+        role: string;
+    };
+};
+
+export type PatchApiV1UsersMePasswordResponse = PatchApiV1UsersMePasswordResponses[keyof PatchApiV1UsersMePasswordResponses];
 
 export type GetApiV1StatsData = {
     body?: never;
@@ -342,6 +747,27 @@ export type GetApiV1StatsData = {
     url: '/api/v1/stats/';
 };
 
-export type GetApiV1StatsResponses = {
-    200: unknown;
+export type GetApiV1StatsErrors = {
+    400: {
+        message: string;
+    };
 };
+
+export type GetApiV1StatsError = GetApiV1StatsErrors[keyof GetApiV1StatsErrors];
+
+export type GetApiV1StatsResponses = {
+    200: {
+        totalPosts: number;
+        totalPublishedPosts: number;
+        totalDraftPosts: number;
+        totalViews: number;
+        totalComments: number;
+        totalLikes: number;
+        postsByMonth: Array<{
+            month: string;
+            count: number;
+        }>;
+    };
+};
+
+export type GetApiV1StatsResponse = GetApiV1StatsResponses[keyof GetApiV1StatsResponses];

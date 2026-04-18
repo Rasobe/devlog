@@ -6,7 +6,7 @@ export const createPostBody = t.Object({
   content: t.String(),
   excerpt: t.String(),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Nullable(t.String())),
+  categoryId: t.Optional(t.Union([t.String(), t.Null()])),
 });
 
 export const updatePostBody = t.Object({
@@ -15,7 +15,7 @@ export const updatePostBody = t.Object({
   content: t.Optional(t.String()),
   excerpt: t.Optional(t.String()),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.Nullable(t.String())),
+  categoryId: t.Optional(t.Union([t.String(), t.Null()])),
 });
 
 export const postsQuery = t.Object({
@@ -52,7 +52,7 @@ export const postSchema = t.Object({
   slug: t.String(),
   content: t.String(),
   excerpt: t.String(),
-  published: t.Nullable(t.Boolean()),
+  published: t.Union([t.Boolean(), t.Null()]),
   views: t.Number(),
   createdAt: t.String(),
   updatedAt: t.String(),

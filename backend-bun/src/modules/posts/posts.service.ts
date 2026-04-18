@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { categories, posts, postTags, tags } from "@/db/schema";
-import { generateSlug } from "@/lib/slug";
 import { and, count, eq, desc, inArray, ilike, exists } from "drizzle-orm";
 import type {
   PostPaginationParams,
@@ -14,6 +13,7 @@ import {
   postWithRelations,
   type DrizzlePostResult,
 } from "./posts.mappers";
+import { generateSlug } from "@/lib/strings";
 
 export const postsService = {
   findAll: async ({

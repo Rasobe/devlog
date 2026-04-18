@@ -2,7 +2,8 @@ import { jwt } from "@elysiajs/jwt";
 import { env } from "@/config/env";
 import Elysia from "elysia";
 import { authService } from "./auth.service";
-import { registerBody, loginBody } from "./auth.schemas";
+import { registerBody, loginBody, authResponseSchema } from "./auth.schemas";
+import { errorSchema } from "@/shared/schemas";
 
 // --- Routes ---
 
@@ -32,11 +33,17 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
         return { user, token };
       } catch (e: unknown) {
         set.status = 400;
-        return { message: e instanceof Error ? e.message : "Registration failed" };
+        return {
+          message: e instanceof Error ? e.message : "Registration failed",
+        };
       }
     },
     {
       body: registerBody,
+      response: {
+        201: authResponseSchema,
+        400: errorSchema,
+      },
       detail: { summary: "Register a new user" },
     },
   )
@@ -58,6 +65,10 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
     },
     {
       body: loginBody,
+      response: {
+        200: authResponseSchema,
+        401: errorSchema,
+      },
       detail: { summary: "Login with email and password" },
     },
   );

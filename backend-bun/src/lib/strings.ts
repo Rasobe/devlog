@@ -6,3 +6,6 @@ export const slugify = (value: string): string =>
     .replaceAll(/[^a-z0-9\s-]/g, "")
     .trim()
     .replaceAll(/\s+/g, "-");
+
+export const generateSlug = slugify;
+export const generateUsername = slugify;

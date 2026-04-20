@@ -1,7 +1,7 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import { Button } from "../../primitives";
+import { Button, Divider } from "../../primitives";
 
 interface DeleteConfirmationModalProps {
   title?: string;
@@ -24,17 +24,17 @@ export const DeleteConfirmationModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm animate-in bg-black/50 fade-in duration-200">
-      <div className="bg-background p-8 rounded-lg shadow-lg flex flex-col gap-4 min-w-sm max-w-md border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
-        <div className="flex flex-col gap-2 items-center justify-center">
+      <div className="bg-background px-8 py-10 rounded-lg shadow-lg flex flex-col gap-6 min-w-md max-w-md border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
+        <div className="flex flex-col gap-3 items-center justify-center">
           <div className="flex justify-center items-center rounded-full p-4 bg-red-500/30">
             <Trash2 className="w-6 h-6 text-red-300" />
           </div>
-          <h2 className="font-semibold text-center">{title}</h2>
+          <h2 className="text-lg font-semibold text-center">{title}</h2>
           <h3 className="text-sm text-muted-foreground text-center">
             {message}
           </h3>
         </div>
-        <hr />
+        <Divider />
         <div className="flex flex-row gap-2 justify-end">
           <Button variant="outline" onClick={onClose}>
             Cancelar

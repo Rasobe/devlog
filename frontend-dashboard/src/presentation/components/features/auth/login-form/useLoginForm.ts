@@ -1,21 +1,18 @@
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "@/presentation/config/routes";
-
-import { useAuthContext } from "@/presentation/store/AuthContext";
 import {
   defaultLoginValues,
   loginSchema,
   type LoginSchema,
 } from "@/presentation/schemas/auth.schema";
-import { getErrorMessage } from "@/core/utils";
+import { useAuthContext } from "@/presentation/store/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export const useLoginForm = () => {
   const router = useRouter();
   const { login } = useAuthContext();
-  const [serverError, setServerError] = useState<string | null>(null);
 
   const loginForm = useForm<LoginSchema>({
     defaultValues: defaultLoginValues,
@@ -23,14 +20,11 @@ export const useLoginForm = () => {
   });
 
   const onSubmitHandler = async (data: LoginSchema) => {
-    setServerError(null);
-
     try {
       await login(data.email, data.password);
-
       router.push(ROUTES.DASHBOARD);
-    } catch (error: unknown) {
-      setServerError(getErrorMessage(error));
+    } catch {
+      toast.error("Credenciales incorrectas");
     }
   };
 
@@ -38,6 +32,5 @@ export const useLoginForm = () => {
     loginForm,
     onSubmit: loginForm.handleSubmit(onSubmitHandler),
     isLoading: loginForm.formState.isSubmitting,
-    serverError,
   };
 };

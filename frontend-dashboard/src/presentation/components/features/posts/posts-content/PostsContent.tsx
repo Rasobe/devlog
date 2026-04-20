@@ -3,61 +3,11 @@
 import { Post, PostStatus } from "@/domain/models/post.model";
 import { usePostsContent } from "./usePostsContent";
 import {
-  Badge,
   DataTable,
   ErrorState,
   Select,
-  TableActionBtn,
-  TableActions,
 } from "@/presentation/components/global";
-import { formatFullDate } from "@/core/utils";
-import { ROUTES } from "@/presentation/config/routes";
-
-const columns = [
-  {
-    key: "title",
-    header: "Título",
-    render: (post: Post) => (
-      <span className="font-medium text-foreground">{post.title}</span>
-    ),
-  },
-  {
-    key: "status",
-    header: "Estado",
-    render: (post: Post) => (
-      <Badge variant={post.published ? "success" : "warning"}>
-        {post.published ? "Publicado" : "Borrador"}
-      </Badge>
-    ),
-  },
-  {
-    key: "date",
-    header: "Fecha",
-    render: (post: Post) => (
-      <span className="text-muted-foreground">
-        {formatFullDate(post.createdAt)}
-      </span>
-    ),
-  },
-  {
-    key: "actions",
-    header: "",
-    render: (post: Post) => (
-      <TableActions>
-        <TableActionBtn
-          variant="view"
-          href={ROUTES.POSTS_EDIT(post.slug)}
-          title="Ver"
-        />
-        <TableActionBtn
-          variant="edit"
-          href={ROUTES.POSTS_EDIT(post.slug)}
-          title="Editar"
-        />
-      </TableActions>
-    ),
-  },
-];
+import { postsContentColumns } from "./PostsContent.table-config";
 
 const statusOptions = [
   { value: "ALL", label: "Todos" },
@@ -89,7 +39,7 @@ export const PostsContent = () => {
     <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
       <DataTable<Post>
         data={posts}
-        columns={columns}
+        columns={postsContentColumns}
         search={{
           value: search,
           onChange: setSearch,

@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Nueva publicación",
 };
 
-export default function NewPostPage() {
+const NewPostPage = () => {
   return <PostForm />;
-}
+};
+
+export default NewPostPage;

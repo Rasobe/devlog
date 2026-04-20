@@ -1,17 +1,16 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  authStorage,
-  type StoredUser,
-} from "@/infrastructure/services/auth-storage";
-import { useState, useCallback, useEffect } from "react";
+import type { AuthResult } from "@/domain/models/auth.model";
 import {
   getCurrentUserUseCase,
   loginUseCase,
 } from "@/infrastructure/dependencies";
-import type { LoginError } from "@/infrastructure/api/types.gen";
-import type { AuthResult } from "@/domain/models/auth.model";
-import { useRouter } from "next/navigation";
+import {
+  authStorage,
+  type StoredUser,
+} from "@/infrastructure/services/auth-storage";
 import { ROUTES } from "@/presentation/config/routes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export function useAuth() {
   const router = useRouter();
@@ -23,22 +22,18 @@ export function useAuth() {
 
   useEffect(() => {
     const initialize = async () => {
-      const token = authStorage.getToken();
-      const storedUser = authStorage.getUser();
-
-      if (token && storedUser) {
-        try {
-          await getCurrentUserUseCase.execute();
-          setIsAuthenticated(true);
-          setUser(storedUser);
-        } catch {
-          authStorage.clear();
-          setIsAuthenticated(false);
-          setUser(null);
-        }
+      try {
+        await getCurrentUserUseCase.execute();
+        const storedUser = authStorage.getUser();
+        setIsAuthenticated(true);
+        setUser(storedUser);
+      } catch {
+        authStorage.clear();
+        setIsAuthenticated(false);
+        setUser(null);
+      } finally {
+        setIsInitializing(false);
       }
-
-      setIsInitializing(false);
     };
 
     initialize();
@@ -46,7 +41,7 @@ export function useAuth() {
 
   const loginMut = useMutation<
     AuthResult,
-    LoginError | Error,
+    Error,
     { email: string; password: string }
   >({
     mutationFn: async ({ email, password }) => {
@@ -59,17 +54,11 @@ export function useAuth() {
         displayName: data.displayName,
       });
     },
-    onError: (err) => {
-      console.error("Login failed:", err);
-    },
   });
 
-  const login = useCallback(
-    async (email: string, password: string) => {
-      return loginMut.mutateAsync({ email, password });
-    },
-    [loginMut],
-  );
+  const login = async (email: string, password: string) => {
+    return loginMut.mutateAsync({ email, password });
+  };
 
   const logout = useCallback(() => {
     authStorage.clear();
@@ -82,7 +71,7 @@ export function useAuth() {
   return {
     isInitializing,
     isLoading: loginMut.isPending,
-    error: loginMut.error ?? loginMut.error,
+    error: loginMut.error,
     isAuthenticated,
     user,
     login,

@@ -1,19 +1,17 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { LoginError } from "@/infrastructure/api/types.gen";
 import { FullScreenLoader } from "@/presentation/components/global";
 import { useAuth } from "@/presentation/hooks/useAuth";
 import { StoredUser } from "@/infrastructure/services/auth-storage";
 import { AuthResult } from "@/domain/models/auth.model";
 
-// Define qué expone el context
 interface AuthContextType {
   isInitializing: boolean;
   isLoading: boolean;
   isAuthenticated: boolean;
   user: StoredUser | null;
-  error: LoginError | Error | string | null;
+  error: Error | null;
   login: (email: string, password: string) => Promise<AuthResult>;
   logout: () => void;
 }
@@ -22,7 +20,6 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Crea el context con valor por defecto null
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Componente Provider que envuelve la app

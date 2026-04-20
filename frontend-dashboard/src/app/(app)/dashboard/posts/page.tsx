@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Publicaciones",
 };
 
-const DashboardPage = () => {
+const PostsPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <PostsHeader />
@@ -19,4 +19,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default PostsPage;

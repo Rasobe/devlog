@@ -1,4 +1,4 @@
-import { LoginForm } from "@/presentation/components/features";
+import { LoginForm, LoginHeader } from "@/presentation/components/features";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,15 +13,7 @@ const LoginPage = () => {
       <div className="bg-gradient-glow bg-violet-500/20 bottom-[-20%] right-[-10%] w-[50vw] h-[50vw]" />
 
       <div className="relative z-10 w-full max-w-md mx-4 card-glass">
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl sm:text-4xl font-extrabold bg-clip-text text-transparent bg-linear-to-r from-primary to-violet-600 dark:from-blue-400 dark:to-violet-400 tracking-tight mb-3">
-            DevLog Admin
-          </h1>
-          <p className="text-muted-foreground text-sm sm:text-base font-medium">
-            Enter your credentials to continue
-          </p>
-        </div>
-
+        <LoginHeader />
         <LoginForm />
       </div>
     </div>

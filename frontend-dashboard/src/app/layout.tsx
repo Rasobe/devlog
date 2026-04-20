@@ -3,7 +3,7 @@ import { AuthProvider } from "@/presentation/store/AuthContext";
 import "./globals.css";
 import { ReactNode } from "react";
 import { Metadata } from "next";
-import { Toaster } from "@/presentation/components/global";
+import { Toaster } from "sonner";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -28,7 +28,8 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
         </QueryProvider>
-        <Toaster />
+
+        <Toaster position="top-center" richColors theme="system" />
       </body>
     </html>
   );

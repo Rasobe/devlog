@@ -2,7 +2,13 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 import { Loading } from "./Loading";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "gradient" | "outline" | "secondary" | "danger";
+  variant?:
+    | "primary"
+    | "gradient"
+    | "outline"
+    | "ghost"
+    | "secondary"
+    | "danger";
   isLoading?: boolean;
 }
 
@@ -23,6 +29,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       primary: "btn-primary",
       gradient: "btn-gradient",
       outline: "btn-outline",
+      ghost:
+        "hover:bg-muted transition-colors text-muted-foreground hover:text-foreground",
       secondary: "btn-secondary bg-muted text-foreground hover:bg-muted/80",
       danger: "btn-danger bg-red-700 text-white hover:bg-red-800",
     };
@@ -31,7 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={`btn flex justify-center items-center gap-2 ${variantClasses[variant]} ${className}`}
+        className={`btn flex justify-center items-center gap-2 p-4 ${variantClasses[variant]} ${className}`}
         {...props}
       >
         {isLoading ? <Loading message="" /> : children}

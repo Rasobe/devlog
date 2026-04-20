@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Inicio",
 };
 
-const page = () => {
+const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <DashboardHeader />
@@ -21,4 +21,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DashboardPage;

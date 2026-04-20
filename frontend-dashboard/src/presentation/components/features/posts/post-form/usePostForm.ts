@@ -13,10 +13,11 @@ import {
   type CreatePostSchema,
 } from "@/presentation/schemas/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface UsePostFormProps {
   slug?: string;
@@ -25,86 +26,67 @@ interface UsePostFormProps {
 export const usePostForm = ({ slug }: UsePostFormProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [isPostLoaded, setIsPostLoaded] = useState<boolean>(false);
-  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(!!slug);
-  const [fetchError, setFetchError] = useState<boolean>(false);
 
   const form = useForm<CreatePostSchema>({
     defaultValues: defaultCreatePostValues,
     resolver: zodResolver(createPostSchema),
   });
 
+  const {
+    data: post,
+    isLoading: isFetchingPost,
+    isError: fetchError,
+  } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: () => {
+      if (!slug) return null;
+      return getPostBySlugUseCase.execute(slug);
+    },
+    enabled: !!slug,
+  });
+
   useEffect(() => {
-    if (!slug) return;
-
-    const fetchPost = async () => {
-      try {
-        setIsFetchingPost(true);
-        setFetchError(false);
-        const post = await getPostBySlugUseCase.execute(slug);
-
-        if (post) {
-          form.reset({
-            title: post.title,
-            excerpt: post.excerpt || "",
-            content: post.content,
-            published: post.published,
-          });
-          setIsPostLoaded(true);
-        } else {
-          setFetchError(true);
-        }
-      } catch (error) {
-        console.error("Error al obtener la entrada", error);
-        setFetchError(true);
-      } finally {
-        setIsFetchingPost(false);
-      }
-    };
-
-    fetchPost();
+    if (post) {
+      form.reset({
+        title: post.title,
+        excerpt: post.excerpt,
+        content: post.content,
+        published: post.published,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
+  }, [post]);
 
-  const createPost = async (data: CreatePostInput) => {
-    try {
-      await createPostUseCase.execute(data);
-      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+  const createPostMutation = useMutation({
+    mutationFn: (data: CreatePostInput) => createPostUseCase.execute(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       router.push(ROUTES.POSTS);
-    } catch (error: unknown) {
-      console.error("Error al crear el post:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Error inesperado al crear el post.";
-      setServerError(errorMessage);
-    }
-  };
+      toast.success("Post creado exitosamente");
+    },
+    onError: () => {
+      toast.error("Error al crear el post");
+    },
+  });
 
-  const updatePost = async (data: UpdatePostInput) => {
-    if (!slug) return;
-    try {
-      await updatePostUseCase.execute(slug, data);
-      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+  const updatePostMutation = useMutation({
+    mutationFn: (data: UpdatePostInput) =>
+      updatePostUseCase.execute(slug!, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       router.push(ROUTES.POSTS);
-    } catch (error: unknown) {
-      console.error("Error al actualizar el post:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Error inesperado al actualizar el post.";
-      setServerError(errorMessage);
-    }
-  };
+      toast.success("Post actualizado exitosamente");
+    },
+    onError: () => {
+      toast.error("Error al actualizar el post");
+    },
+  });
 
   const onSubmitHandler = async (data: CreatePostSchema) => {
-    setServerError(null);
-
-    if (isPostLoaded && slug) {
-      updatePost(data);
+    if (!!post && slug) {
+      updatePostMutation.mutate(data);
     } else {
-      createPost(data);
+      createPostMutation.mutate(data);
     }
   };
 
@@ -116,9 +98,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     form,
     onCancel,
     onSubmit: form.handleSubmit(onSubmitHandler),
-    isLoading: form.formState.isSubmitting,
-    serverError,
-    isPostLoaded,
+    isLoading: createPostMutation.isPending || updatePostMutation.isPending,
     isFetchingPost,
     fetchError,
   };

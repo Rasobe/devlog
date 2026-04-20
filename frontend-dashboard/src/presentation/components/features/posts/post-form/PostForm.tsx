@@ -23,8 +23,6 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
     onSubmit,
     onCancel,
     isLoading,
-    serverError,
-    isPostLoaded,
     isFetchingPost,
     fetchError,
   } = usePostForm({
@@ -40,7 +38,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
     return <FetchState />;
   }
 
-  if (fetchError || (slug && !isPostLoaded)) {
+  if (fetchError) {
     return <ErrorState />;
   }
 
@@ -65,12 +63,6 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
 
       {/* Form */}
       <form onSubmit={onSubmit} className="space-y-6">
-        {serverError && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-950/50 dark:text-red-400">
-            {serverError}
-          </div>
-        )}
-
         <div className="card space-y-5">
           <TextField
             label="Título"

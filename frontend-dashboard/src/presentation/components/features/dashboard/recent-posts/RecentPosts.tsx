@@ -1,74 +1,28 @@
 "use client";
 
-import { formatShortDate } from "@/core/utils";
 import { useRecentPosts } from "./useRecentPosts";
 import {
-  Badge,
-  TableActions,
-  TableActionBtn,
   ErrorState,
   DataTable,
+  DeleteConfirmationModal,
 } from "@/presentation/components/global";
-import { ROUTES } from "@/presentation/config/routes";
 import { Post } from "@/domain/models/post.model";
-
-const columns = [
-  {
-    key: "status",
-    header: "Estado",
-    render: (post: Post) => (
-      <Badge variant={post.published ? "success" : "warning"}>
-        {post.published ? "Publicado" : "Borrador"}
-      </Badge>
-    ),
-  },
-  {
-    key: "title",
-    header: "Título",
-    render: (post: Post) => (
-      <span className="font-medium text-foreground">{post.title}</span>
-    ),
-  },
-  {
-    key: "createdAt",
-    header: "Creado",
-    render: (post: Post) => (
-      <span className="text-muted-foreground">
-        {formatShortDate(post.createdAt)}
-      </span>
-    ),
-  },
-  {
-    key: "excerpt",
-    header: "Extracto",
-    render: (post: Post) => (
-      <span className="truncate max-w-[200px] text-muted-foreground block">
-        {post.excerpt}
-      </span>
-    ),
-  },
-  {
-    key: "actions",
-    header: "",
-    render: (post: Post) => (
-      <TableActions>
-        <TableActionBtn
-          variant="view"
-          href={ROUTES.POSTS_EDIT(post.slug)}
-          title="Ver"
-        />
-        <TableActionBtn
-          variant="edit"
-          href={ROUTES.POSTS_EDIT(post.slug)}
-          title="Editar"
-        />
-      </TableActions>
-    ),
-  },
-];
+import { useRecentPostsColumns } from "./RecentPosts.config-table";
 
 export const RecentPosts = () => {
-  const { posts, error } = useRecentPosts();
+  const {
+    posts,
+    error,
+    postToDelete,
+    isLoading,
+    handleDeleteClick,
+    handleDeleteConfirm,
+    handleCloseClick,
+  } = useRecentPosts();
+
+  const columns = useRecentPostsColumns({
+    onDeleteClick: handleDeleteClick,
+  });
 
   if (error) {
     return <ErrorState showBackButton={false} />;
@@ -80,15 +34,24 @@ export const RecentPosts = () => {
         Tus Publicaciones Recientes
       </h2>
 
-      <DataTable<Post> 
-      data={posts || []} 
-      columns={columns} 
-      pagination={{
-        currentPage: 0,
-        totalPages: 1,
-        onPageChange: () => {},
-      }} 
-    />
+      <DataTable<Post>
+        data={posts || []}
+        columns={columns}
+        pagination={{
+          currentPage: 0,
+          totalPages: 1,
+          onPageChange: () => {},
+        }}
+      />
+
+      <DeleteConfirmationModal
+        title="Borrar publicación"
+        message={`¿Estás seguro de que deseas borrar la publicación "${postToDelete?.title}"?`}
+        open={!!postToDelete}
+        isLoading={isLoading}
+        onDelete={handleDeleteConfirm}
+        onClose={handleCloseClick}
+      />
     </div>
   );
 };

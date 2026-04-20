@@ -24,7 +24,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       gradient: "btn-gradient",
       outline: "btn-outline",
       secondary: "btn-secondary bg-muted text-foreground hover:bg-muted/80",
-      danger: "btn-danger bg-red-500 text-white hover:bg-red-600",
+      danger: "btn-danger bg-red-700 text-white hover:bg-red-800",
     };
 
     return (

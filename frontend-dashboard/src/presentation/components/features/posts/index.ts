@@ -3,5 +3,4 @@ export * from "./post-card";
 export * from "./posts-content";
 export * from "./posts-metrics";
 export * from "./post-form";
-export * from "./posts-table";
 export * from "./posts-header";

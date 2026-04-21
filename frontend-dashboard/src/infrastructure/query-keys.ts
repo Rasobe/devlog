@@ -5,7 +5,7 @@ export const queryKeys = {
     all: () => ["posts"] as const,
     allPaginated: (page: number, search: string, status: PostStatus) =>
       ["posts", page, search, status] as const,
-    detail: (slug: string) => ["post", slug] as const,
+    detail: (slug: string) => ["posts", "detail", slug] as const,
   },
   user: {
     stats: () => ["user-stats"] as const,

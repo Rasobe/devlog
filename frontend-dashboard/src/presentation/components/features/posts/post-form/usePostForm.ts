@@ -75,6 +75,9 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
       updatePostUseCase.execute(slug!, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
+      if (slug) {
+        queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(slug) });
+      }
       router.push(ROUTES.POSTS);
       toast.success("Post actualizado exitosamente");
     },

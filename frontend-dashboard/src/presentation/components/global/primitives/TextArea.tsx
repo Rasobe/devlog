@@ -41,7 +41,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           }}
           id={inputId}
           className={cn(
-            "form-input rounded-md border w-full px-3 py-2 transition-colors resize-y min-h-[120px]",
+            "form-input rounded-md border w-full px-3 py-2 transition-all duration-200 resize-y min-h-[120px]",
             error
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-300 dark:border-white/10",

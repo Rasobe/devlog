@@ -49,7 +49,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             id={inputId}
             type={inputType}
             className={cn(
-              "form-input h-10! rounded-md border w-full px-3 py-2 transition-colors",
+              "form-input h-10! rounded-md border w-full px-3 py-2 transition-all duration-200",
               error
                 ? "border-red-500 focus:ring-red-500"
                 : "border-gray-300 dark:border-white/10",

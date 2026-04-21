@@ -7,7 +7,7 @@ export const DashboardHeader = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight">
+      <h1 className="text-4xl font-bold tracking-tight">
         Resumen de Blog:{" "}
         <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-purple-500">
           {user?.displayName}

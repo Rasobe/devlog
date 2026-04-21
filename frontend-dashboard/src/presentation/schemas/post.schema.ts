@@ -4,7 +4,10 @@ import z from "zod";
 // * Create Post Schema
 // * ******************************************************
 export const createPostSchema = z.object({
-  title: z.string().min(1, "El título es obligatorio"),
+  title: z
+    .string()
+    .min(1, "El título es obligatorio")
+    .max(60, "El título no puede superar los 60 caracteres"),
   content: z.string().min(1, "El contenido es obligatorio"),
   excerpt: z
     .string()
@@ -22,12 +25,14 @@ export const defaultCreatePostValues: CreatePostSchema = {
   published: false,
 };
 
-
 // * ******************************************************
 // * Update Post Schema
 // * ******************************************************
 export const updatePostSchema = z.object({
-  title: z.string().min(1, "El título es obligatorio"),
+  title: z
+    .string()
+    .min(1, "El título es obligatorio")
+    .max(60, "El título no puede superar los 60 caracteres"),
   content: z.string().min(1, "El contenido es obligatorio"),
   excerpt: z
     .string()
@@ -44,4 +49,3 @@ export const defaultUpdatePostValues: UpdatePostSchema = {
   excerpt: "",
   published: false,
 };
-

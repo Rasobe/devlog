@@ -1,3 +1,7 @@
+import { Author } from "./author.model";
+import { Category } from "./category.model";
+import { Tag } from "./tag.model";
+
 export interface Post {
   title: string;
   slug: string;
@@ -7,6 +11,9 @@ export interface Post {
   views: number;
   createdAt: Date;
   updatedAt: Date;
+  author: Author;
+  category?: Category;
+  tags: Tag[];
 }
 
 export interface CreatePostInput {
@@ -14,6 +21,7 @@ export interface CreatePostInput {
   content: string;
   excerpt: string;
   published: boolean;
+  categoryId?: string;
 }
 
 export interface UpdatePostInput {
@@ -21,6 +29,7 @@ export interface UpdatePostInput {
   content: string;
   excerpt: string;
   published: boolean;
+  categoryId?: string;
 }
 
 export type PostStatus = "ALL" | "PUBLISHED" | "DRAFT";

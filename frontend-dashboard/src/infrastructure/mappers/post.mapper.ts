@@ -10,6 +10,9 @@ import type {
   CreatePostRequest,
   UpdatePostRequest,
 } from "../types";
+import { AuthorMapper } from "./author.mapper";
+import { CategoryMapper } from "./category.mapper";
+import { TagMapper } from "./tag.mapper";
 
 export const PostMapper = {
   toDomain(response: PostResponse): Post {
@@ -22,6 +25,11 @@ export const PostMapper = {
       views: response.views,
       createdAt: new Date(response.createdAt),
       updatedAt: new Date(response.updatedAt),
+      author: AuthorMapper.toDomain(response.author),
+      category: response.category
+        ? CategoryMapper.toDomain(response.category)
+        : undefined,
+      tags: response.postTags.map((pt) => TagMapper.toDomain(pt.tag)),
     };
   },
 
@@ -40,6 +48,7 @@ export const PostMapper = {
       content: input.content,
       excerpt: input.excerpt,
       published: input.published,
+      categoryId: input.categoryId,
     };
   },
 
@@ -49,6 +58,7 @@ export const PostMapper = {
       content: input.content,
       excerpt: input.excerpt,
       published: input.published,
+      categoryId: input.categoryId,
     };
   },
 };

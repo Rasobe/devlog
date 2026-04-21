@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { usePostPreview } from "./usePostPreview";
 import { ErrorState, FetchState } from "@/presentation/components/global";
+import { PostPreviewHeader, PostPreviewContent } from "./_components";
 
 export const PostPreview = () => {
   const params = useParams();
@@ -14,9 +15,14 @@ export const PostPreview = () => {
     return <FetchState />;
   }
 
-  if (isError) {
+  if (isError || !post) {
     return <ErrorState />;
   }
 
-  return <>{JSON.stringify(post)}</>;
+  return (
+    <div className="flex flex-col gap-4">
+      <PostPreviewHeader post={post} />
+      <PostPreviewContent post={post} />
+    </div>
+  );
 };

@@ -1,5 +1,6 @@
 import { PagedResult } from "@/domain/models/paged-result.model";
 import { Post } from "@/domain/models/post.model";
+import { queryKeys } from "@/infrastructure";
 import {
   deletePostUseCase,
   getPostsUseCase,
@@ -16,7 +17,7 @@ export const useRecentPosts = () => {
   const deletePostMutation = useMutation({
     mutationFn: (slug: string) => deletePostUseCase.execute(slug),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       setPostToDelete(null);
       toast.success("Publicación eliminada correctamente");
     },
@@ -26,7 +27,7 @@ export const useRecentPosts = () => {
   });
 
   const { data, error } = useQuery<PagedResult<Post>>({
-    queryKey: ["posts"],
+    queryKey: queryKeys.posts.all(),
     queryFn: () => getPostsUseCase.execute(0, 5),
   });
 

@@ -1,5 +1,6 @@
 import { PagedResult } from "@/domain/models/paged-result.model";
 import { Post, PostStatus } from "@/domain/models/post.model";
+import { queryKeys } from "@/infrastructure";
 import {
   deletePostUseCase,
   getPostsUseCase,
@@ -19,7 +20,7 @@ export const usePostsContent = () => {
   const deletePostMutation = useMutation({
     mutationFn: (slug: string) => deletePostUseCase.execute(slug),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       setPostToDelete(null);
       toast.success("Publicación eliminada correctamente");
     },
@@ -29,7 +30,7 @@ export const usePostsContent = () => {
   });
 
   const { data, isLoading, error } = useQuery<PagedResult<Post>>({
-    queryKey: ["posts", page, search, status],
+    queryKey: queryKeys.posts.allPaginated(page, search, status),
     queryFn: () =>
       getPostsUseCase.execute(page, 10, search || undefined, status),
   });

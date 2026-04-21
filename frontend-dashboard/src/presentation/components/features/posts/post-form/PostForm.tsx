@@ -69,6 +69,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
             placeholder="Ej: Mi primer post sobre React"
             {...register("title")}
             error={errors.title?.message}
+            maxLength={60}
           />
 
           <TextArea
@@ -77,6 +78,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
             rows={3}
             {...register("excerpt")}
             error={errors.excerpt?.message}
+            maxLength={200}
           />
 
           <Controller

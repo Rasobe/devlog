@@ -21,7 +21,7 @@ export const usePostsContentColumns = ({
         key: "title",
         header: "Título",
         render: (post: Post) => (
-          <span className="font-medium text-foreground">{post.title}</span>
+          <span className="font-medium text-foreground line-clamp-1">{post.title}</span>
         ),
       },
       {
@@ -54,6 +54,11 @@ export const usePostsContentColumns = ({
         header: "",
         render: (post: Post) => (
           <TableActions>
+            <TableActionBtn
+              variant="preview"
+              href={ROUTES.POSTS_PREVIEW(post.slug)}
+              title="Previsualizar"
+            />
             <TableActionBtn
               variant="edit"
               href={ROUTES.POSTS_EDIT(post.slug)}

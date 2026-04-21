@@ -13,7 +13,7 @@ export const PostsHeader = () => {
         </p>
       </div>
       <Link href={ROUTES.POSTS_NEW}>
-        <Button variant="primary">
+        <Button variant="gradient">
           <Plus size={16} />
           Crear Publicación
         </Button>

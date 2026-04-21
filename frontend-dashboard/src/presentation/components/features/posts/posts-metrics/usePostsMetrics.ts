@@ -1,10 +1,11 @@
 import { UserStats } from "@/domain/models/user.model";
+import { queryKeys } from "@/infrastructure";
 import { getUserStatsUseCase } from "@/infrastructure/dependencies";
 import { useQuery } from "@tanstack/react-query";
 
 export const usePostsMetrics = () => {
   const { data, isLoading, error } = useQuery<UserStats>({
-    queryKey: ["user-stats"],
+    queryKey: queryKeys.user.stats(),
     queryFn: () => getUserStatsUseCase.execute(),
   });
 

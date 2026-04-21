@@ -7,7 +7,7 @@ import {
   DeleteConfirmationModal,
 } from "@/presentation/components/global";
 import { Post } from "@/domain/models/post.model";
-import { useRecentPostsColumns } from "./RecentPosts.config-table";
+import { useRecentPostsColumns } from "./RecentPosts.columns";
 
 export const RecentPosts = () => {
   const {

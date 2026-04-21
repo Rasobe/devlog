@@ -8,7 +8,7 @@ import {
   ErrorState,
   Select,
 } from "@/presentation/components/global";
-import { usePostsContentColumns } from "./PostsContent.table-config";
+import { usePostsContentColumns } from "./PostsContent.columns";
 
 const statusOptions = [
   { value: "ALL", label: "Todos" },

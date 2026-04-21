@@ -22,13 +22,17 @@ export const Sidebar = () => {
       )}
     >
       {/* Logo + Toggle */}
-      <div className="relative flex items-center w-full h-[32px]">
-        {/* Animated Logo Container */}
+      <div
+        className={cn(
+          "flex items-center h-[32px]",
+          isCollapsed ? "justify-center gap-0" : "justify-between gap-2",
+        )}
+      >
         <Link
           href={ROUTES.DASHBOARD}
           className={cn(
-            "absolute left-0 flex items-center gap-2 text-lg font-medium tracking-tight text-foreground hover:text-primary-hover transition-all duration-200",
-            isCollapsed && "opacity-0 scale-95 pointer-events-none"
+            "flex items-center gap-2 text-lg font-medium tracking-tight text-foreground hover:text-primary-hover transition-all duration-500 overflow-hidden whitespace-nowrap",
+            isCollapsed ? "max-w-0 opacity-0 pointer-events-none" : "max-w-[120px] opacity-100"
           )}
         >
           <Image
@@ -38,17 +42,14 @@ export const Sidebar = () => {
             height={32}
             className="shrink-0"
           />
-          <span className="truncate">DevLog</span>
+          <span>DevLog</span>
         </Link>
-        
-        {/* Animated Toggle Button */}
-        <Button 
-          variant="ghost" 
+
+        {/* Toggle Button */}
+        <Button
+          variant="ghost"
           onClick={toggleSidebar}
-          className={cn(
-            "absolute p-0 flex items-center justify-center shrink-0 transition-all duration-300",
-            isCollapsed ? "left-1/2 -translate-x-1/2" : "left-full -translate-x-full"
-          )}
+          className="p-2 shrink-0 transition-transform duration-300"
         >
           {isCollapsed ? (
             <PanelLeftOpen size={16} strokeWidth={1.5} />
@@ -97,7 +98,7 @@ export const Sidebar = () => {
         >
           <div
             className={cn(
-              "flex flex-col min-w-0 transition-all duration-300 overflow-hidden whitespace-nowrap",
+              "flex flex-col min-w-0 transition-all duration-500 overflow-hidden whitespace-nowrap",
               isCollapsed ? "max-w-0 opacity-0" : "max-w-[150px] opacity-100",
             )}
           >

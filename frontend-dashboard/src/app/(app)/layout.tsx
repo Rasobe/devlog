@@ -1,4 +1,4 @@
-import { Sidebar } from "@/presentation/components/global";
+import { Sidebar } from "@/presentation/components/system";
 import { ReactNode } from "react";
 
 interface DashboardLayoutProps {

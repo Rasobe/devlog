@@ -17,24 +17,18 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "relative w-64 h-screen bg-card shrink-0 border-r p-4 flex flex-col transition-all duration-300 ease-in-out",
+        "w-64 h-screen bg-card shrink-0 border-r p-4 flex flex-col transition-all duration-300 ease-in-out sticky top-0",
         isCollapsed && "w-20",
       )}
     >
       {/* Logo + Toggle */}
-      <div
-        className={cn(
-          "flex",
-          isCollapsed
-            ? "flex-col items-center gap-4"
-            : "items-center justify-between",
-        )}
-      >
+      <div className="relative flex items-center w-full h-[32px]">
+        {/* Animated Logo Container */}
         <Link
           href={ROUTES.DASHBOARD}
           className={cn(
-            "flex items-center text-lg font-medium tracking-tight text-foreground hover:text-primary-hover transition-colors",
-            isCollapsed ? "gap-0" : "gap-2",
+            "absolute left-0 flex items-center gap-2 text-lg font-medium tracking-tight text-foreground hover:text-primary-hover transition-all duration-200",
+            isCollapsed && "opacity-0 scale-95 pointer-events-none"
           )}
         >
           <Image
@@ -44,17 +38,18 @@ export const Sidebar = () => {
             height={32}
             className="shrink-0"
           />
-          <span
-            className={cn(
-              "transition-all duration-300 overflow-hidden whitespace-nowrap",
-              isCollapsed ? "max-w-0 opacity-0" : "max-w-[150px] opacity-100",
-            )}
-          >
-            DevLog
-          </span>
+          <span className="truncate">DevLog</span>
         </Link>
-
-        <Button variant="ghost" onClick={toggleSidebar}>
+        
+        {/* Animated Toggle Button */}
+        <Button 
+          variant="ghost" 
+          onClick={toggleSidebar}
+          className={cn(
+            "absolute p-0 flex items-center justify-center shrink-0 transition-all duration-300",
+            isCollapsed ? "left-1/2 -translate-x-1/2" : "left-full -translate-x-full"
+          )}
+        >
           {isCollapsed ? (
             <PanelLeftOpen size={16} strokeWidth={1.5} />
           ) : (

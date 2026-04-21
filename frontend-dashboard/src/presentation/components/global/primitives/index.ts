@@ -2,7 +2,7 @@ export * from "./Badge";
 export * from "./Button";
 export * from "./Divider";
 export * from "./Loading";
-export * from "./MarkdownEditor";
+export * from "./markdown-editor/";
 export * from "./Select";
 export * from "./Switch";
 export * from "./Table";

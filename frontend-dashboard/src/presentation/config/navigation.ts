@@ -1,4 +1,4 @@
-import { BookOpen, Home } from "lucide-react";
+import { FileText, LayoutDashboard } from "lucide-react";
 import { AppRoute, ROUTES } from "./routes";
 
 export type NavLinkVariant =
@@ -19,11 +19,11 @@ export const NAV_ITEMS: NavItem[] = [
   {
     href: ROUTES.DASHBOARD,
     label: "Panel de Control",
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
     href: ROUTES.POSTS,
     label: "Mis Publicaciones",
-    icon: BookOpen,
+    icon: FileText,
   },
 ];

@@ -35,7 +35,7 @@ export const Sidebar = () => {
           <li>
             <NavLink
               href={ROUTES.POSTS_NEW}
-              icon={<Plus />}
+              icon={<Plus size={18} strokeWidth={1.5} />}
               label={"Nueva Publicación"}
               variant={"success"}
             />
@@ -47,7 +47,7 @@ export const Sidebar = () => {
             <li key={href}>
               <NavLink
                 href={href}
-                icon={<Icon />}
+                icon={<Icon size={18} strokeWidth={1.5} />}
                 label={label}
                 variant={variant}
               />
@@ -68,7 +68,7 @@ export const Sidebar = () => {
             </span>
           </div>
           <Button variant="ghost" onClick={logout} className="p-2">
-            <LogOut size={16} />
+            <LogOut size={16} strokeWidth={1.5} />
           </Button>
         </div>
       </footer>

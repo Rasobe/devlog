@@ -5,7 +5,7 @@ import type {
   GetMyStatsResponse,
   CreatePostData,
   UpdatePostBySlugData,
-} from "./types.gen";
+} from "./api/types.gen";
 
 // Posts
 export type PostResponse = GetPostsResponse["data"][number];

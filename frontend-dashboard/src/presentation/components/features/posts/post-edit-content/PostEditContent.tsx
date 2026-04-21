@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { PostForm } from "../post-form";
 
-export const EditPostContent = () => {
+export const PostEditContent = () => {
   const params = useParams();
   const slug = params.slug as string;
 

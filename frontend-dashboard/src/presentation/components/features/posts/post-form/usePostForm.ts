@@ -1,6 +1,7 @@
 "use client";
 
 import { CreatePostInput, UpdatePostInput } from "@/domain/models/post.model";
+import { queryKeys } from "@/infrastructure";
 import {
   createPostUseCase,
   getPostBySlugUseCase,
@@ -37,7 +38,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     isLoading: isFetchingPost,
     isError: fetchError,
   } = useQuery({
-    queryKey: ["post", slug],
+    queryKey: queryKeys.posts.detail(slug ?? ""),
     queryFn: () => {
       if (!slug) return null;
       return getPostBySlugUseCase.execute(slug);
@@ -60,7 +61,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
   const createPostMutation = useMutation({
     mutationFn: (data: CreatePostInput) => createPostUseCase.execute(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       router.push(ROUTES.POSTS);
       toast.success("Post creado exitosamente");
     },
@@ -73,7 +74,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     mutationFn: (data: UpdatePostInput) =>
       updatePostUseCase.execute(slug!, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       router.push(ROUTES.POSTS);
       toast.success("Post actualizado exitosamente");
     },

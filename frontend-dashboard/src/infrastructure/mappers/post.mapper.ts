@@ -9,7 +9,7 @@ import type {
   PostsPagedResponse,
   CreatePostRequest,
   UpdatePostRequest,
-} from "../api/types";
+} from "../types";
 
 export const PostMapper = {
   toDomain(response: PostResponse): Post {

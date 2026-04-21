@@ -48,6 +48,11 @@ export const useRecentPostsColumns = ({
         render: (post: Post) => (
           <TableActions>
             <TableActionBtn
+              variant="preview"
+              href={ROUTES.POSTS_PREVIEW(post.slug)}
+              title="Previsualizar"
+            />
+            <TableActionBtn
               variant="edit"
               href={ROUTES.POSTS_EDIT(post.slug)}
               title="Editar"

@@ -1,4 +1,4 @@
-import { EditPostContent } from "@/presentation/components/features";
+import { PostEditContent } from "@/presentation/components/features";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const EditPostPage = () => {
-  return <EditPostContent />;
+  return <PostEditContent />;
 };
 
 export default EditPostPage;

@@ -15,7 +15,7 @@ const variants = {
     className:
       "text-muted-foreground hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400",
   },
-  view: {
+  preview: {
     icon: Eye,
     className:
       "text-muted-foreground hover:bg-blue-100 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400",

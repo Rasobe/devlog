@@ -1,27 +1,27 @@
-import { formatFullDate, formatCompactNumber } from "@/core/utils";
+import { useMemo } from "react";
+import { formatShortDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
 import {
-  Badge,
-  TableActionBtn,
   TableActions,
+  TableActionBtn,
+  Badge,
 } from "@/presentation/components/global";
 import { ROUTES } from "@/presentation/config/routes";
-import { useMemo } from "react";
 
-export interface UsePostsContentColumns {
+export interface UseRecentPostsColumnsProps {
   onDeleteClick?: (post: Post) => void;
 }
 
-export const usePostsContentColumns = ({
+export const useRecentPostsColumns = ({
   onDeleteClick,
-}: UsePostsContentColumns = {}) => {
+}: UseRecentPostsColumnsProps = {}) => {
   return useMemo(
     () => [
       {
         key: "title",
         header: "Título",
         render: (post: Post) => (
-          <span className="font-medium text-foreground">{post.title}</span>
+          <span className="font-medium text-foreground line-clamp-1">{post.title}</span>
         ),
       },
       {
@@ -34,18 +34,11 @@ export const usePostsContentColumns = ({
         ),
       },
       {
-        key: "views",
-        header: "Visitas",
-        render: (post: Post) => (
-          <Badge variant="default">{formatCompactNumber(post.views)}</Badge>
-        ),
-      },
-      {
-        key: "date",
-        header: "Fecha",
+        key: "createdAt",
+        header: "Creado",
         render: (post: Post) => (
           <span className="text-muted-foreground">
-            {formatFullDate(post.createdAt)}
+            {formatShortDate(post.createdAt)}
           </span>
         ),
       },

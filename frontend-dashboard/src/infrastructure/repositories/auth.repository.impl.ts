@@ -24,9 +24,6 @@ export class AuthRepositoryImpl implements IAuthRepository {
       body: { email, password },
     });
 
-    console.log("login data:", data);
-    console.log("login error:", error);
-
     if (error) throw error;
     if (!data) throw new Error("Error inesperado: no hay datos");
 

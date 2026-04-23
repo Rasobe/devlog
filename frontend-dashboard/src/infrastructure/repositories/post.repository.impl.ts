@@ -40,7 +40,6 @@ export class PostRepositoryImpl implements IPostRepository {
   }
 
   async create(request: CreatePostInput): Promise<Post> {
-    console.log(request);
     const { data, error } = await createPost({
       body: PostMapper.toApiCreate(request),
     });

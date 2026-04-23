@@ -182,7 +182,6 @@ export const postsService = {
 
       // Replace all tag associations if tags were provided
       if (tagSlugs !== undefined) {
-        console.log(tagSlugs);
         await tx.delete(postTags).where(eq(postTags.postId, updated.id));
 
         if (tagSlugs.length > 0) {

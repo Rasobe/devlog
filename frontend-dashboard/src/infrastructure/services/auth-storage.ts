@@ -11,15 +11,16 @@ export interface StoredUser {
 const AUTH_CHANGE_EVENT = "auth-change";
 
 const notify = () => {
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
+  if (globalThis.window) {
+    globalThis.window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
   }
 };
 
 export const authStorage = {
   subscribe: (callback: () => void) => {
-    window.addEventListener(AUTH_CHANGE_EVENT, callback);
-    return () => window.removeEventListener(AUTH_CHANGE_EVENT, callback);
+    globalThis.window.addEventListener(AUTH_CHANGE_EVENT, callback);
+    return () =>
+      globalThis.window.removeEventListener(AUTH_CHANGE_EVENT, callback);
   },
   getToken: (): string | null => {
     return Cookies.get(TOKEN_KEY) ?? null;

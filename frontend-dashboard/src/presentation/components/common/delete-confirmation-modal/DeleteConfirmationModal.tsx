@@ -1,7 +1,8 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import { Button, Divider } from "../../primitives";
+import { Button } from "../Button";
+import { Divider } from "../Divider";
 
 interface DeleteConfirmationModalProps {
   title?: string;

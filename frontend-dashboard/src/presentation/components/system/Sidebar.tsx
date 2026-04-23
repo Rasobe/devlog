@@ -3,12 +3,12 @@
 import { ROUTES } from "@/presentation/config/routes";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Divider, NavLink } from "../primitives";
 import { NAV_ITEMS } from "@/presentation/config/navigation";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { LogOut, PanelLeftClose, PanelLeftOpen, Plus } from "lucide-react";
 import { useSidebar } from "@/presentation/hooks/useSidebar";
 import { cn } from "@/core/utils";
+import { Button, NavLink, Divider } from "../common";
 
 export const Sidebar = () => {
   const { logout, user } = useAuthContext();
@@ -32,7 +32,9 @@ export const Sidebar = () => {
           href={ROUTES.DASHBOARD}
           className={cn(
             "flex items-center gap-2 text-lg font-medium tracking-tight text-foreground hover:text-primary-hover transition-all duration-500 overflow-hidden whitespace-nowrap",
-            isCollapsed ? "max-w-0 opacity-0 pointer-events-none" : "max-w-[120px] opacity-100"
+            isCollapsed
+              ? "max-w-0 opacity-0 pointer-events-none"
+              : "max-w-[120px] opacity-100",
           )}
         >
           <Image

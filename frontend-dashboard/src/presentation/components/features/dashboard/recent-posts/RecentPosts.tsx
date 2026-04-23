@@ -5,7 +5,7 @@ import {
   ErrorState,
   DataTable,
   DeleteConfirmationModal,
-} from "@/presentation/components/global";
+} from "@/presentation/components/common";
 import { Post } from "@/domain/models/post.model";
 import { useRecentPostsColumns } from "./RecentPosts.columns";
 
@@ -37,6 +37,7 @@ export const RecentPosts = () => {
       <DataTable<Post>
         data={posts || []}
         columns={columns}
+        rowKey={(post) => post.slug}
         pagination={{
           currentPage: 0,
           totalPages: 1,

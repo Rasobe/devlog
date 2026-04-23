@@ -5,7 +5,7 @@ import {
   TableActions,
   TableActionBtn,
   Badge,
-} from "@/presentation/components/global";
+} from "@/presentation/components/common";
 import { ROUTES } from "@/presentation/config/routes";
 
 export interface UseRecentPostsColumnsProps {
@@ -21,7 +21,9 @@ export const useRecentPostsColumns = ({
         key: "title",
         header: "Título",
         render: (post: Post) => (
-          <span className="font-medium text-foreground line-clamp-1">{post.title}</span>
+          <span className="font-medium text-foreground line-clamp-1">
+            {post.title}
+          </span>
         ),
       },
       {

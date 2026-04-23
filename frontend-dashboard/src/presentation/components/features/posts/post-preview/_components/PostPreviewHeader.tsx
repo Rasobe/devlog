@@ -2,7 +2,7 @@
 
 import { formatFullDate } from "@/core/utils";
 import { Post } from "@/domain/models/post.model";
-import { Badge, Button, Divider } from "@/presentation/components/global";
+import { Badge, Button, Divider } from "@/presentation/components/common";
 import { ROUTES } from "@/presentation/config/routes";
 import { ChevronLeft, PencilIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

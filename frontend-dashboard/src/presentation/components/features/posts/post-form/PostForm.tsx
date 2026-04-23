@@ -10,7 +10,7 @@ import {
   Switch,
   TextArea,
   TextField,
-} from "@/presentation/components/global";
+} from "@/presentation/components/common";
 
 interface PostFormProps {
   mode?: "create" | "edit";
@@ -18,16 +18,10 @@ interface PostFormProps {
 }
 
 export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
-  const {
-    form,
-    onSubmit,
-    onCancel,
-    isLoading,
-    isFetchingPost,
-    fetchError,
-  } = usePostForm({
-    slug,
-  });
+  const { form, onSubmit, onCancel, isLoading, isFetchingPost, fetchError } =
+    usePostForm({
+      slug,
+    });
 
   const {
     register,

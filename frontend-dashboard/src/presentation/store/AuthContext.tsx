@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { FullScreenLoader } from "@/presentation/components/global";
 import { useAuth } from "@/presentation/hooks/useAuth";
 import { StoredUser } from "@/infrastructure/services/auth-storage";
 import { AuthResult } from "@/domain/models/auth.model";
+import { FullScreenLoader } from "../components";
 
 interface AuthContextType {
   isInitializing: boolean;

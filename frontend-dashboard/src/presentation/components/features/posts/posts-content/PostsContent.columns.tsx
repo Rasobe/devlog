@@ -4,7 +4,7 @@ import {
   Badge,
   TableActionBtn,
   TableActions,
-} from "@/presentation/components/global";
+} from "@/presentation/components/common";
 import { ROUTES } from "@/presentation/config/routes";
 import { useMemo } from "react";
 
@@ -21,7 +21,9 @@ export const usePostsContentColumns = ({
         key: "title",
         header: "Título",
         render: (post: Post) => (
-          <span className="font-medium text-foreground line-clamp-1">{post.title}</span>
+          <span className="font-medium text-foreground line-clamp-1">
+            {post.title}
+          </span>
         ),
       },
       {

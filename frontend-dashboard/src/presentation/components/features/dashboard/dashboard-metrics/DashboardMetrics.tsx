@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorState, MetricCard } from "@/presentation/components/global";
+import { ErrorState, MetricCard } from "@/presentation/components/common";
 import { useDashboardMetrics } from "./useDashboardMetrics";
 import { DashboardMetricsSkeleton } from "./DashboardMetricsSkeleton";
 import { CheckCircle2, FileText, ChartColumn } from "lucide-react";

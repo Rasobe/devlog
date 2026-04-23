@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { usePostPreview } from "./usePostPreview";
-import { ErrorState, FetchState } from "@/presentation/components/global";
+import { ErrorState, FetchState } from "@/presentation/components/common";
 import { PostPreviewHeader, PostPreviewContent } from "./_components";
 
 export const PostPreview = () => {

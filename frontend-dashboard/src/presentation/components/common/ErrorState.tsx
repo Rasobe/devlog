@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Button } from "../primitives";
 import { ROUTES } from "@/presentation/config/routes";
+import { Button } from "./Button";
 
 interface ErrorStateProps {
   message?: string;

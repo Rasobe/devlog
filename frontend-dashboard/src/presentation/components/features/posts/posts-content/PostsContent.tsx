@@ -7,7 +7,7 @@ import {
   DeleteConfirmationModal,
   ErrorState,
   Select,
-} from "@/presentation/components/global";
+} from "@/presentation/components/common";
 import { usePostsContentColumns } from "./PostsContent.columns";
 
 const statusOptions = [
@@ -72,6 +72,7 @@ export const PostsContent = () => {
           onPageChange: setPage,
         }}
         isLoading={isLoading}
+        rowKey={(post) => post.slug}
       />
 
       <DeleteConfirmationModal

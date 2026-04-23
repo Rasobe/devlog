@@ -1,8 +1,8 @@
 "use client";
 
 import { Album, ChartColumn, CheckCircle2, FileText } from "lucide-react";
-import { MetricCard, Skeleton } from "@/presentation/components/global";
 import { usePostsMetrics } from "./usePostsMetrics";
+import { MetricCard, Skeleton } from "@/presentation/components/common";
 
 export const PostsMetrics = () => {
   const {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, TextField } from "@/presentation/components/global";
+import { Button, TextField } from "@/presentation/components/common";
 import { useLoginForm } from "./useLoginForm";
 
 export const LoginForm = () => {

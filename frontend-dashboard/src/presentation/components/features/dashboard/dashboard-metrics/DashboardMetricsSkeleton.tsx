@@ -1,4 +1,4 @@
-import { Skeleton } from "@/presentation/components/global";
+import { Skeleton } from "@/presentation/components/common";
 
 export const DashboardMetricsSkeleton = () => {
   return (

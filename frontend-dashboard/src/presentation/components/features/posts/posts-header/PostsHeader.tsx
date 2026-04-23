@@ -1,4 +1,4 @@
-import { Button } from "@/presentation/components/global";
+import { Button } from "@/presentation/components/common";
 import { ROUTES } from "@/presentation/config/routes";
 import { Plus } from "lucide-react";
 import Link from "next/link";

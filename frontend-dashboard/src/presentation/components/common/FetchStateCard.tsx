@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "../primitives/Button";
+import { Button } from "./Button";
 
 export interface FetchStateCardProps {
   isLoading: boolean;

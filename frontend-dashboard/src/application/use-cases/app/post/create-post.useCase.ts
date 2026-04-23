@@ -5,6 +5,6 @@ export class CreatePostUseCase {
   constructor(private readonly repository: IPostRepository) {}
 
   async execute(request: CreatePostInput): Promise<Post> {
-    return this.repository.createPost(request);
+    return this.repository.create(request);
   }
 }

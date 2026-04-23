@@ -28,7 +28,7 @@ export const useRecentPosts = () => {
 
   const { data, error } = useQuery<PagedResult<Post>>({
     queryKey: queryKeys.posts.all(),
-    queryFn: () => getPostsUseCase.execute(0, 5),
+    queryFn: () => getPostsUseCase.execute(1, 5),
   });
 
   const handleDeleteClick = (post: Post) => {

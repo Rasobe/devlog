@@ -7,14 +7,14 @@ import {
 import { PagedResult } from "../models/paged-result.model";
 
 export interface IPostRepository {
-  getPosts(
+  getPaginated(
     page: number,
     size: number,
     search?: string,
     status?: PostStatus,
   ): Promise<PagedResult<Post>>;
-  getPostBySlug(slug: string): Promise<Post | null>;
-  createPost(request: CreatePostInput): Promise<Post>;
-  updatePost(slug: string, request: UpdatePostInput): Promise<Post>;
-  deletePost(slug: string): Promise<void>;
+  getBySlug(slug: string): Promise<Post | null>;
+  create(request: CreatePostInput): Promise<Post>;
+  update(slug: string, request: UpdatePostInput): Promise<Post>;
+  delete(slug: string): Promise<void>;
 }

@@ -69,10 +69,7 @@ export const postsService = {
       ids.length > 0
         ? ((await db.query.posts.findMany({
             where: inArray(posts.id, ids),
-            columns: {
-              categoryId: false,
-              authorId: false,
-            },
+            columns: { categoryId: false, authorId: false },
             with: postWithRelations,
             orderBy: (posts, { desc }) => [desc(posts.createdAt)],
           })) as DrizzlePostResult[])
@@ -82,12 +79,7 @@ export const postsService = {
 
     return {
       data: result.map(mapToDomainPost),
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
     };
   },
 
@@ -95,10 +87,7 @@ export const postsService = {
     const post = (await db.query.posts.findFirst({
       where: eq(posts.slug, slug),
       with: postWithRelations,
-      columns: {
-        categoryId: false,
-        authorId: false,
-      },
+      columns: { categoryId: false, authorId: false },
     })) as DrizzlePostResult | undefined;
 
     if (!post) return undefined;
@@ -106,15 +95,55 @@ export const postsService = {
   },
 
   create: async (data: CreatePostInput): Promise<PostWithRelations> => {
-    const slug = generateSlug(data.title);
-    const [created] = await db
-      .insert(posts)
-      .values({ ...data, slug })
-      .returning();
+    const createdSlug = await db.transaction(async (tx) => {
+      const slug = generateSlug(data.title);
 
-    if (!created) throw new Error("Could not create post");
+      // Resolve category UUID from slug
+      let categoryId: string | null = null;
+      if (data.categorySlug) {
+        const category = await tx.query.categories.findFirst({
+          where: eq(categories.slug, data.categorySlug),
+          columns: { id: true },
+        });
+        categoryId = category?.id ?? null;
+      }
 
-    const post = await postsService.findBySlug(created.slug);
+      const [created] = await tx
+        .insert(posts)
+        .values({
+          title: data.title,
+          slug,
+          content: data.content,
+          excerpt: data.excerpt,
+          authorId: data.authorId,
+          published: data.published,
+          categoryId,
+        })
+        .returning();
+
+      if (!created) throw new Error("Could not create post");
+
+      // Insert tag associations if tags were provided and not empty
+      if (data.tagSlugs && data.tagSlugs.length > 0) {
+        const matchingTags = await tx.query.tags.findMany({
+          where: inArray(tags.slug, data.tagSlugs),
+          columns: { id: true },
+        });
+
+        if (matchingTags.length > 0) {
+          await tx.insert(postTags).values(
+            matchingTags.map((tag) => ({
+              postId: created.id,
+              tagId: tag.id,
+            })),
+          );
+        }
+      }
+
+      return created.slug;
+    });
+
+    const post = await postsService.findBySlug(createdSlug);
     if (!post) throw new Error("Could not fetch created post");
     return post;
   },
@@ -123,19 +152,58 @@ export const postsService = {
     slug: string,
     data: PostUpdate,
   ): Promise<PostWithRelations | null> => {
-    const updateData = data.title
-      ? { ...data, slug: generateSlug(data.title), updatedAt: new Date() }
-      : { ...data, updatedAt: new Date() };
+    const updatedSlug = await db.transaction(async (tx) => {
+      let categoryId: string | null | undefined = undefined;
+      if (data.categorySlug !== undefined) {
+        if (data.categorySlug) {
+          const category = await tx.query.categories.findFirst({
+            where: eq(categories.slug, data.categorySlug),
+            columns: { id: true },
+          });
+          categoryId = category?.id ?? null;
+        } else {
+          categoryId = null;
+        }
+      }
 
-    const [updated] = await db
-      .update(posts)
-      .set(updateData)
-      .where(eq(posts.slug, slug))
-      .returning();
+      const { categorySlug, tagSlugs, ...rest } = data;
+      const [updated] = await tx
+        .update(posts)
+        .set({
+          ...rest,
+          ...(data.title && { slug: generateSlug(data.title) }),
+          ...(categoryId !== undefined && { categoryId }),
+          updatedAt: new Date(),
+        })
+        .where(eq(posts.slug, slug))
+        .returning();
 
-    if (!updated) return null;
-    const post = await postsService.findBySlug(updated.slug);
-    return post ?? null;
+      if (!updated) return null;
+
+      // Replace all tag associations if tags were provided
+      if (tagSlugs !== undefined) {
+        console.log(tagSlugs);
+        await tx.delete(postTags).where(eq(postTags.postId, updated.id));
+
+        if (tagSlugs.length > 0) {
+          const matchingTags = await tx.query.tags.findMany({
+            where: inArray(tags.slug, tagSlugs),
+            columns: { id: true },
+          });
+          await tx.insert(postTags).values(
+            matchingTags.map((tag) => ({
+              postId: updated.id,
+              tagId: tag.id,
+            })),
+          );
+        }
+      }
+
+      return updated.slug;
+    });
+
+    if (!updatedSlug) return null;
+    return (await postsService.findBySlug(updatedSlug)) ?? null;
   },
 
   delete: async (slug: string) => {
@@ -150,29 +218,19 @@ export const postsService = {
     const post = await db.query.posts.findFirst({
       where: eq(posts.slug, postSlug),
     });
-
-    if (!post) {
-      throw new Error("Post not found");
-    }
+    if (!post) throw new Error("Post not found");
 
     const tag = await db.query.tags.findFirst({
       where: eq(tags.slug, tagSlug),
     });
-
-    if (!tag) {
-      throw new Error("Tag not found");
-    }
+    if (!tag) throw new Error("Tag not found");
 
     const already = await db.query.postTags.findFirst({
       where: and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)),
     });
-
-    if (already) {
-      throw new Error("Tag already assigned to this post");
-    }
+    if (already) throw new Error("Tag already assigned to this post");
 
     await db.insert(postTags).values({ postId: post.id, tagId: tag.id });
-
     return { postSlug, tagSlug };
   },
 
@@ -180,23 +238,16 @@ export const postsService = {
     const post = await db.query.posts.findFirst({
       where: eq(posts.slug, postSlug),
     });
-
-    if (!post) {
-      throw new Error("Post not found");
-    }
+    if (!post) throw new Error("Post not found");
 
     const tag = await db.query.tags.findFirst({
       where: eq(tags.slug, tagSlug),
     });
-
-    if (!tag) {
-      throw new Error("Tag not found");
-    }
+    if (!tag) throw new Error("Tag not found");
 
     await db
       .delete(postTags)
       .where(and(eq(postTags.postId, post.id), eq(postTags.tagId, tag.id)));
-
     return { postSlug, tagSlug };
   },
 };

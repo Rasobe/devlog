@@ -11,6 +11,8 @@ import {
   TextArea,
   TextField,
 } from "@/presentation/components/common";
+import { CategorySelect } from "./_components/category-select";
+import { TagInput } from "./_components/tag-input";
 
 interface PostFormProps {
   mode?: "create" | "edit";
@@ -73,6 +75,21 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
             {...register("excerpt")}
             error={errors.excerpt?.message}
             maxLength={200}
+          />
+
+          <Controller
+            name="category"
+            control={form.control}
+            render={({ field }) => (
+              <CategorySelect value={field.value} onChange={field.onChange} />
+            )}
+          />
+          <Controller
+            name="tags"
+            control={form.control}
+            render={({ field }) => (
+              <TagInput value={field.value || []} onChange={field.onChange} />
+            )}
           />
 
           <Controller

@@ -7,6 +7,12 @@ export const queryKeys = {
       ["posts", page, search, status] as const,
     detail: (slug: string) => ["posts", "detail", slug] as const,
   },
+  categories: {
+    all: () => ["categories"] as const,
+  },
+  tags: {
+    all: () => ["tags"] as const,
+  },
   user: {
     stats: () => ["user-stats"] as const,
   },

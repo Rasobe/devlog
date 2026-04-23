@@ -42,6 +42,7 @@ export type RegisterResponses = {
             displayName: string;
             role: string;
             createdAt: string;
+            updatedAt: string;
         };
         token: string;
     };
@@ -75,6 +76,7 @@ export type LoginResponses = {
             displayName: string;
             role: string;
             createdAt: string;
+            updatedAt: string;
         };
         token: string;
     };
@@ -117,6 +119,7 @@ export type GetPostsResponses = {
             };
             postTags: Array<{
                 tag: {
+                    id: string;
                     name: string;
                     slug: string;
                 };
@@ -139,7 +142,8 @@ export type CreatePostData = {
         content: string;
         excerpt: string;
         published?: boolean;
-        categoryId?: string;
+        categorySlug?: string;
+        tagSlugs?: Array<string>;
     };
     path?: never;
     query?: never;
@@ -174,6 +178,7 @@ export type CreatePostResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };
@@ -245,6 +250,7 @@ export type GetPostBySlugResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };
@@ -257,11 +263,11 @@ export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugRe
 export type UpdatePostBySlugData = {
     body: {
         title?: string;
-        slug?: string;
         content?: string;
         excerpt?: string;
         published?: boolean;
-        categoryId?: string;
+        categorySlug?: string;
+        tagSlugs?: Array<string>;
     };
     path: {
         slug: string;
@@ -298,6 +304,7 @@ export type UpdatePostBySlugResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };

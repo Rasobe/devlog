@@ -5,7 +5,7 @@ import { getMyStats } from "../api";
 import { UserMapper } from "../mappers/user.mapper";
 
 export class UserRepositoryImpl implements IUserRepository {
-  async getUserStats(): Promise<UserStats> {
+  async getStats(): Promise<UserStats> {
     const { data, error } = await getMyStats({
       headers: {
         Authorization: `Bearer ${authStorage.getToken()}`,

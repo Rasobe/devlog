@@ -53,6 +53,8 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
         excerpt: post.excerpt,
         content: post.content,
         published: post.published,
+        category: post.category?.slug ?? "",
+        tags: post.tags.map((t) => t.slug),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,7 +78,9 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       if (slug) {
-        queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(slug) });
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.posts.detail(slug),
+        });
       }
       router.push(ROUTES.POSTS);
       toast.success("Post actualizado exitosamente");
@@ -87,10 +91,19 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
   });
 
   const onSubmitHandler = async (data: CreatePostSchema) => {
+    const input = {
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+      published: data.published,
+      categorySlug: data.category ?? undefined,
+      tagSlugs: data.tags ?? [],
+    };
+
     if (!!post && slug) {
-      updatePostMutation.mutate(data);
+      updatePostMutation.mutate(input);
     } else {
-      createPostMutation.mutate(data);
+      createPostMutation.mutate(input);
     }
   };
 

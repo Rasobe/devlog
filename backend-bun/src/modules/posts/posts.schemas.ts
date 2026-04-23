@@ -2,20 +2,21 @@ import { t } from "elysia";
 
 // --- Input Schemas ---
 export const createPostBody = t.Object({
-  title: t.String(),
+  title: t.String({ maxLength: 60 }),
   content: t.String(),
   excerpt: t.String(),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.String()),
+  categorySlug: t.Optional(t.String()),
+  tagSlugs: t.Optional(t.Array(t.String())),
 });
 
 export const updatePostBody = t.Object({
-  title: t.Optional(t.String()),
-  slug: t.Optional(t.String()),
+  title: t.Optional(t.String({ maxLength: 60 })),
   content: t.Optional(t.String()),
   excerpt: t.Optional(t.String()),
   published: t.Optional(t.Boolean()),
-  categoryId: t.Optional(t.String()),
+  categorySlug: t.Optional(t.Optional(t.String())),
+  tagSlugs: t.Optional(t.Array(t.String())),
 });
 
 export const postsQuery = t.Object({
@@ -40,6 +41,7 @@ const categorySchema = t.Object({
 
 const tagSchema = t.Object({
   tag: t.Object({
+    id: t.String(),
     name: t.String(),
     slug: t.String(),
   }),
@@ -52,8 +54,8 @@ export const postSchema = t.Object({
   excerpt: t.String(),
   published: t.Boolean(),
   views: t.Number(),
-  createdAt: t.Date(),
-  updatedAt: t.Date(),
+  createdAt: t.String(),
+  updatedAt: t.String(),
   author: authorSchema,
   category: t.Optional(categorySchema),
   postTags: t.Array(tagSchema),

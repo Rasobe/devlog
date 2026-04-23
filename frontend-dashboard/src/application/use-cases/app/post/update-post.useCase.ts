@@ -5,6 +5,6 @@ export class UpdatePostUseCase {
   constructor(private readonly repository: IPostRepository) {}
 
   async execute(slug: string, data: UpdatePostInput) {
-    return this.repository.updatePost(slug, data);
+    return this.repository.update(slug, data);
   }
 }

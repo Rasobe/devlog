@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export const usePostsContent = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<PostStatus>("ALL");
   const [postToDelete, setPostToDelete] = useState<Post | null>(null);

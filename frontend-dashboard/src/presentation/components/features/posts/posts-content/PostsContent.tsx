@@ -60,7 +60,7 @@ export const PostsContent = () => {
             render: () => (
               <Select
                 value={status}
-                onChange={(e) => setStatus(e.target.value as PostStatus)}
+                onChange={(value) => setStatus(value as PostStatus)}
                 options={statusOptions}
               />
             ),

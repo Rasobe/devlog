@@ -40,8 +40,8 @@ export const mapToDomainPost = (
     excerpt: dbPost.excerpt,
     published: dbPost.published ?? false,
     views: dbPost.views,
-    createdAt: dbPost.createdAt,
-    updatedAt: dbPost.updatedAt,
+    createdAt: dbPost.createdAt.toISOString(),
+    updatedAt: dbPost.updatedAt.toISOString(),
     author: {
       displayName: dbPost.author.displayName,
       email: dbPost.author.email,

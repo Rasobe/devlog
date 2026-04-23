@@ -11,6 +11,6 @@ export class GetPostsUseCase {
     search?: string,
     status?: PostStatus,
   ): Promise<PagedResult<Post>> {
-    return this.repository.getPosts(page, size, search, status);
+    return this.repository.getPaginated(page, size, search, status);
   }
 }

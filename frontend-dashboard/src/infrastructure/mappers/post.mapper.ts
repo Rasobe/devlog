@@ -29,13 +29,15 @@ export const PostMapper = {
       category: response.category
         ? CategoryMapper.toDomain(response.category)
         : undefined,
+      // Map postTags array to a flat Tag array for the domain
       tags: response.postTags.map((pt) => TagMapper.toDomain(pt.tag)),
     };
   },
 
   toPagedDomain(response: PostsPagedResponse): PagedResult<Post> {
     return {
-      content: response.data.map(this.toDomain),
+      // Use explicit PostMapper reference to avoid 'this' binding issues in callbacks
+      content: response.data.map((item) => PostMapper.toDomain(item)),
       totalElements: response.meta.total,
       totalPages: response.meta.totalPages,
       currentPage: response.meta.page,
@@ -48,7 +50,8 @@ export const PostMapper = {
       content: input.content,
       excerpt: input.excerpt,
       published: input.published,
-      categoryId: input.categoryId,
+      categorySlug: input.categorySlug,
+      tagSlugs: input.tagSlugs,
     };
   },
 
@@ -58,7 +61,8 @@ export const PostMapper = {
       content: input.content,
       excerpt: input.excerpt,
       published: input.published,
-      categoryId: input.categoryId,
+      categorySlug: input.categorySlug,
+      tagSlugs: input.tagSlugs,
     };
   },
 };

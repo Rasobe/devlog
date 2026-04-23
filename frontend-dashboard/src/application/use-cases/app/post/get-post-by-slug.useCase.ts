@@ -4,6 +4,6 @@ export class GetPostBySlugUseCase {
   constructor(private readonly repository: IPostRepository) {}
 
   async execute(slug: string) {
-    return this.repository.getPostBySlug(slug);
+    return this.repository.getBySlug(slug);
   }
 }

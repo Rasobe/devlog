@@ -4,6 +4,6 @@ export class CreateCategoryUseCase {
   constructor(private readonly repository: ICategoryRepository) {}
 
   async execute(name: string) {
-    return this.repository.createCategory(name);
+    return this.repository.create(name);
   }
 }

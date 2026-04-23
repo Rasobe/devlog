@@ -27,7 +27,7 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
     return CategoryMapper.toDomain(data);
   }
 
-  async createCategory(name: string): Promise<Category> {
+  async create(name: string): Promise<Category> {
     const { data, error } = await createCategory({
       body: {
         name,
@@ -38,7 +38,7 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
     return CategoryMapper.toDomain(data);
   }
 
-  async updateCategory(slug: string, name: string): Promise<Category> {
+  async update(slug: string, name: string): Promise<Category> {
     const { data, error } = await updateCategory({
       body: {
         name,
@@ -52,7 +52,7 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
     return CategoryMapper.toDomain(data);
   }
 
-  async deleteCategory(slug: string): Promise<void> {
+  async delete(slug: string): Promise<void> {
     const { error } = await deleteCategory({
       path: {
         slug,

@@ -4,6 +4,6 @@ export class GetUserStatsUseCase {
   constructor(private readonly repository: IUserRepository) {}
 
   async execute() {
-    return this.repository.getUserStats();
+    return this.repository.getStats();
   }
 }

@@ -3,7 +3,7 @@ import {
   DeletePostUseCase,
   GetCurrentUserUseCase,
   GetPostBySlugUseCase,
-  GetPostsUseCase,
+  GetPaginatedPostsUseCase,
   GetUserStatsUseCase,
   LoginUseCase,
   UpdatePostUseCase,
@@ -28,7 +28,7 @@ export const userRepository = new UserRepositoryImpl();
 export const getUserStatsUseCase = new GetUserStatsUseCase(userRepository);
 
 export const postRepository = new PostRepositoryImpl();
-export const getPostsUseCase = new GetPostsUseCase(postRepository);
+export const getPostsUseCase = new GetPaginatedPostsUseCase(postRepository);
 export const createPostUseCase = new CreatePostUseCase(postRepository);
 export const getPostBySlugUseCase = new GetPostBySlugUseCase(postRepository);
 export const updatePostUseCase = new UpdatePostUseCase(postRepository);

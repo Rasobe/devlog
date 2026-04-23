@@ -1,9 +1,9 @@
 import { IPostRepository } from "@/domain/repositories/post.repository";
 
 export class DeletePostUseCase {
-  constructor(private postRepository: IPostRepository) {}
+  constructor(private readonly repository: IPostRepository) {}
 
   async execute(slug: string): Promise<void> {
-    return this.postRepository.deletePost(slug);
+    return this.repository.delete(slug);
   }
 }

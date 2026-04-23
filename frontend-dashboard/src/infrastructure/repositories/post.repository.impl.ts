@@ -16,7 +16,7 @@ import { PostMapper } from "../mappers/post.mapper";
 import { PagedResult } from "@/domain/models/paged-result.model";
 
 export class PostRepositoryImpl implements IPostRepository {
-  async updatePost(slug: string, request: UpdatePostInput): Promise<Post> {
+  async update(slug: string, request: UpdatePostInput): Promise<Post> {
     const { data, error } = await updatePostBySlug({
       path: {
         slug,
@@ -28,7 +28,7 @@ export class PostRepositoryImpl implements IPostRepository {
     return PostMapper.toDomain(data);
   }
 
-  async getPostBySlug(slug: string): Promise<Post | null> {
+  async getBySlug(slug: string): Promise<Post | null> {
     const { data, error } = await getPostBySlug({
       path: {
         slug,
@@ -39,7 +39,7 @@ export class PostRepositoryImpl implements IPostRepository {
     return PostMapper.toDomain(data);
   }
 
-  async createPost(request: CreatePostInput): Promise<Post> {
+  async create(request: CreatePostInput): Promise<Post> {
     const { data, error } = await createPost({
       body: PostMapper.toApiCreate(request),
     });
@@ -48,7 +48,7 @@ export class PostRepositoryImpl implements IPostRepository {
     return PostMapper.toDomain(data);
   }
 
-  async getPosts(
+  async getPaginated(
     page: number,
     size: number,
     search?: string,
@@ -74,7 +74,7 @@ export class PostRepositoryImpl implements IPostRepository {
     return PostMapper.toPagedDomain(data);
   }
 
-  async deletePost(slug: string): Promise<void> {
+  async delete(slug: string): Promise<void> {
     const { error } = await deletePost({
       path: {
         slug,

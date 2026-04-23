@@ -25,6 +25,17 @@ import {
   CategoryRepositoryImpl,
   TagRepositoryImpl,
 } from "./repositories";
+import { client } from "./api/client.gen";
+import { authStorage } from "./services/auth-storage";
+
+// Global HTTP Interceptor for Authentication
+client.instance.interceptors.request.use((config) => {
+  const token = authStorage.getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export const authRepository = new AuthRepositoryImpl();
 export const loginUseCase = new LoginUseCase(authRepository);

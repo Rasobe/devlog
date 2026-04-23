@@ -12,8 +12,11 @@ export interface PostPaginationParams extends PaginationParams {
 
 export type PostInsert = typeof posts.$inferInsert;
 export type PostUpdate = Partial<
-  Omit<PostInsert, "id" | "createdAt" | "authorId">
->;
+  Omit<PostInsert, "id" | "createdAt" | "authorId" | "categoryId">
+> & {
+  categorySlug?: string | null;
+  tagSlugs?: string[];
+};
 
 export interface CreatePostInput {
   title: string;
@@ -21,10 +24,14 @@ export interface CreatePostInput {
   excerpt: string;
   authorId: string;
   published?: boolean;
-  categoryId?: string | null;
+  categorySlug?: string | null;
+  tagSlugs?: string[] | null;
 }
 
-export type PostWithRelations = Omit<Post, "authorId" | "categoryId" | "published"> & {
+export type PostWithRelations = Omit<
+  Post,
+  "authorId" | "categoryId" | "published"
+> & {
   published: boolean;
   author: {
     displayName: string;

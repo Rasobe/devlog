@@ -12,6 +12,7 @@ export const CategorySelect = ({ value, onChange }: CategorySelectProps) => {
 
   return (
     <Select
+      label="Categoría"
       value={value}
       options={options}
       onChange={onChange}

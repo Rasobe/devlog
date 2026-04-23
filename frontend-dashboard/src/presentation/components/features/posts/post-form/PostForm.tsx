@@ -88,7 +88,7 @@ export const PostForm = ({ mode = "create", slug }: PostFormProps) => {
             name="tags"
             control={form.control}
             render={({ field }) => (
-              <TagInput value={field.value} onChange={field.onChange} />
+              <TagInput value={field.value || []} onChange={field.onChange} />
             )}
           />
 

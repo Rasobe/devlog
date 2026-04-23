@@ -53,6 +53,8 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
         excerpt: post.excerpt,
         content: post.content,
         published: post.published,
+        category: post.category?.slug ?? "",
+        tags: post.tags.map((t) => t.slug),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,10 +89,19 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
   });
 
   const onSubmitHandler = async (data: CreatePostSchema) => {
+    const input = {
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+      published: data.published,
+      categoryId: data.category || undefined,
+      tagIds: data.tags?.length ? data.tags : undefined,
+    };
+
     if (!!post && slug) {
-      updatePostMutation.mutate(data);
+      updatePostMutation.mutate(input);
     } else {
-      createPostMutation.mutate(data);
+      createPostMutation.mutate(input);
     }
   };
 

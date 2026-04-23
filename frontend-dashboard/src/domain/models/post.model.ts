@@ -22,6 +22,7 @@ export interface CreatePostInput {
   excerpt: string;
   published: boolean;
   categoryId?: string;
+  tagIds?: string[];
 }
 
 export interface UpdatePostInput {
@@ -30,6 +31,7 @@ export interface UpdatePostInput {
   excerpt: string;
   published: boolean;
   categoryId?: string;
+  tagIds?: string[];
 }
 
 export type PostStatus = "ALL" | "PUBLISHED" | "DRAFT";

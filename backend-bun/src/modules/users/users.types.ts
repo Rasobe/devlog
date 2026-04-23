@@ -2,7 +2,10 @@ import { users } from "@/db/schema";
 
 export type User = typeof users.$inferSelect;
 
-export type UserPrivate = Omit<User, "passwordHash" | "id">;
+export type UserPrivate = Omit<User, "passwordHash" | "id" | "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type UserPublic = Omit<UserPrivate, "email" | "role">;
 

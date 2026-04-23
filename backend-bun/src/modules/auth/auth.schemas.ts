@@ -14,6 +14,7 @@ export const loginBody = t.Object({
 
 // --- Outputs ---
 export const authUserSchema = t.Object({
+  id: t.String(),
   email: t.String(),
   displayName: t.String(),
   role: t.Union([t.Literal("AUTHOR"), t.Literal("ADMIN")]),

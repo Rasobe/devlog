@@ -37,6 +37,7 @@ export type RegisterError = RegisterErrors[keyof RegisterErrors];
 export type RegisterResponses = {
     201: {
         user: {
+            id: string;
             email: string;
             displayName: string;
             role: string;
@@ -70,6 +71,7 @@ export type LoginError = LoginErrors[keyof LoginErrors];
 export type LoginResponses = {
     200: {
         user: {
+            id: string;
             email: string;
             displayName: string;
             role: string;
@@ -117,6 +119,7 @@ export type GetPostsResponses = {
             };
             postTags: Array<{
                 tag: {
+                    id: string;
                     name: string;
                     slug: string;
                 };
@@ -175,6 +178,7 @@ export type CreatePostResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };
@@ -246,6 +250,7 @@ export type GetPostBySlugResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };
@@ -299,6 +304,7 @@ export type UpdatePostBySlugResponses = {
         };
         postTags: Array<{
             tag: {
+                id: string;
                 name: string;
                 slug: string;
             };

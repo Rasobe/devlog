@@ -21,8 +21,8 @@ export interface CreatePostInput {
   content: string;
   excerpt: string;
   published: boolean;
-  categoryId?: string;
-  tagIds?: string[];
+  categorySlug?: string;
+  tagSlugs?: string[];
 }
 
 export interface UpdatePostInput {
@@ -30,8 +30,8 @@ export interface UpdatePostInput {
   content: string;
   excerpt: string;
   published: boolean;
-  categoryId?: string;
-  tagIds?: string[];
+  categorySlug?: string;
+  tagSlugs?: string[];
 }
 
 export type PostStatus = "ALL" | "PUBLISHED" | "DRAFT";

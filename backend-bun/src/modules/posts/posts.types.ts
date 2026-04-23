@@ -30,8 +30,10 @@ export interface CreatePostInput {
 
 export type PostWithRelations = Omit<
   Post,
-  "authorId" | "categoryId" | "published"
+  "authorId" | "categoryId" | "published" | "createdAt" | "updatedAt"
 > & {
+  createdAt: string;
+  updatedAt: string;
   published: boolean;
   author: {
     displayName: string;

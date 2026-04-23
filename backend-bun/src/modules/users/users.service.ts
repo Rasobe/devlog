@@ -7,40 +7,31 @@ import {
   type UserPrivate,
   type UserPublic,
 } from "./users.types";
-import { toUserPrivate } from "./users.helpers";
+import { toUserPrivate, toUserPublic } from "./users.helpers";
 
 export const userService = {
   findPrivateById: async (id: string): Promise<UserPrivate> => {
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
-      columns: {
-        id: false,
-        passwordHash: false,
-      },
     });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    return user;
+    return toUserPrivate(user);
   },
 
   findPublicById: async (id: string): Promise<UserPublic> => {
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
-      columns: {
-        passwordHash: false,
-        email: false,
-        role: false,
-      },
     });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    return user;
+    return toUserPublic(user);
   },
 
   updateMe: async (id: string, data: UpdateUserInput): Promise<UserPrivate> => {

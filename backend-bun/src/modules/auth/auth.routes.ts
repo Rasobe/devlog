@@ -30,7 +30,14 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
           role: user.role,
         });
         set.status = 201;
-        return { user, token };
+        return {
+          user: {
+            ...user,
+            createdAt: user.createdAt.toISOString(),
+            updatedAt: user.updatedAt.toISOString(),
+          },
+          token,
+        };
       } catch (e: unknown) {
         set.status = 400;
         return {
@@ -58,7 +65,14 @@ export const authRoutes = new Elysia({ prefix: "/auth", tags: ["Auth"] })
           role: user.role,
         });
         set.status = 200;
-        return { user, token };
+        return {
+          user: {
+            ...user,
+            createdAt: user.createdAt.toISOString(),
+            updatedAt: user.updatedAt.toISOString(),
+          },
+          token,
+        };
       } catch (e: unknown) {
         set.status = 401;
         return { message: e instanceof Error ? e.message : "Login failed" };

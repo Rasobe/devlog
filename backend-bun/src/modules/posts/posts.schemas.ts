@@ -41,6 +41,7 @@ const categorySchema = t.Object({
 
 const tagSchema = t.Object({
   tag: t.Object({
+    id: t.String(),
     name: t.String(),
     slug: t.String(),
   }),

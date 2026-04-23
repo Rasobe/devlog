@@ -132,7 +132,10 @@ export const postsService = {
 
         if (matchingTags.length > 0) {
           await tx.insert(postTags).values(
-            matchingTags.map((tag) => ({ postId: created.id, tagId: tag.id })),
+            matchingTags.map((tag) => ({
+              postId: created.id,
+              tagId: tag.id,
+            })),
           );
         }
       }
@@ -150,7 +153,6 @@ export const postsService = {
     data: PostUpdate,
   ): Promise<PostWithRelations | null> => {
     const updatedSlug = await db.transaction(async (tx) => {
-      // Resolve category UUID from slug if category was changed
       let categoryId: string | null | undefined = undefined;
       if (data.categorySlug !== undefined) {
         if (data.categorySlug) {
@@ -160,7 +162,7 @@ export const postsService = {
           });
           categoryId = category?.id ?? null;
         } else {
-          categoryId = null; // explicitly removing the category
+          categoryId = null;
         }
       }
 
@@ -180,6 +182,7 @@ export const postsService = {
 
       // Replace all tag associations if tags were provided
       if (tagSlugs !== undefined) {
+        console.log(tagSlugs);
         await tx.delete(postTags).where(eq(postTags.postId, updated.id));
 
         if (tagSlugs.length > 0) {

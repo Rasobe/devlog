@@ -78,7 +78,9 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.all() });
       if (slug) {
-        queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(slug) });
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.posts.detail(slug),
+        });
       }
       router.push(ROUTES.POSTS);
       toast.success("Post actualizado exitosamente");
@@ -94,7 +96,7 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
       excerpt: data.excerpt,
       content: data.content,
       published: data.published,
-      categorySlug: data.category ?? "", 
+      categorySlug: data.category ?? undefined,
       tagSlugs: data.tags ?? [],
     };
 

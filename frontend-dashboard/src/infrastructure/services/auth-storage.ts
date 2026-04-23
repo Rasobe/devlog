@@ -6,6 +6,7 @@ const USER_KEY = "devlog_user";
 export interface StoredUser {
   email: string;
   displayName: string;
+  role: string;
 }
 
 const AUTH_CHANGE_EVENT = "auth-change";

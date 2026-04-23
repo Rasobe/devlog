@@ -1,6 +1,9 @@
 import { AuthResult } from "@/domain/models/auth.model";
 import { IAuthRepository } from "@/domain/repositories/auth.repository";
-import { authStorage, StoredUser } from "@/infrastructure/services/auth-storage";
+import {
+  authStorage,
+  StoredUser,
+} from "@/infrastructure/services/auth-storage";
 
 export class LoginUseCase {
   constructor(private readonly authRepository: IAuthRepository) {}
@@ -13,6 +16,7 @@ export class LoginUseCase {
     const loggedUser: StoredUser = {
       email: data.email,
       displayName: data.displayName,
+      role: data.role,
     };
     authStorage.setUser(loggedUser);
 

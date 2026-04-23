@@ -8,6 +8,7 @@ export const AuthMapper = {
       token: response.token,
       email: response.user.email,
       displayName: response.user.displayName,
+      role: response.user.role,
     };
   },
 
@@ -16,6 +17,7 @@ export const AuthMapper = {
       token: "",
       email: response.email,
       displayName: response.displayName,
+      role: response.role,
     };
   },
 };

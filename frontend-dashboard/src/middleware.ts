@@ -7,33 +7,35 @@ import { NextRequest, NextResponse } from "next/server";
 const AUTH_ROUTES = new Set<string>([ROUTES.LOGIN, ROUTES.REGISTER]);
 const ADMIN_ROUTES = [ROUTES.CATEGORIES, ROUTES.TAGS];
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
   const { pathname } = request.nextUrl;
 
   const isAuthPage = AUTH_ROUTES.has(pathname);
-  const isDashboardPage = pathname.startsWith(ROUTES.DASHBOARD);
 
   // 1. Redirección inversa: Si ya está logueado, no debe ver Login/Register
   if (isAuthPage && token) {
     return NextResponse.redirect(new URL(ROUTES.DASHBOARD, request.url));
   }
 
-  // 2. Auth Guard: Si intenta entrar al dashboard sin token o directamente no tiene token, va al login
-  if (isDashboardPage && !token) {
+  // 2. Auth Guard: Si NO tiene token y NO está en una página de auth (Login/Register), va al login
+  // Esto protege TODO el sitio (incluyendo "/" y "/dashboard") de accesos anónimos.
+  if (!token && !isAuthPage) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
   }
 
+  // Si llegamos aquí y no hay token, es porque está en una página de auth, permitimos el paso
+  if (!token) return NextResponse.next();
+
   // 3. Role Guard: Rutas protegidas por rol (Admin)
-  // Verificamos si la ruta actual es una de las de admin o una sub-ruta de las mismas
   const isAdminRoute = ADMIN_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   if (isAdminRoute) {
-    const payload = decodeJwtPayload<{ role: string }>(token!);
+    const payload = decodeJwtPayload<{ role: string }>(token);
 
-    // Si el rol no es ADMIN, redirigimos a la raíz del dashboard
+    // Si el rol no es ADMIN, lo devolvemos a la página principal del dashboard
     if (payload?.role !== UserRole.ADMIN) {
       return NextResponse.redirect(new URL(ROUTES.DASHBOARD, request.url));
     }

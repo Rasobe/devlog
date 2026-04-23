@@ -10,6 +10,9 @@ export const queryKeys = {
   categories: {
     all: () => ["categories"] as const,
   },
+  tags: {
+    all: () => ["tags"] as const,
+  },
   user: {
     stats: () => ["user-stats"] as const,
   },

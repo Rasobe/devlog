@@ -1,9 +1,9 @@
 import { Category } from "@/domain/models";
-import { ICategoryRepository } from "@/domain/repositories";
+import { ITagRepository } from "@/domain/repositories";
 import { createTag, deleteTag, getTagBySlug, getTags, updateTag } from "../api";
 import { TagMapper } from "../mappers";
 
-export class TagRepositoryImpl implements ICategoryRepository {
+export class TagRepositoryImpl implements ITagRepository {
   async getAll(): Promise<Category[]> {
     const { data, error } = await getTags();
     if (error) throw error;

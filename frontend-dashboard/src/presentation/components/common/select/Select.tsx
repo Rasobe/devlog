@@ -60,15 +60,15 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
             disabled={isDisabled}
             onClick={() => setIsOpen(!isOpen)}
             className={cn(
-              "form-input h-10! flex items-center justify-between gap-2 pr-3 cursor-pointer text-left",
+              "form-input h-10! flex items-center justify-between gap-2 pr-3 cursor-pointer text-left w-full",
               isOpen && "ring-2 ring-ring/50 border-ring",
-              error && "border-red-500 focus:ring-red-500",
+              error && "border-red-500",
               isDisabled && "opacity-50 cursor-not-allowed",
             )}
           >
             <span
               className={cn(
-                "truncate",
+                "truncate text-sm",
                 !selectedOption && "text-muted-foreground",
               )}
             >
@@ -77,18 +77,18 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                 : (placeholder ?? "Seleccionar...")}
             </span>
             <ChevronDown
-              size={16}
+              size={15}
               className={cn(
-                "text-muted-foreground transition-transform duration-200",
+                "text-muted-foreground shrink-0 transition-transform duration-200",
                 isOpen && "rotate-180",
               )}
             />
           </button>
 
           {isOpen && (
-            <div className="absolute top-[calc(100%+6px)] left-0 w-full min-w-[160px] z-50 animate-in fade-in zoom-in-95 duration-150">
-              <div className="bg-popover border border-border rounded-xl shadow-lg overflow-hidden py-1">
-                <div className="max-h-[250px] overflow-y-auto scrollbar-slim">
+            <div className="absolute top-[calc(100%+4px)] left-0 w-full min-w-[160px] z-50 animate-in fade-in zoom-in-95 duration-150">
+              <div className="bg-background border border-border rounded-lg shadow-lg overflow-hidden py-1">
+                <div className="max-h-60 overflow-y-auto scrollbar-slim">
                   {options.map((option) => {
                     const isSelected = option.value === value;
                     return (
@@ -97,15 +97,18 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         type="button"
                         onClick={() => handleSelect(option.value)}
                         className={cn(
-                          "w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors text-left",
+                          "w-full flex items-center justify-between px-3 py-2 text-sm transition-colors text-left",
                           isSelected
-                            ? "bg-primary/20 text-primary font-medium"
+                            ? "bg-primary/10 text-primary font-medium"
                             : "text-foreground hover:bg-muted",
                         )}
                       >
                         <span className="truncate">{option.label}</span>
                         {isSelected && (
-                          <Check size={14} className="shrink-0 ml-2" />
+                          <Check
+                            size={13}
+                            className="shrink-0 ml-2 text-primary"
+                          />
                         )}
                       </button>
                     );
@@ -117,7 +120,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         </div>
 
         {error && (
-          <span className="text-xs font-medium text-red-500 animate-in fade-in slide-in-from-top-1">
+          <span className="text-xs font-medium text-destructive animate-in fade-in">
             {error}
           </span>
         )}

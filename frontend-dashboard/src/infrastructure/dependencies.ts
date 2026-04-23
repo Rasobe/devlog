@@ -1,24 +1,30 @@
 import {
-  CreatePostUseCase,
-  DeletePostUseCase,
-  GetCurrentUserUseCase,
-  GetPostBySlugUseCase,
-  GetPaginatedPostsUseCase,
-  GetUserStatsUseCase,
   LoginUseCase,
+  GetCurrentUserUseCase,
+  GetUserStatsUseCase,
+  GetPostsUseCase,
+  CreatePostUseCase,
+  GetPostBySlugUseCase,
   UpdatePostUseCase,
+  DeletePostUseCase,
+  GetAllCategoriesUseCase,
+  GetCategoryBySlugUseCase,
+  CreateCategoryUseCase,
+  UpdateCategoryUseCase,
+  DeleteCategoryUseCase,
+  CreateTagUseCase,
+  DeleteTagUseCase,
+  GetAllTagsUseCase,
+  GetTagBySlugUseCase,
+  UpdateTagUseCase,
 } from "@/application/use-cases";
 import {
   AuthRepositoryImpl,
-  CategoryRepositoryImpl,
-  PostRepositoryImpl,
   UserRepositoryImpl,
+  PostRepositoryImpl,
+  CategoryRepositoryImpl,
+  TagRepositoryImpl,
 } from "./repositories";
-import { GetAllCategoriesUseCase } from "@/application/use-cases/app/category/get-all-categories.useCase";
-import { GetCategoryBySlugUseCase } from "@/application/use-cases/app/category/get-category-by-slug.useCase";
-import { CreateCategoryUseCase } from "@/application/use-cases/app/category/create-category.useCase";
-import { UpdateCategoryUseCase } from "@/application/use-cases/app/category/update-category.useCase";
-import { DeleteCategoryUseCase } from "@/application/use-cases/app/category/delete-category.useCase";
 
 export const authRepository = new AuthRepositoryImpl();
 export const loginUseCase = new LoginUseCase(authRepository);
@@ -28,7 +34,7 @@ export const userRepository = new UserRepositoryImpl();
 export const getUserStatsUseCase = new GetUserStatsUseCase(userRepository);
 
 export const postRepository = new PostRepositoryImpl();
-export const getPostsUseCase = new GetPaginatedPostsUseCase(postRepository);
+export const getPostsUseCase = new GetPostsUseCase(postRepository);
 export const createPostUseCase = new CreatePostUseCase(postRepository);
 export const getPostBySlugUseCase = new GetPostBySlugUseCase(postRepository);
 export const updatePostUseCase = new UpdatePostUseCase(postRepository);
@@ -50,3 +56,10 @@ export const updateCategoryUseCase = new UpdateCategoryUseCase(
 export const deleteCategoryUseCase = new DeleteCategoryUseCase(
   categoryRepository,
 );
+
+export const tagRepository = new TagRepositoryImpl();
+export const getAllTagsUseCase = new GetAllTagsUseCase(tagRepository);
+export const getTagBySlugUseCase = new GetTagBySlugUseCase(tagRepository);
+export const createTagUseCase = new CreateTagUseCase(tagRepository);
+export const updateTagUseCase = new UpdateTagUseCase(tagRepository);
+export const deleteTagUseCase = new DeleteTagUseCase(tagRepository);

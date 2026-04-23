@@ -1,4 +1,7 @@
 export const ROUTES = {
+  // Unauthorized
+  UNAUTHORIZED: "/unauthorized",
+
   // Public
   HOME: "/",
   LOGIN: "/login",

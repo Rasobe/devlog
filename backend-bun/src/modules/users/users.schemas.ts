@@ -15,7 +15,7 @@ export const updateMePassword = t.Object({
 export const userPublicSchema = t.Object({
   username: t.String(),
   displayName: t.String(),
-  createdAt: t.Date(),
+  createdAt: t.String(),
 });
 
 export const userPrivateSchema = t.Object({

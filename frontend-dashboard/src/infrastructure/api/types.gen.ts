@@ -37,11 +37,11 @@ export type RegisterError = RegisterErrors[keyof RegisterErrors];
 export type RegisterResponses = {
     201: {
         user: {
-            id: string;
             email: string;
             displayName: string;
             role: string;
             createdAt: string;
+            updatedAt: string;
         };
         token: string;
     };
@@ -70,11 +70,11 @@ export type LoginError = LoginErrors[keyof LoginErrors];
 export type LoginResponses = {
     200: {
         user: {
-            id: string;
             email: string;
             displayName: string;
             role: string;
             createdAt: string;
+            updatedAt: string;
         };
         token: string;
     };
@@ -139,7 +139,8 @@ export type CreatePostData = {
         content: string;
         excerpt: string;
         published?: boolean;
-        categoryId?: string;
+        categorySlug?: string;
+        tagSlugs?: Array<string>;
     };
     path?: never;
     query?: never;
@@ -257,11 +258,11 @@ export type GetPostBySlugResponse = GetPostBySlugResponses[keyof GetPostBySlugRe
 export type UpdatePostBySlugData = {
     body: {
         title?: string;
-        slug?: string;
         content?: string;
         excerpt?: string;
         published?: boolean;
-        categoryId?: string;
+        categorySlug?: string;
+        tagSlugs?: Array<string>;
     };
     path: {
         slug: string;

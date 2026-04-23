@@ -15,7 +15,7 @@ export const updatePostBody = t.Object({
   content: t.Optional(t.String()),
   excerpt: t.Optional(t.String()),
   published: t.Optional(t.Boolean()),
-  categorySlug: t.Optional(t.Nullable(t.String())),
+  categorySlug: t.Optional(t.Optional(t.String())),
   tagSlugs: t.Optional(t.Array(t.String())),
 });
 
@@ -53,8 +53,8 @@ export const postSchema = t.Object({
   excerpt: t.String(),
   published: t.Boolean(),
   views: t.Number(),
-  createdAt: t.Date(),
-  updatedAt: t.Date(),
+  createdAt: t.String(),
+  updatedAt: t.String(),
   author: authorSchema,
   category: t.Optional(categorySchema),
   postTags: t.Array(tagSchema),

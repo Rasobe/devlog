@@ -123,17 +123,18 @@ export const postsService = {
 
       if (!created) throw new Error("Could not create post");
 
-      // Insert tag associations if tags were provided
-      if (data.tagSlugs?.length) {
+      // Insert tag associations if tags were provided and not empty
+      if (data.tagSlugs && data.tagSlugs.length > 0) {
         const matchingTags = await tx.query.tags.findMany({
           where: inArray(tags.slug, data.tagSlugs),
           columns: { id: true },
         });
-        await tx
-          .insert(postTags)
-          .values(
+
+        if (matchingTags.length > 0) {
+          await tx.insert(postTags).values(
             matchingTags.map((tag) => ({ postId: created.id, tagId: tag.id })),
           );
+        }
       }
 
       return created.slug;

@@ -94,8 +94,8 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
       excerpt: data.excerpt,
       content: data.content,
       published: data.published,
-      categorySlug: data.category || undefined,
-      tagSlugs: data.tags?.length ? data.tags : undefined,
+      categorySlug: data.category ?? "", 
+      tagSlugs: data.tags ?? [],
     };
 
     if (!!post && slug) {

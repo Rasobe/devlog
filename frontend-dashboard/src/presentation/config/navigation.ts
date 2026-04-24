@@ -34,12 +34,12 @@ export const NAV_ITEMS: NavItem[] = [
     href: ROUTES.CATEGORIES,
     label: "Categorías",
     icon: FolderOpen,
-    roles: [UserRole.ADMIN, UserRole.AUTHOR],
+    roles: [UserRole.ADMIN],
   },
   {
     href: ROUTES.TAGS,
     label: "Etiquetas",
     icon: Tags,
-    roles: [UserRole.ADMIN, UserRole.AUTHOR],
+    roles: [UserRole.ADMIN],
   },
 ];

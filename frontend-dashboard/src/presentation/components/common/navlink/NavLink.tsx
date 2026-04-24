@@ -34,7 +34,7 @@ export const NavLink = ({
   badge,
   variant = "default",
   isCollapsed = false,
-  roles,
+  roles = [],
 }: NavLinkProps) => {
   const { isSelected } = useNavLink();
   const current = isSelected(href);
@@ -44,7 +44,7 @@ export const NavLink = ({
 
   if (!user?.role) return null;
 
-  const isVisible = !roles || roles.includes(user.role);
+  const isVisible = roles.length === 0 || roles.includes(user.role);
 
   if (!isVisible) return null;
 

@@ -1,8 +1,10 @@
 import { 
-  PostsHeader, 
   PostsMetrics, 
   PostsContent 
 } from "@/presentation/components/features";
+import { PageHeader } from "@/presentation/components/common";
+import { ROUTES } from "@/presentation/config/routes";
+import { Plus } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +14,15 @@ export const metadata: Metadata = {
 const PostsPage = () => {
   return (
     <div className="flex flex-col gap-8">
-      <PostsHeader />
+      <PageHeader 
+        title="Publicaciones"
+        description="Gestiona y organiza todos tus artículos de blog"
+        action={{
+          label: "Crear Publicación",
+          href: ROUTES.POSTS_NEW,
+          icon: <Plus size={16} />
+        }}
+      />
       <PostsMetrics />
       <PostsContent />
     </div>

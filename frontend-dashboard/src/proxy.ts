@@ -1,20 +1,37 @@
-// proxy.ts (raíz del proyecto)
+import { ROUTES } from "@/presentation/config/routes";
+import { UserRole } from "@/domain/models/auth.model";
+import { decodeJwtPayload } from "@/shared/utils/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = new Set(["/login"]);
+const AUTH_ROUTES = new Set<string>([ROUTES.LOGIN, ROUTES.REGISTER]);
+const ADMIN_ROUTES = [ROUTES.CATEGORIES, ROUTES.TAGS];
 
 export function proxy(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
   const { pathname } = request.nextUrl;
 
-  // Sin token → redirigir a login (excepto si ya está en login)
-  if (!token && !PUBLIC_ROUTES.has(pathname)) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  const isAuthPage = AUTH_ROUTES.has(pathname);
+
+  if (isAuthPage && token) {
+    return NextResponse.redirect(new URL(ROUTES.DASHBOARD, request.url));
   }
 
-  // Con token y en login → redirigir a dashboard
-  if (token && PUBLIC_ROUTES.has(pathname)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (!token && !isAuthPage) {
+    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
+  }
+
+  if (!token) return NextResponse.next();
+
+  const isAdminRoute = ADMIN_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
+
+  if (isAdminRoute) {
+    const payload = decodeJwtPayload<{ role: string }>(token);
+
+    if (payload?.role !== UserRole.ADMIN) {
+      return NextResponse.redirect(new URL(ROUTES.UNAUTHORIZED, request.url));
+    }
   }
 
   return NextResponse.next();
@@ -22,6 +39,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|_next/font|favicon.ico|.*\\.(?:png|svg|ico|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|svg|ico|jpg|jpeg|gif|webp)$).*)",
   ],
 };

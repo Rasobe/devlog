@@ -6,6 +6,8 @@ import Link from "next/link";
 import React from "react";
 import { useNavLink } from "./useNavLink";
 import { NavLinkVariant } from "@/presentation/config/navigation";
+import { UserRole } from "@/domain/models";
+import { useAuth } from "@/presentation/hooks/useAuth";
 
 const variantClasses: Record<NavLinkVariant, string> = {
   current: "bg-muted text-foreground font-medium",
@@ -22,6 +24,7 @@ interface NavLinkProps {
   badge?: string | number;
   variant?: NavLinkVariant;
   isCollapsed?: boolean;
+  roles?: UserRole[];
 }
 
 export const NavLink = ({
@@ -31,10 +34,19 @@ export const NavLink = ({
   badge,
   variant = "default",
   isCollapsed = false,
+  roles = [],
 }: NavLinkProps) => {
   const { isSelected } = useNavLink();
   const current = isSelected(href);
   const variantClass = current ? "current" : "default";
+
+  const { user } = useAuth();
+
+  if (!user?.role) return null;
+
+  const isVisible = roles.length === 0 || roles.includes(user.role);
+
+  if (!isVisible) return null;
 
   return (
     <Link
@@ -42,7 +54,7 @@ export const NavLink = ({
       className={cn(
         "flex flex-row items-center py-2 px-4 rounded-md transition-all duration-300",
         isCollapsed ? "justify-center px-2 gap-0" : "gap-2",
-        variantClasses[variant !== "default" ? variant : variantClass],
+        variantClasses[variant === "default" ? variantClass : variant],
       )}
       title={isCollapsed ? label : undefined}
     >

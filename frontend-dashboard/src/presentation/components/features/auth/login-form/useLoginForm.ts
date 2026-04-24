@@ -3,7 +3,7 @@ import {
   defaultLoginValues,
   loginSchema,
   type LoginSchema,
-} from "@/presentation/schemas/auth.schema";
+} from "@/presentation/schemas/";
 import { useAuthContext } from "@/presentation/store/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

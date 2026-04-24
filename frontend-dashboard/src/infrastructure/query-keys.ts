@@ -9,6 +9,7 @@ export const queryKeys = {
   },
   categories: {
     all: () => ["categories"] as const,
+    delete: (slug: string) => ["categories", "delete", slug] as const,
   },
   tags: {
     all: () => ["tags"] as const,

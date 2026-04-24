@@ -1,4 +1,7 @@
 export const ROUTES = {
+  // Unauthorized
+  UNAUTHORIZED: "/unauthorized",
+
   // Public
   HOME: "/",
   LOGIN: "/login",
@@ -13,6 +16,16 @@ export const ROUTES = {
   POSTS_PREVIEW: (id: string) => `/dashboard/posts/${id}/preview`,
   POSTS_EDIT: (id: string) => `/dashboard/posts/${id}/edit`,
   POSTS_VIEW: (slug: string) => `/posts/${slug}`,
+
+  // Categories
+  CATEGORIES: "/dashboard/categories",
+  CATEGORIES_NEW: "/dashboard/categories/new",
+  CATEGORIES_EDIT: (id: string) => `/dashboard/categories/${id}/edit`,
+
+  // Tags
+  TAGS: "/dashboard/tags",
+  TAGS_NEW: "/dashboard/tags/new",
+  TAGS_EDIT: (id: string) => `/dashboard/tags/${id}/edit`,
 
   // Settings
   SETTINGS: "/dashboard/settings",

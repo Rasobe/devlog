@@ -1,4 +1,4 @@
-import { AuthResult } from "@/domain/models/auth.model";
+import { AuthResult, UserRole } from "@/domain/models";
 import { IAuthRepository } from "@/domain/repositories/auth.repository";
 import {
   authStorage,
@@ -16,7 +16,7 @@ export class LoginUseCase {
     const loggedUser: StoredUser = {
       email: data.email,
       displayName: data.displayName,
-      role: data.role,
+      role: data.role as UserRole,
     };
     authStorage.setUser(loggedUser);
 

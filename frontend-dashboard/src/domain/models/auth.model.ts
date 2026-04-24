@@ -1,6 +1,6 @@
 export enum UserRole {
   ADMIN = "ADMIN",
-  USER = "USER",
+  AUTHOR = "AUTHOR",
 }
 
 export interface AuthResult {

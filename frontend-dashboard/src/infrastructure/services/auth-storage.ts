@@ -1,3 +1,4 @@
+import { UserRole } from "@/domain/models";
 import Cookies from "js-cookie";
 
 const TOKEN_KEY = "auth_token";
@@ -6,7 +7,7 @@ const USER_KEY = "devlog_user";
 export interface StoredUser {
   email: string;
   displayName: string;
-  role: string;
+  role: UserRole;
 }
 
 const AUTH_CHANGE_EVENT = "auth-change";

@@ -23,7 +23,7 @@ export const SidebarNav = ({ isCollapsed }: SidebarNavProps) => {
 
         <Divider />
 
-        {NAV_ITEMS.map(({ href, icon: Icon, label, variant }) => (
+        {NAV_ITEMS.map(({ href, icon: Icon, label, variant, roles }) => (
           <li key={href}>
             <NavLink
               href={href}
@@ -31,6 +31,7 @@ export const SidebarNav = ({ isCollapsed }: SidebarNavProps) => {
               label={label}
               variant={variant}
               isCollapsed={isCollapsed}
+              roles={roles}
             />
           </li>
         ))}

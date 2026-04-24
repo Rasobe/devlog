@@ -14,6 +14,7 @@ export const useCategoryCardActions = ({
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(
     null,
   );
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -36,7 +37,13 @@ export const useCategoryCardActions = ({
       },
     });
 
-  const onEdit = () => {};
+  const onOpenEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const onCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
 
   const onOpenDeleteModal = () => {
     setCategoryToDelete(category);
@@ -53,9 +60,11 @@ export const useCategoryCardActions = ({
   return {
     categoryToDelete,
     isDeleteLoading,
-    onEdit,
+    isEditModalOpen,
+    onOpenEditModal,
     onDelete,
     onOpenDeleteModal,
     onCloseDeleteModal,
+    onCloseEditModal,
   };
 };

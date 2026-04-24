@@ -29,6 +29,10 @@ import { client } from "./api/client.gen";
 import { authStorage } from "./services/auth-storage";
 
 // Global HTTP Interceptor for Authentication
+client.setConfig({
+  baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001",
+});
+
 client.instance.interceptors.request.use((config) => {
   const token = authStorage.getToken();
   if (token) {

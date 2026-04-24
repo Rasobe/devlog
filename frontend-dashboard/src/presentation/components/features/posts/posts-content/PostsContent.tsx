@@ -22,14 +22,14 @@ export const PostsContent = () => {
     isLoading,
     error,
     search,
-    setSearch,
     status,
-    setStatus,
-    setPage,
     totalPages,
     currentPage,
-    handleDeleteClick,
     postToDelete,
+    setSearch,
+    setStatus,
+    setPage,
+    handleDeleteClick,
     handleDeleteConfirm,
     handleCloseClick,
   } = usePostsContent();
@@ -45,7 +45,7 @@ export const PostsContent = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
+    <div>
       <DataTable<Post>
         data={posts}
         columns={columns}

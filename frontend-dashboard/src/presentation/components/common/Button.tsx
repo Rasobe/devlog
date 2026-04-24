@@ -8,7 +8,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "outline"
     | "ghost"
     | "secondary"
-    | "danger";
+    | "danger"
+    | "danger-outline";
   isLoading?: boolean;
 }
 
@@ -33,6 +34,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "hover:bg-muted transition-colors text-muted-foreground hover:text-foreground",
       secondary: "btn-secondary bg-muted text-foreground hover:bg-muted/80",
       danger: "btn-danger bg-red-700 text-white hover:bg-red-800",
+      "danger-outline":
+        "border border-red-500/50 text-red-500 hover:bg-red-500/10 transition-colors",
     };
 
     return (

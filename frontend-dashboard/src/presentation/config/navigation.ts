@@ -1,4 +1,4 @@
-import { FileText, LayoutDashboard } from "lucide-react";
+import { FileText, FolderOpen, LayoutDashboard, Tags } from "lucide-react";
 import { AppRoute, ROUTES } from "./routes";
 
 export type NavLinkVariant =
@@ -25,5 +25,15 @@ export const NAV_ITEMS: NavItem[] = [
     href: ROUTES.POSTS,
     label: "Mis Publicaciones",
     icon: FileText,
+  },
+  {
+    href: ROUTES.CATEGORIES,
+    label: "Categorías",
+    icon: FolderOpen,
+  },
+  {
+    href: ROUTES.TAGS,
+    label: "Etiquetas",
+    icon: Tags,
   },
 ];

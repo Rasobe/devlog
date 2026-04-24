@@ -39,7 +39,7 @@ export const useCategoryModal = ({
     mutationFn: (name: string) => createCategoryUseCase.execute(name),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.all() });
-      onClose();
+      onCloseModal();
       toast.success("Categoría creada correctamente");
     },
     onError: () => {
@@ -52,7 +52,7 @@ export const useCategoryModal = ({
       updateCategoryUseCase.execute(category!.slug, name),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.all() });
-      onClose();
+      onCloseModal();
       toast.success("Categoría actualizada correctamente");
     },
     onError: () => {

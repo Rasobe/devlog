@@ -7,7 +7,8 @@ export interface PageHeaderProps {
   description: string;
   action?: {
     label: string;
-    href: string;
+    href?: string;
+    onClick?: () => void;
     icon?: ReactNode;
   };
 }
@@ -20,12 +21,21 @@ export const PageHeader = ({ title, description, action }: PageHeaderProps) => {
         <p className="text-muted-foreground">{description}</p>
       </div>
       {action && (
-        <Link href={action.href}>
-          <Button variant="gradient">
-            {action.icon}
-            {action.label}
-          </Button>
-        </Link>
+        <>
+          {action.href ? (
+            <Link href={action.href}>
+              <Button variant="gradient">
+                {action.icon}
+                {action.label}
+              </Button>
+            </Link>
+          ) : (
+            <Button variant="gradient" onClick={action.onClick}>
+              {action.icon}
+              {action.label}
+            </Button>
+          )}
+        </>
       )}
     </div>
   );

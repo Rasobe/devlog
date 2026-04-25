@@ -6,7 +6,7 @@ export * from "./EmptyState";
 export * from "./ErrorState";
 export * from "./FetchState";
 export * from "./FetchStateCard";
-export * from "./category-card";
+export * from "./resource-card";
 export * from "./FullScreenLoader";
 export * from "./Loading";
 export * from "./MetricCard";

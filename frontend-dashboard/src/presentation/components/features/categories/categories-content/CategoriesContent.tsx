@@ -1,15 +1,27 @@
 "use client";
 
 import {
-  CategoryCard,
   EmptyState,
   ErrorState,
+  FetchState,
+  PageHeader,
 } from "@/presentation/components/common";
-import { Tag } from "lucide-react";
+import { FolderOpen, Plus } from "lucide-react";
 import { useCategoriesContent } from "./useCategoriesContent";
+import { CategoryModal } from "../category-modal";
+import { CategoryCard } from "../category-card";
 
 export const CategoriesContent = () => {
-  const { sortedGroupedCategories, error } = useCategoriesContent();
+  const {
+    sortedGroupedCategories,
+    error,
+    isLoading,
+    isCreateModalOpen,
+    handleOpenCreateModal,
+    handleCloseCreateModal,
+  } = useCategoriesContent();
+
+  if (isLoading) return <FetchState message="Cargando categorías..." />;
 
   if (error)
     return (
@@ -24,12 +36,22 @@ export const CategoriesContent = () => {
       <EmptyState
         title="No hay categorías"
         description="Crea una categoría para empezar"
-        icon={<Tag size={48} />}
+        icon={<FolderOpen size={48} />}
       />
     );
 
   return (
     <div className="flex flex-col gap-8">
+      <PageHeader
+        title="Categorías"
+        description="Administra las categorías de tu blog"
+        action={{
+          label: "Crear Categoría",
+          icon: <Plus size={16} />,
+          onClick: handleOpenCreateModal,
+        }}
+      />
+
       {Object.entries(sortedGroupedCategories ?? {}).map(
         ([letter, categories]) => (
           <div key={letter}>
@@ -46,6 +68,11 @@ export const CategoriesContent = () => {
           </div>
         ),
       )}
+
+      <CategoryModal
+        open={isCreateModalOpen}
+        onClose={handleCloseCreateModal}
+      />
     </div>
   );
 };

@@ -21,3 +21,4 @@ export * from "./delete-confirmation-modal/";
 export * from "./markdown-editor/";
 export * from "./text-field/";
 export * from "./PageHeader";
+export * from "./resource-modal";

@@ -1,4 +1,4 @@
-import type { AuthResult } from "@/domain/models/auth.model";
+import type { AuthResult, UserRole } from "@/domain/models/auth.model";
 import {
   getCurrentUserUseCase,
   loginUseCase,
@@ -52,6 +52,7 @@ export function useAuth() {
       setUser({
         email: data.email,
         displayName: data.displayName,
+        role: data.role as UserRole,
       });
     },
   });

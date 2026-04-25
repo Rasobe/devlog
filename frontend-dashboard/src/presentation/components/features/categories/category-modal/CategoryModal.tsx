@@ -27,7 +27,7 @@ export const CategoryModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm animate-in bg-black/50 fade-in duration-200">
-      <div className="bg-background px-8 py-10 rounded-lg shadow-lg flex flex-col gap-6 min-w-md max-w-md border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
+      <div className="bg-background px-8 py-10 rounded-lg shadow-lg flex flex-col gap-4 min-w-md max-w-md border border-white/10 animate-in slide-in-from-bottom-4 duration-200">
         <div className="flex flex-col gap-3 items-center justify-center">
           <div
             className={cn(

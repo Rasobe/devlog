@@ -28,7 +28,7 @@ export const NAV_ITEMS: NavItem[] = [
     href: ROUTES.POSTS,
     label: "Mis Publicaciones",
     icon: FileText,
-    roles: [UserRole.AUTHOR],
+    roles: [UserRole.ADMIN, UserRole.AUTHOR],
   },
   {
     href: ROUTES.CATEGORIES,

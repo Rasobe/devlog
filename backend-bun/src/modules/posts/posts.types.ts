@@ -8,6 +8,7 @@ export interface PostPaginationParams extends PaginationParams {
   category?: string;
   tag?: string;
   published?: boolean;
+  authorId?: string;
 }
 
 export type PostInsert = typeof posts.$inferInsert;

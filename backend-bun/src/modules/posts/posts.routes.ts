@@ -12,13 +12,16 @@ import {
 import { errorSchema } from "@/shared/schemas";
 
 export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
-  // --- Public ---
+  // --- Protected (authenticated users) ---
+  .use(isAuthenticated)
   .get(
     "/",
-    async ({ query, set }) => {
+    async ({ query, user, set }) => {
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
       const published = query.published;
+
+      const authorId = user.role === "AUTHOR" ? user.id : undefined;
 
       set.status = 200;
 
@@ -29,6 +32,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         category: query.category,
         tag: query.tag,
         published,
+        authorId,
       });
     },
     {
@@ -58,8 +62,6 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       detail: { summary: "Get post by slug", operationId: "getPostBySlug" },
     },
   )
-  // --- Protected (authenticated users) ---
-  .use(isAuthenticated)
   .post(
     "/",
     async ({ body, user, set }) => {
@@ -177,6 +179,9 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         400: errorSchema,
         404: errorSchema,
       },
-      detail: { summary: "Remove a tag from a post", operationId: "removeTagFromPost" },
+      detail: {
+        summary: "Remove a tag from a post",
+        operationId: "removeTagFromPost",
+      },
     },
   );

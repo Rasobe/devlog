@@ -23,6 +23,7 @@ export const postsService = {
     category,
     tag,
     published,
+    authorId,
   }: PostPaginationParams): Promise<PostPaginatedResult> => {
     const offset = (page - 1) * limit;
 
@@ -39,6 +40,7 @@ export const postsService = {
     const where = and(
       published === undefined ? undefined : eq(posts.published, published),
       search ? ilike(posts.title, `%${search}%`) : undefined,
+      authorId ? eq(posts.authorId, authorId) : undefined,
       category
         ? eq(
             posts.categoryId,

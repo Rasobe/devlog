@@ -7,7 +7,7 @@ export const statsService = {
   getUserStats: async (userId: string): Promise<UserStats> => {
     const user = await db.query.users.findFirst({
       where: eq(users.id, userId),
-      columns: { createdAt: true },
+      columns: { role: true, createdAt: true },
     });
 
     if (!user) {
@@ -22,15 +22,23 @@ export const statsService = {
         ? user.createdAt
         : twelveMonthsAgo;
 
+    const isAdmin = user.role === "ADMIN";
+
+    const where = isAdmin
+      ? gte(posts.createdAt, startDate)
+      : and(eq(posts.authorId, userId), gte(posts.createdAt, startDate));
+
     const postsByMonth = await db
       .select({
         month: sql<string>`to_char(date_trunc('month', ${posts.createdAt}), 'YYYY-MM')`,
         count: sql<number>`count(*)::int`,
       })
       .from(posts)
-      .where(and(eq(posts.authorId, userId), gte(posts.createdAt, startDate)))
+      .where(where)
       .groupBy(sql`date_trunc('month', ${posts.createdAt})`)
       .orderBy(sql`date_trunc('month', ${posts.createdAt})`);
+
+    const statsWhere = isAdmin ? undefined : eq(posts.authorId, userId);
 
     const [stats] = await db
       .select({
@@ -40,7 +48,7 @@ export const statsService = {
         totalViews: sql<number>`coalesce(sum(${posts.views}), 0)::int`,
       })
       .from(posts)
-      .where(eq(posts.authorId, userId));
+      .where(statsWhere);
 
     return {
       totalPosts: stats?.totalPosts ?? 0,

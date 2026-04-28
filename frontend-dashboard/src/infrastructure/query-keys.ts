@@ -13,6 +13,7 @@ export const queryKeys = {
   },
   tags: {
     all: () => ["tags"] as const,
+    delete: (slug: string) => ["tags", "delete", slug] as const,
   },
   user: {
     stats: () => ["user-stats"] as const,

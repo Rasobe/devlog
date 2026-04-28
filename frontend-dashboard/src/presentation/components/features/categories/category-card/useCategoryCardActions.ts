@@ -37,25 +37,13 @@ export const useCategoryCardActions = ({
       },
     });
 
-  const onOpenEditModal = () => {
-    setIsEditModalOpen(true);
-  };
+  const onOpenEditModal = () => setIsEditModalOpen(true);
+  const onCloseEditModal = () => setIsEditModalOpen(false);
 
-  const onCloseEditModal = () => {
-    setIsEditModalOpen(false);
-  };
+  const onOpenDeleteModal = () => setCategoryToDelete(category);
+  const onCloseDeleteModal = () => setCategoryToDelete(null);
 
-  const onOpenDeleteModal = () => {
-    setCategoryToDelete(category);
-  };
-
-  const onCloseDeleteModal = () => {
-    setCategoryToDelete(null);
-  };
-
-  const onDelete = () => {
-    deleteCategory();
-  };
+  const onDelete = () => deleteCategory();
 
   return {
     categoryToDelete,

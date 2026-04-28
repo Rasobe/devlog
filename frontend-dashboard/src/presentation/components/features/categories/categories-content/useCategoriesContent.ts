@@ -1,9 +1,16 @@
 import { Category } from "@/domain/models";
 import { getAllCategoriesUseCase, queryKeys } from "@/infrastructure";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useCategoriesContent = () => {
-  const { data: categories, error } = useQuery({
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const {
+    data: categories,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: queryKeys.categories.all(),
     queryFn: () => getAllCategoriesUseCase.execute(),
   });
@@ -26,5 +33,15 @@ export const useCategoriesContent = () => {
       )
     : undefined;
 
-  return { sortedGroupedCategories, error };
+  const handleOpenCreateModal = () => setIsCreateModalOpen(true);
+  const handleCloseCreateModal = () => setIsCreateModalOpen(false);
+
+  return {
+    sortedGroupedCategories,
+    isLoading,
+    error,
+    isCreateModalOpen,
+    handleOpenCreateModal,
+    handleCloseCreateModal,
+  };
 };

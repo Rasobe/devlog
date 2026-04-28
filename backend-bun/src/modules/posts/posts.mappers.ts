@@ -2,7 +2,7 @@ import type { PostWithRelations } from "./posts.types";
 
 export const postWithRelations = {
   author: {
-    columns: { displayName: true, email: true },
+    columns: { id: true, displayName: true, email: true },
   },
   category: {
     columns: { name: true, slug: true },
@@ -22,7 +22,7 @@ export type DrizzlePostResult = {
   views: number;
   createdAt: Date;
   updatedAt: Date;
-  author: { displayName: string; email: string } | null;
+  author: { id: string; displayName: string; email: string } | null;
   category: { name: string; slug: string } | null;
   postTags: { tag: { id: string; name: string; slug: string } | null }[];
 };
@@ -42,6 +42,7 @@ export const mapToDomainPost = (
     views: dbPost.views,
     createdAt: dbPost.createdAt.toISOString(),
     updatedAt: dbPost.updatedAt.toISOString(),
+    authorId: dbPost.author.id,
     author: {
       displayName: dbPost.author.displayName,
       email: dbPost.author.email,

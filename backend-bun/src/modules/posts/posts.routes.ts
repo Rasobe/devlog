@@ -87,7 +87,18 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   )
   .patch(
     "/slug/:slug",
-    async ({ params: { slug }, body, set }) => {
+    async ({ params: { slug }, body, user, set }) => {
+      const post = await postsService.findBySlug(slug);
+      if (!post) {
+        set.status = 404;
+        return { message: "Post not found" };
+      }
+
+      if (user.role !== "ADMIN" && user.id !== post.authorId) {
+        set.status = 403;
+        return { message: "No tienes permisos para editar este post" };
+      }
+
       const updated = await postsService.update(slug, body);
       if (!updated) {
         set.status = 404;
@@ -100,6 +111,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       body: updatePostBody,
       response: {
         200: postSchema,
+        403: errorSchema,
         404: errorSchema,
       },
       detail: { summary: "Update a post", operationId: "updatePostBySlug" },
@@ -107,7 +119,18 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   )
   .delete(
     "/slug/:slug",
-    async ({ params: { slug }, set }) => {
+    async ({ params: { slug }, user, set }) => {
+      const post = await postsService.findBySlug(slug);
+      if (!post) {
+        set.status = 404;
+        return { message: "Post not found" };
+      }
+
+      if (user.role !== "ADMIN" && user.id !== post.authorId) {
+        set.status = 403;
+        return { message: "No tienes permisos para eliminar este post" };
+      }
+
       const deleted = await postsService.delete(slug);
       if (!deleted) {
         set.status = 404;
@@ -147,6 +170,7 @@ export const postsRoutes = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       response: {
         200: postTagResponseSchema,
         400: errorSchema,
+        403: errorSchema,
         404: errorSchema,
       },
       detail: { summary: "Add a tag to a post", operationId: "addTagToPost" },

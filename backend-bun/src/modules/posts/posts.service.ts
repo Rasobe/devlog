@@ -156,6 +156,7 @@ export const postsService = {
   ): Promise<PostWithRelations | null> => {
     const updatedSlug = await db.transaction(async (tx) => {
       let categoryId: string | null | undefined = undefined;
+
       if (data.categorySlug !== undefined) {
         if (data.categorySlug) {
           const category = await tx.query.categories.findFirst({

@@ -1,3 +1,4 @@
+import { UserRole } from "./auth.model";
 import { Author } from "./author.model";
 import { Category } from "./category.model";
 import { Tag } from "./tag.model";
@@ -35,3 +36,17 @@ export interface UpdatePostInput {
 }
 
 export type PostStatus = "ALL" | "PUBLISHED" | "DRAFT";
+
+export interface UserContext {
+  email?: string;
+  role?: string;
+}
+
+export const canEditPost = (user: UserContext | null | undefined, post: Post): boolean => {
+  if (!user || !user.email) return false;
+  
+  const isAuthor = post.author.email === user.email;
+  const isAdmin = user.role === UserRole.ADMIN;
+  
+  return isAuthor || isAdmin;
+};

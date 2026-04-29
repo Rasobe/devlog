@@ -1,6 +1,6 @@
 "use client";
 
-import { CreatePostInput, UpdatePostInput } from "@/domain/models/post.model";
+import { CreatePostInput, UpdatePostInput, canEditPost } from "@/domain/models/post.model";
 import { queryKeys } from "@/infrastructure";
 import {
   createPostUseCase,
@@ -13,6 +13,7 @@ import {
   defaultCreatePostValues,
   type CreatePostSchema,
 } from "@/presentation/schemas";
+import { useAuthContext } from "@/presentation/store/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -27,6 +28,7 @@ interface UsePostFormProps {
 export const usePostForm = ({ slug }: UsePostFormProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { user } = useAuthContext();
 
   const form = useForm<CreatePostSchema>({
     defaultValues: defaultCreatePostValues,
@@ -48,6 +50,11 @@ export const usePostForm = ({ slug }: UsePostFormProps) => {
 
   useEffect(() => {
     if (post) {
+      if (!canEditPost(user, post)) {
+        router.push(ROUTES.UNAUTHORIZED);
+        return;
+      }
+
       form.reset({
         title: post.title,
         excerpt: post.excerpt,

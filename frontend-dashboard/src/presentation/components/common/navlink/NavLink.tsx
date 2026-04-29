@@ -7,7 +7,7 @@ import React from "react";
 import { useNavLink } from "./useNavLink";
 import { NavLinkVariant } from "@/presentation/config/navigation";
 import { UserRole } from "@/domain/models";
-import { useAuth } from "@/presentation/hooks/useAuth";
+import { useAuthContext } from "@/presentation/store/AuthContext";
 
 const variantClasses: Record<NavLinkVariant, string> = {
   current: "bg-muted text-foreground font-medium",
@@ -40,7 +40,7 @@ export const NavLink = ({
   const current = isSelected(href);
   const variantClass = current ? "current" : "default";
 
-  const { user } = useAuth();
+  const { user } = useAuthContext();
 
   if (!user?.role) return null;
 

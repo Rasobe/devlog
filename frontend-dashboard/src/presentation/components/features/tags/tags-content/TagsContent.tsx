@@ -6,7 +6,7 @@ import {
   FetchState,
   PageHeader,
 } from "@/presentation/components/common";
-import { Plus, Tag } from "lucide-react";
+import { Plus, Tags } from "lucide-react";
 import { TagModal } from "../tag-modal";
 import { useTagsContent } from "./useTagsContent";
 
@@ -32,15 +32,6 @@ export const TagsContent = () => {
       />
     );
 
-  if (Object.keys(sortedGroupedTags ?? {}).length === 0)
-    return (
-      <EmptyState
-        title="No hay etiquetas"
-        description="Crea una etiqueta para empezar"
-        icon={<Tag size={48} />}
-      />
-    );
-
   return (
     <div className="flex flex-col gap-8">
       <PageHeader
@@ -52,6 +43,14 @@ export const TagsContent = () => {
           onClick: handleOpenCreateModal,
         }}
       />
+
+      {sortedGroupedTags && !Object.keys(sortedGroupedTags).length && (
+        <EmptyState
+          title="No hay etiqu etas"
+          description="Crea una etiqueta para empezar"
+          icon={<Tags size={48} />}
+        />
+      )}
 
       {Object.entries(sortedGroupedTags ?? {}).map(([letter, tags]) => (
         <div key={letter}>

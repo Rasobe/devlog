@@ -31,15 +31,6 @@ export const CategoriesContent = () => {
       />
     );
 
-  if (Object.keys(sortedGroupedCategories ?? {}).length === 0)
-    return (
-      <EmptyState
-        title="No hay categorías"
-        description="Crea una categoría para empezar"
-        icon={<FolderOpen size={48} />}
-      />
-    );
-
   return (
     <div className="flex flex-col gap-8">
       <PageHeader
@@ -51,6 +42,15 @@ export const CategoriesContent = () => {
           onClick: handleOpenCreateModal,
         }}
       />
+
+      {sortedGroupedCategories &&
+        !Object.keys(sortedGroupedCategories).length && (
+          <EmptyState
+            title="No hay categorías"
+            description="Crea una categoría para empezar"
+            icon={<FolderOpen size={48} />}
+          />
+        )}
 
       {Object.entries(sortedGroupedCategories ?? {}).map(
         ([letter, categories]) => (
@@ -68,7 +68,6 @@ export const CategoriesContent = () => {
           </div>
         ),
       )}
-
       <CategoryModal
         open={isCreateModalOpen}
         onClose={handleCloseCreateModal}

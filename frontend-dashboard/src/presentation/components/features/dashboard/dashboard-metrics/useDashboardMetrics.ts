@@ -9,7 +9,15 @@ export const useDashboardMetrics = () => {
     queryFn: () => getUserStatsUseCase.execute(),
   });
 
-  const { totalPublishedPosts, totalDraftPosts, totalViews } = data || {};
+  const { totalPosts, totalPublishedPosts, totalDraftPosts, totalViews } =
+    data || {};
 
-  return { totalPublishedPosts, totalDraftPosts, totalViews, isLoading, error };
+  return {
+    totalPosts,
+    totalPublishedPosts,
+    totalDraftPosts,
+    totalViews,
+    isLoading,
+    error,
+  };
 };

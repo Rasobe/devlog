@@ -21,7 +21,7 @@ export const MetricCard = ({
       {/* Parte Superior: Título e Icono */}
       <div className="flex w-full justify-between items-start relative z-10">
         <p className="text-sm font-medium text-foreground/90 tracking-wide">
-          {label}
+          {label.toUpperCase()}
         </p>
         <div className="text-primary/90">{icon}</div>
       </div>

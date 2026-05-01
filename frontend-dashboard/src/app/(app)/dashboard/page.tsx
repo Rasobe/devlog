@@ -2,7 +2,6 @@ import {
   DashboardMetrics,
   DashboardHeader,
   QuickAccessSection,
-  RecentPosts,
 } from "@/presentation/components/features";
 import { Metadata } from "next";
 
@@ -15,7 +14,6 @@ const DashboardPage = () => {
     <div className="flex flex-col gap-8">
       <DashboardHeader />
       <DashboardMetrics />
-      <RecentPosts />
       <QuickAccessSection />
     </div>
   );

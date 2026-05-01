@@ -1,4 +1,3 @@
-export * from './dashboard-header';
-export * from './dashboard-metrics';
-export * from './quick-access-section';
-export * from './recent-posts';
+export * from "./dashboard-header";
+export * from "./dashboard-metrics";
+export * from "./quick-access-section";

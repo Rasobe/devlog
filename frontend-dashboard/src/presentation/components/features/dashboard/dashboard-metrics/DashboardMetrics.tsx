@@ -3,11 +3,17 @@
 import { ErrorState, MetricCard } from "@/presentation/components/common";
 import { useDashboardMetrics } from "./useDashboardMetrics";
 import { DashboardMetricsSkeleton } from "./DashboardMetricsSkeleton";
-import { CheckCircle2, FileText, ChartColumn } from "lucide-react";
+import { CheckCircle2, FileText, ChartColumn, Album } from "lucide-react";
 
 export const DashboardMetrics = () => {
-  const { totalPublishedPosts, totalDraftPosts, totalViews, isLoading, error } =
-    useDashboardMetrics();
+  const {
+    totalPosts,
+    totalPublishedPosts,
+    totalDraftPosts,
+    totalViews,
+    isLoading,
+    error,
+  } = useDashboardMetrics();
 
   if (isLoading) return <DashboardMetricsSkeleton />;
   if (error)
@@ -20,7 +26,12 @@ export const DashboardMetrics = () => {
     );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <MetricCard
+        value={totalPosts}
+        label="Mis Posts"
+        icon={<Album className="text-blue-500" />}
+      />
       <MetricCard
         value={totalPublishedPosts}
         label="Publicados"
@@ -28,21 +39,14 @@ export const DashboardMetrics = () => {
       />
       <MetricCard
         value={totalDraftPosts}
-        label="Borradores en Curso"
+        label="Borradores"
         icon={<FileText className="text-amber-500" />}
       />
       <MetricCard
         value={totalViews}
         label="Vistas Totales"
         icon={<ChartColumn className="text-indigo-500" />}
-      >
-        <div className="flex items-end gap-1 opacity-80">
-          <div className="w-2 bg-primary/80 rounded-t-sm h-3" />
-          <div className="w-2 bg-primary/80 rounded-t-sm h-6" />
-          <div className="w-2 bg-primary/80 rounded-t-sm h-4" />
-          <div className="w-2 bg-primary/80 rounded-t-sm h-7" />
-        </div>
-      </MetricCard>
+      />
     </div>
   );
 };

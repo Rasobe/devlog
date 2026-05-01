@@ -12,5 +12,8 @@ export const userStatsResponseSchema = t.Object({
   totalViews: t.Number(),
   totalComments: t.Number(),
   totalLikes: t.Number(),
-  postsByMonth: t.Array(monthlyPostCountSchema),
+});
+
+export const activityParamsSchema = t.Object({
+  period: t.Numeric(),
 });

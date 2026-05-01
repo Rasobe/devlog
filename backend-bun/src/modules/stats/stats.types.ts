@@ -5,10 +5,16 @@ export interface UserStats {
   totalViews: number;
   totalComments: number;
   totalLikes: number;
-  postsByMonth: MonthlyPostCount[];
 }
 
 export interface MonthlyPostCount {
   month: string;
   count: number;
+}
+
+export function toMonthlyPostCount(row: Record<string, unknown>): MonthlyPostCount {
+  return {
+    month: String(row.month),
+    count: Number(row.count),
+  };
 }

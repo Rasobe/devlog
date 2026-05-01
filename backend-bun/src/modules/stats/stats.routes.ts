@@ -1,8 +1,12 @@
-import Elysia from "elysia";
 import { statsService } from "./stats.service";
 import { isAuthenticated } from "@/plugins/auth.plugin";
-import { userStatsResponseSchema } from "./stats.schema";
+import {
+  userStatsResponseSchema,
+  activityParamsSchema,
+  monthlyPostCountSchema,
+} from "./stats.schema";
 import { errorSchema } from "@/shared/schemas";
+import Elysia, { t } from "elysia";
 
 export const statsRoutes = new Elysia({ prefix: "/stats", tags: ["Stats"] })
   .use(isAuthenticated)
@@ -25,6 +29,38 @@ export const statsRoutes = new Elysia({ prefix: "/stats", tags: ["Stats"] })
         200: userStatsResponseSchema,
         400: errorSchema,
       },
-      detail: { summary: "Get stats for current user", operationId: "getMyStats" },
+      detail: {
+        summary: "Get stats for current user",
+        operationId: "getMyStats",
+      },
+    },
+  )
+  .get(
+    "/activity/:period",
+    async ({ user, params: { period }, set }) => {
+      try {
+        const activity = await statsService.getActivityByPeriod(
+          user.id,
+          period,
+        );
+        set.status = 200;
+        return activity;
+      } catch (e: unknown) {
+        set.status = 400;
+        return {
+          message: e instanceof Error ? e.message : "Could not fetch activity",
+        };
+      }
+    },
+    {
+      params: activityParamsSchema,
+      response: {
+        200: t.Array(monthlyPostCountSchema),
+        400: errorSchema,
+      },
+      detail: {
+        summary: "Get activity for current user by period",
+        operationId: "getActivity",
+      },
     },
   );

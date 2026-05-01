@@ -1,7 +1,9 @@
 import { db } from "@/db";
 import { posts, users } from "@/db/schema";
-import { and, eq, gte, sql } from "drizzle-orm";
-import type { UserStats } from "./stats.types";
+import { eq, sql } from "drizzle-orm";
+import type { MonthlyPostCount, UserStats } from "./stats.types";
+import { toMonthlyPostCount } from "./stats.types";
+import { buildActivityQuery } from "./stats.queries";
 
 export const statsService = {
   getUserStats: async (userId: string): Promise<UserStats> => {
@@ -14,29 +16,7 @@ export const statsService = {
       throw new Error("User not found");
     }
 
-    const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
-
-    const startDate =
-      user?.createdAt && user.createdAt > twelveMonthsAgo
-        ? user.createdAt
-        : twelveMonthsAgo;
-
     const isAdmin = user.role === "ADMIN";
-
-    const where = isAdmin
-      ? gte(posts.createdAt, startDate)
-      : and(eq(posts.authorId, userId), gte(posts.createdAt, startDate));
-
-    const postsByMonth = await db
-      .select({
-        month: sql<string>`to_char(date_trunc('month', ${posts.createdAt}), 'YYYY-MM')`,
-        count: sql<number>`count(*)::int`,
-      })
-      .from(posts)
-      .where(where)
-      .groupBy(sql`date_trunc('month', ${posts.createdAt})`)
-      .orderBy(sql`date_trunc('month', ${posts.createdAt})`);
 
     const statsWhere = isAdmin ? undefined : eq(posts.authorId, userId);
 
@@ -57,7 +37,23 @@ export const statsService = {
       totalViews: stats?.totalViews ?? 0,
       totalComments: 0,
       totalLikes: 0,
-      postsByMonth,
     };
+  },
+
+  getActivityByPeriod: async (
+    userId: string,
+    period: number,
+  ): Promise<MonthlyPostCount[]> => {
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+      columns: { id: true, role: true },
+    });
+
+    if (!user) throw new Error("User not found");
+
+    const query = buildActivityQuery(period, userId, user.role === "ADMIN");
+    const result = await db.execute(query);
+
+    return [...result].map(toMonthlyPostCount);
   },
 };

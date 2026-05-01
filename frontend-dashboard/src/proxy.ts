@@ -1,6 +1,6 @@
 import { ROUTES } from "@/presentation/config/routes";
-import { UserRole } from "@/domain/models/auth.model";
-import { decodeJwtPayload } from "@/shared/utils/jwt";
+import { UserRole } from "@/domain/models";
+import { decodeJwtPayload } from "@/shared/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 const AUTH_ROUTES = new Set<string>([ROUTES.LOGIN, ROUTES.REGISTER]);
@@ -39,6 +39,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|svg|ico|jpg|jpeg|gif|webp)$).*)",
+    String.raw`/((?!api|_next/static|_next/image|favicon.ico|.*\.(?:png|svg|ico|jpg|jpeg|gif|webp)$).*)`,
   ],
 };

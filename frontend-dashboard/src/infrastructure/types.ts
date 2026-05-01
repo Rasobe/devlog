@@ -7,6 +7,7 @@ import type {
   UpdatePostBySlugData,
   GetCategoriesResponse,
   GetTagsResponse,
+  GetActivityResponse,
 } from "./api/types.gen";
 
 // Posts
@@ -24,3 +25,4 @@ export type UserResponse = GetMeResponse;
 
 // Stats
 export type UserStatsResponse = GetMyStatsResponse;
+export type UserMonthlyActivitiesResponse = GetActivityResponse;

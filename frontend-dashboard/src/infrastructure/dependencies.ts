@@ -17,6 +17,7 @@ import {
   GetAllTagsUseCase,
   GetTagBySlugUseCase,
   UpdateTagUseCase,
+  GetUserActivityUseCase,
 } from "@/application/use-cases";
 import {
   AuthRepositoryImpl,
@@ -48,6 +49,9 @@ export const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository);
 // User
 export const userRepository = new UserRepositoryImpl();
 export const getUserStatsUseCase = new GetUserStatsUseCase(userRepository);
+export const getUserActivityUseCase = new GetUserActivityUseCase(
+  userRepository,
+);
 
 // Post
 export const postRepository = new PostRepositoryImpl();

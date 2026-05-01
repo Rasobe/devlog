@@ -4,3 +4,8 @@ export interface UserStats {
   totalDraftPosts: number;
   totalViews: number;
 }
+
+export interface UserMonthlyActivity {
+  month: string;
+  totalPosts: number;
+}

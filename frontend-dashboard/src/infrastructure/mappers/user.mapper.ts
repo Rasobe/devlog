@@ -1,5 +1,5 @@
-import { UserStats } from "@/domain/models/user.model";
-import { UserStatsResponse } from "../types";
+import { UserMonthlyActivity, UserStats } from "@/domain/models/user.model";
+import { UserMonthlyActivitiesResponse, UserStatsResponse } from "../types";
 
 export const UserMapper = {
   /** API → Domain (lo que lees del backend → lo que usas en tu app) */
@@ -10,5 +10,14 @@ export const UserMapper = {
       totalDraftPosts: response.totalDraftPosts,
       totalViews: response.totalViews,
     };
+  },
+
+  toDomainActivities(
+    response: UserMonthlyActivitiesResponse,
+  ): UserMonthlyActivity[] {
+    return response.map((item) => ({
+      month: item.month,
+      totalPosts: item.count,
+    }));
   },
 };

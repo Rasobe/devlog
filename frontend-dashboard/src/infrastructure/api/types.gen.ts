@@ -277,6 +277,9 @@ export type UpdatePostBySlugData = {
 };
 
 export type UpdatePostBySlugErrors = {
+    403: {
+        message: string;
+    };
     404: {
         message: string;
     };
@@ -356,6 +359,9 @@ export type AddTagToPostData = {
 
 export type AddTagToPostErrors = {
     400: {
+        message: string;
+    };
+    403: {
         message: string;
     };
     404: {
@@ -775,11 +781,33 @@ export type GetMyStatsResponses = {
         totalViews: number;
         totalComments: number;
         totalLikes: number;
-        postsByMonth: Array<{
-            month: string;
-            count: number;
-        }>;
     };
 };
 
 export type GetMyStatsResponse = GetMyStatsResponses[keyof GetMyStatsResponses];
+
+export type GetActivityData = {
+    body?: never;
+    path: {
+        period: string | number;
+    };
+    query?: never;
+    url: '/api/v1/stats/activity/{period}';
+};
+
+export type GetActivityErrors = {
+    400: {
+        message: string;
+    };
+};
+
+export type GetActivityError = GetActivityErrors[keyof GetActivityErrors];
+
+export type GetActivityResponses = {
+    200: Array<{
+        month: string;
+        count: number;
+    }>;
+};
+
+export type GetActivityResponse = GetActivityResponses[keyof GetActivityResponses];

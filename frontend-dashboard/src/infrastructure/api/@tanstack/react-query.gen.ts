@@ -4,8 +4,8 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { addTagToPost, createCategory, createPost, createTag, deleteCategory, deletePost, deleteTag, getCategories, getCategoryBySlug, getHealth, getMe, getMyStats, getPostBySlug, getPosts, getPublicUserById, getTagBySlug, getTags, login, type Options, register, removeTagFromPost, updateCategory, updateMe, updateMePassword, updatePostBySlug, updateTag } from '../sdk.gen';
-import type { AddTagToPostData, AddTagToPostError, AddTagToPostResponse, CreateCategoryData, CreateCategoryError, CreateCategoryResponse, CreatePostData, CreatePostError, CreatePostResponse, CreateTagData, CreateTagError, CreateTagResponse, DeleteCategoryData, DeleteCategoryError, DeleteCategoryResponse, DeletePostData, DeletePostError, DeletePostResponse, DeleteTagData, DeleteTagError, DeleteTagResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryBySlugData, GetCategoryBySlugError, GetCategoryBySlugResponse, GetHealthData, GetMeData, GetMeError, GetMeResponse, GetMyStatsData, GetMyStatsError, GetMyStatsResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, GetPublicUserByIdData, GetPublicUserByIdError, GetPublicUserByIdResponse, GetTagBySlugData, GetTagBySlugError, GetTagBySlugResponse, GetTagsData, GetTagsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, RemoveTagFromPostData, RemoveTagFromPostError, RemoveTagFromPostResponse, UpdateCategoryData, UpdateCategoryError, UpdateCategoryResponse, UpdateMeData, UpdateMeError, UpdateMePasswordData, UpdateMePasswordError, UpdateMePasswordResponse, UpdateMeResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse, UpdateTagData, UpdateTagError, UpdateTagResponse } from '../types.gen';
+import { addTagToPost, createCategory, createPost, createTag, deleteCategory, deletePost, deleteTag, getActivity, getCategories, getCategoryBySlug, getHealth, getMe, getMyStats, getPostBySlug, getPosts, getPublicUserById, getTagBySlug, getTags, login, type Options, register, removeTagFromPost, updateCategory, updateMe, updateMePassword, updatePostBySlug, updateTag } from '../sdk.gen';
+import type { AddTagToPostData, AddTagToPostError, AddTagToPostResponse, CreateCategoryData, CreateCategoryError, CreateCategoryResponse, CreatePostData, CreatePostError, CreatePostResponse, CreateTagData, CreateTagError, CreateTagResponse, DeleteCategoryData, DeleteCategoryError, DeleteCategoryResponse, DeletePostData, DeletePostError, DeletePostResponse, DeleteTagData, DeleteTagError, DeleteTagResponse, GetActivityData, GetActivityError, GetActivityResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryBySlugData, GetCategoryBySlugError, GetCategoryBySlugResponse, GetHealthData, GetMeData, GetMeError, GetMeResponse, GetMyStatsData, GetMyStatsError, GetMyStatsResponse, GetPostBySlugData, GetPostBySlugError, GetPostBySlugResponse, GetPostsData, GetPostsResponse, GetPublicUserByIdData, GetPublicUserByIdError, GetPublicUserByIdResponse, GetTagBySlugData, GetTagBySlugError, GetTagBySlugResponse, GetTagsData, GetTagsResponse, LoginData, LoginError, LoginResponse, RegisterData, RegisterError, RegisterResponse, RemoveTagFromPostData, RemoveTagFromPostError, RemoveTagFromPostResponse, UpdateCategoryData, UpdateCategoryError, UpdateCategoryResponse, UpdateMeData, UpdateMeError, UpdateMePasswordData, UpdateMePasswordError, UpdateMePasswordResponse, UpdateMeResponse, UpdatePostBySlugData, UpdatePostBySlugError, UpdatePostBySlugResponse, UpdateTagData, UpdateTagError, UpdateTagResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseURL' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -526,4 +526,22 @@ export const getMyStatsOptions = (options?: Options<GetMyStatsData>) => queryOpt
         return data;
     },
     queryKey: getMyStatsQueryKey(options)
+});
+
+export const getActivityQueryKey = (options: Options<GetActivityData>) => createQueryKey('getActivity', options);
+
+/**
+ * Get activity for current user by period
+ */
+export const getActivityOptions = (options: Options<GetActivityData>) => queryOptions<GetActivityResponse, AxiosError<GetActivityError>, GetActivityResponse, ReturnType<typeof getActivityQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getActivity({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getActivityQueryKey(options)
 });

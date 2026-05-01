@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddTagToPostData, AddTagToPostErrors, AddTagToPostResponses, CreateCategoryData, CreateCategoryErrors, CreateCategoryResponses, CreatePostData, CreatePostErrors, CreatePostResponses, CreateTagData, CreateTagErrors, CreateTagResponses, DeleteCategoryData, DeleteCategoryErrors, DeleteCategoryResponses, DeletePostData, DeletePostErrors, DeletePostResponses, DeleteTagData, DeleteTagErrors, DeleteTagResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryBySlugData, GetCategoryBySlugErrors, GetCategoryBySlugResponses, GetHealthData, GetHealthResponses, GetMeData, GetMeErrors, GetMeResponses, GetMyStatsData, GetMyStatsErrors, GetMyStatsResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, GetPublicUserByIdData, GetPublicUserByIdErrors, GetPublicUserByIdResponses, GetTagBySlugData, GetTagBySlugErrors, GetTagBySlugResponses, GetTagsData, GetTagsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveTagFromPostData, RemoveTagFromPostErrors, RemoveTagFromPostResponses, UpdateCategoryData, UpdateCategoryErrors, UpdateCategoryResponses, UpdateMeData, UpdateMeErrors, UpdateMePasswordData, UpdateMePasswordErrors, UpdateMePasswordResponses, UpdateMeResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses, UpdateTagData, UpdateTagErrors, UpdateTagResponses } from './types.gen';
+import type { AddTagToPostData, AddTagToPostErrors, AddTagToPostResponses, CreateCategoryData, CreateCategoryErrors, CreateCategoryResponses, CreatePostData, CreatePostErrors, CreatePostResponses, CreateTagData, CreateTagErrors, CreateTagResponses, DeleteCategoryData, DeleteCategoryErrors, DeleteCategoryResponses, DeletePostData, DeletePostErrors, DeletePostResponses, DeleteTagData, DeleteTagErrors, DeleteTagResponses, GetActivityData, GetActivityErrors, GetActivityResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryBySlugData, GetCategoryBySlugErrors, GetCategoryBySlugResponses, GetHealthData, GetHealthResponses, GetMeData, GetMeErrors, GetMeResponses, GetMyStatsData, GetMyStatsErrors, GetMyStatsResponses, GetPostBySlugData, GetPostBySlugErrors, GetPostBySlugResponses, GetPostsData, GetPostsResponses, GetPublicUserByIdData, GetPublicUserByIdErrors, GetPublicUserByIdResponses, GetTagBySlugData, GetTagBySlugErrors, GetTagBySlugResponses, GetTagsData, GetTagsResponses, LoginData, LoginErrors, LoginResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveTagFromPostData, RemoveTagFromPostErrors, RemoveTagFromPostResponses, UpdateCategoryData, UpdateCategoryErrors, UpdateCategoryResponses, UpdateMeData, UpdateMeErrors, UpdateMePasswordData, UpdateMePasswordErrors, UpdateMePasswordResponses, UpdateMeResponses, UpdatePostBySlugData, UpdatePostBySlugErrors, UpdatePostBySlugResponses, UpdateTagData, UpdateTagErrors, UpdateTagResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -273,5 +273,14 @@ export const updateMePassword = <ThrowOnError extends boolean = false>(options: 
 export const getMyStats = <ThrowOnError extends boolean = false>(options?: Options<GetMyStatsData, ThrowOnError>) => (options?.client ?? client).get<GetMyStatsResponses, GetMyStatsErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/stats/',
+    ...options
+});
+
+/**
+ * Get activity for current user by period
+ */
+export const getActivity = <ThrowOnError extends boolean = false>(options: Options<GetActivityData, ThrowOnError>) => (options.client ?? client).get<GetActivityResponses, GetActivityErrors, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/stats/activity/{period}',
     ...options
 });
